@@ -5,6 +5,11 @@
 	import Login from "./view/Login.svelte";
 
 	export let backend: Backend;
+
+	function logout() {
+		backend.logout();
+		logged.set(false);
+	}
 </script>
 
 {#if !$logged}
@@ -16,4 +21,5 @@
 	{:catch error}
 		{error}
 	{/await}
+	<button on:click={logout}>Log out</button>
 {/if}
