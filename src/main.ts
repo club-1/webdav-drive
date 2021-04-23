@@ -1,10 +1,18 @@
 import App from './App.svelte';
-import { DummyFileSystem } from './model/FileSystem';
+import { AuthType, createClient } from "webdav/web";
+import * as config from "../config.json";
+import type { WebDAVClient } from 'webdav';
 
-var app = new App({
+const client: WebDAVClient = createClient(config.server_url, {
+    authType: AuthType.Password,
+    username: config.username,
+    password: config.password
+});
+
+let app = new App({
 	target: document.body,
 	props: {
-		fs: new DummyFileSystem()
+		client
 	}
 });
 

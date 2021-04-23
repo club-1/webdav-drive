@@ -1,6 +1,7 @@
 # App files
 /node_modules/
 /public/build/
+config.json
 
 # IDE files
 /.vscode/*

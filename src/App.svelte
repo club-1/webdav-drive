@@ -1,19 +1,21 @@
 <script lang="ts">
-	import { File } from "./model/File";
-	import type { FileSystem } from "./model/FileSystem";
+	import type { WebDAVClient } from "webdav";
 	import FileRow from "./view/FileRow.svelte";
 
-	export let fs: FileSystem;
+	export let client: WebDAVClient;
 </script>
 
 <h2>Files</h2>
-
-<table>
-	<tr>
-		<th scope="col">Name</th>
-		<th scope="col">Size</th>
-	</tr>
-	{#each fs.getFiles() as file}
-		<FileRow {file} />
-	{/each}
-</table>
+{#await client.getDirectoryContents("/files") then files}
+	<table>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+		</tr>
+		{#each files as file}
+			<FileRow {file} />
+		{/each}
+	</table>
+{:catch error}
+	{error}
+{/await}

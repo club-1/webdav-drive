@@ -1,14 +1,17 @@
 <script lang="ts">
-	import type { File } from "../model/File";
+	import type { FileStat } from "webdav";
+	import { hrsize } from "../utils";
 
-	export let file: File;
+	export let file: FileStat;
 </script>
 
-<style>
-	td.size { text-align: right; }
-</style>
-
 <tr>
-	<td>{file.name}</td>
-	<td class="size">{file.sizeH()}</td>
+	<td>{file.filename}</td>
+	<td class="size">{hrsize(file.size)}</td>
 </tr>
+
+<style>
+	td.size {
+		text-align: right;
+	}
+</style>
