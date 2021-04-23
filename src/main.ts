@@ -1,19 +1,13 @@
-import App from './App.svelte';
-import { AuthType, createClient } from "webdav/web";
+import App from "./App.svelte";
+import { AuthType } from "webdav/web";
 import * as config from "../config.json";
-import type { WebDAVClient } from 'webdav';
+import { WebdavBackend } from "./model/Backend";
 
-const client: WebDAVClient = createClient(config.server_url, {
-    authType: AuthType.Password,
-    username: config.username,
-    password: config.password
-});
+let backend = new WebdavBackend(config.server_url, AuthType.Password);
 
 let app = new App({
 	target: document.body,
-	props: {
-		client
-	}
+	props: { backend }
 });
 
 export default app;

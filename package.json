@@ -1,7 +1,7 @@
 {
   "name": "webdav-drive",
   "version": "1.0.0-alpha.0",
-  "description": "WebDAV front-end that adds a Google-Drive-like user expérience to a WebDAV share.",
+  "description": "WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV share.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",

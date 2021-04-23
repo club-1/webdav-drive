@@ -1,21 +1,35 @@
 <script lang="ts">
-	import type { WebDAVClient } from "webdav";
-	import FileRow from "./view/FileRow.svelte";
+	import type { Backend } from "./model/Backend";
+	import FileList from "./view/FileList.svelte";
 
-	export let client: WebDAVClient;
+	export let backend: Backend;
+	let logged = false;
+	let username: string;
+	let password: string;
+
+	async function login(e: Event) {
+		e.preventDefault();
+		logged = await backend.login(username, password);
+	}
 </script>
 
-<h2>Files</h2>
-{#await client.getDirectoryContents("/files") then files}
-	<table>
-		<tr>
-			<th scope="col">Name</th>
-			<th scope="col">Size</th>
-		</tr>
-		{#each files as file}
-			<FileRow {file} />
-		{/each}
-	</table>
-{:catch error}
-	{error}
-{/await}
+{#if !logged }
+	<form on:submit={login}>
+		<label>
+			Username
+			<input bind:value={username} type="text" />
+		</label>
+		<label>
+			Password
+			<input bind:value={password} type="password" />
+		</label>
+		<button type="submit">Log in</button>
+	</form>
+{:else}
+	<h2>Files</h2>
+	{#await backend.listFiles("/files") then files}
+		<FileList {files} />
+	{:catch error}
+		{error}
+	{/await}
+{/if}
