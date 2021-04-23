@@ -4,3 +4,4 @@
 
 # IDE files
 /.vscode/*
+!.vscode/extensions.json
