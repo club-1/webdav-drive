@@ -1,0 +1,25 @@
+{
+  "name": "webdav-drive",
+  "version": "1.0.0-alpha.0",
+  "description": "WebDAV front-end that adds a Google-Drive-like user expérience to a WebDAV share.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/club-1/webdav-drive.git"
+  },
+  "keywords": [
+    "webdav",
+    "webdav-client",
+    "drive",
+    "cloud"
+  ],
+  "author": "n-peugnet <n.peugnet@free.fr>",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/club-1/webdav-drive/issues"
+  },
+  "homepage": "https://github.com/club-1/webdav-drive#readme"
+}
