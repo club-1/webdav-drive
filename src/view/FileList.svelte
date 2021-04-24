@@ -2,7 +2,9 @@
 	import type { FileStat } from "webdav";
 
 	import type { Backend } from "../model/Backend";
+	import { edit } from "../stores";
 	import { hrsize, isDir, parent } from "../utils";
+	import Editor from "./Editor.svelte";
 
 	export let backend: Backend;
 	export let root: string;
@@ -34,6 +36,10 @@
 	function changeDir(dir: string) {
 		path = dir;
 	}
+
+	function editFile(file: string) {
+		edit.set(file);
+	}
 </script>
 
 {#await files then files}
@@ -50,8 +56,15 @@
 		{/if}
 		{#each files as file}
 			<tr
+				class="line"
 				class:directory={isDir(file)}
-				on:click={() => isDir(file) && changeDir(file.filename + "/")}
+				on:click={() => {
+					if (isDir(file)) {
+						changeDir(file.filename + "/");
+					} else {
+						editFile(file.filename);
+					}
+				}}
 			>
 				<td class="name">
 					{file.basename}
@@ -68,17 +81,16 @@
 	<p class="error">{error}</p>
 {/await}
 
+<Editor {backend} />
+
 <style>
 	td.size {
 		text-align: right;
 	}
-	tr.directory {
+	tr.line {
 		cursor: pointer;
 	}
-	tr.directory:hover {
+	tr.line:hover {
 		background-color: blue;
-	}
-	tr.directory td.name {
-		text-decoration: underline;
 	}
 </style>

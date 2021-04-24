@@ -22,3 +22,7 @@ export function isDir(file: FileStat) { return file.type == "directory" }
 export function parent(path: string) {
 	return path.slice(0, -2).match(/(.*\/)/)[1]
 }
+
+export function ab2str(buf: ArrayBuffer): string {
+	return String.fromCharCode.apply(null, new Uint8Array(buf));
+}

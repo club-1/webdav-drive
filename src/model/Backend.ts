@@ -1,5 +1,6 @@
-import type { AuthType, FileStat, WebDAVClient } from "webdav";
+import type { AuthType, FileStat, ResponseDataDetailed, WebDAVClient } from "webdav";
 import { createClient } from "webdav/web";
+import { ab2str } from "../utils";
 
 export interface Backend {
 	/**
@@ -26,6 +27,13 @@ export interface Backend {
 	 * @returns a list of files.
 	 */
 	listFiles(path: string): Promise<FileStat[]>;
+
+	/**
+	 * Get the content of a file.
+	 * @param path the path of the file.
+	 * @returns the content of the file.
+	 */
+	getFileContent(path: string): Promise<string>;
 }
 
 export class WebdavBackend implements Backend {
@@ -58,10 +66,30 @@ export class WebdavBackend implements Backend {
 
 	async listFiles(path: string): Promise<FileStat[]> {
 		let res = await this.client.getDirectoryContents(path);
-		if (Array.isArray(res)) {
-			return res;
+		return extractData(res);
+	}
+
+	async getFileContent(path: string): Promise<string> {
+		let res = await this.client.getFileContents(path);
+		let buf = extractData(res);
+		if (typeof buf == "string") {
+			return buf;
+		} else if (buf instanceof ArrayBuffer) {
+			return ab2str(buf);
 		} else {
-			return res.data;
+			return buf.toString();
 		}
 	}
+}
+
+function extractData<T>(res: T | ResponseDataDetailed<T>): T {
+	if (isDetailedData(res)) {
+		return res.data;
+	} else {
+		return res;
+	}
+}
+
+function isDetailedData(res: any | ResponseDataDetailed<any>): res is ResponseDataDetailed<any> {
+	return (res as ResponseDataDetailed<any>).data !== undefined;
 }
