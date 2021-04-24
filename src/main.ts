@@ -7,7 +7,10 @@ let backend = new WebdavBackend(config.server_url, AuthType.Password);
 
 let app = new App({
 	target: document.body,
-	props: { backend }
+	props: {
+		backend: backend,
+		root: config.root,
+	}
 });
 
 export default app;

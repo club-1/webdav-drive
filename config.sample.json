@@ -1,3 +1,4 @@
 {
-  "server_url": "https://webdav.exemple.fr"
+  "server_url": "https://webdav.exemple.fr",
+  "root": "/files"
 }

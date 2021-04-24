@@ -1,13 +1,30 @@
 <script lang="ts">
-	import type { FileStat } from "webdav";
 	import type { Backend } from "../model/Backend";
 	import { hrsize, isDir, parent } from "../utils";
 
 	export let backend: Backend;
-	export const root = "/files";
+	export let root: string;
 
 	let path = root;
+	$: window.location.href = `#${path}/`;
 	$: files = backend.listFiles(path);
+
+	window.addEventListener('hashchange', onHashChange);
+
+	function onHashChange(e: HashChangeEvent) {
+		let newPath = root;
+		let matches = e.newURL.match(/#(.*)\//);
+		if (matches != null) {
+			newPath = matches[1];
+		}
+		if (!newPath.includes(root)) {
+			path = root;
+		} else {
+			path = newPath;
+		}
+		window.location.href = `#${path}/`;
+		console.log(path);
+	}
 
 	function changeDir(dir: string) {
 		path = dir;

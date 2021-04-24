@@ -5,6 +5,7 @@
 	import Login from "./view/Login.svelte";
 
 	export let backend: Backend;
+	export let root: string;
 
 	function logout() {
 		backend.logout();
@@ -16,6 +17,6 @@
 	<Login {backend}/>
 {:else}
 	<h2>Files</h2>
-	<FileList {backend}/>
+	<FileList {backend} root={root} />
 	<button on:click={logout}>Log out</button>
 {/if}
