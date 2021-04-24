@@ -1,7 +1,7 @@
 import App from "./App.svelte";
 import { AuthType } from "webdav/web";
 import * as config from "../config.json";
-import { WebdavBackend } from "./model/Backend";
+import { WebdavBackend } from "./model/WebdavBackend";
 
 let backend = new WebdavBackend(config.server_url, AuthType.Password);
 
