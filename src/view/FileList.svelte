@@ -48,7 +48,7 @@
 			<th scope="col">Size</th>
 		</tr>
 		{#if path != root}
-			<tr class="directory" on:click={() => changeDir(parent(path))}>
+			<tr class="line directory" on:click={() => changeDir(parent(path))}>
 				<td class="name">..</td>
 				<td class="size" />
 			</tr>
