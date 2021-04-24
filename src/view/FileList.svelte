@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { FileStat } from "webdav";
+
 	import type { Backend } from "../model/Backend";
 	import { hrsize, isDir, parent } from "../utils";
 
@@ -6,24 +8,27 @@
 	export let root: string;
 
 	let path = root;
-	$: window.location.href = `#${path}/`;
-	$: files = backend.listFiles(path);
+	let files: Promise<FileStat[]>;
 
-	window.addEventListener('hashchange', onHashChange);
+	$: document.title = path;
+	$: window.location.href = `#${path}`;
+	$: if (path.charAt(path.length - 1) != "/") {
+		files = Promise.reject("Not a directory.");
+	} else if (!path.includes(root)) {
+		files = Promise.reject("Permission denied.");
+	} else {
+		files = backend.listFiles(path);
+	}
+
+	window.addEventListener("hashchange", onHashChange);
 
 	function onHashChange(e: HashChangeEvent) {
-		let newPath = root;
-		let matches = e.newURL.match(/#(.*)\//);
+		let newPath = "";
+		let matches = e.newURL.match(/#(.*)$/);
 		if (matches != null) {
 			newPath = matches[1];
 		}
-		if (!newPath.includes(root)) {
-			path = root;
-		} else {
-			path = newPath;
-		}
-		window.location.href = `#${path}/`;
-		console.log(path);
+		path = newPath;
 	}
 
 	function changeDir(dir: string) {
@@ -31,22 +36,22 @@
 	}
 </script>
 
-{#await files then files}
-	<table>
-		<tr>
-			<th scope="col">Name</th>
-			<th scope="col">Size</th>
-		</tr>
+<table>
+	<tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+	</tr>
+	{#await files then files}
 		{#if path != root}
 			<tr class="directory" on:click={() => changeDir(parent(path))}>
 				<td class="filename">..</td>
-				<td></td>
+				<td />
 			</tr>
 		{/if}
 		{#each files as file}
 			<tr
 				class:directory={isDir(file)}
-				on:click={() => isDir(file) && changeDir(file.filename)}
+				on:click={() => isDir(file) && changeDir(file.filename + "/")}
 			>
 				<td class="filename">
 					{file.filename}
@@ -54,10 +59,10 @@
 				<td class="size">{hrsize(file.size)}</td>
 			</tr>
 		{/each}
-	</table>
-{:catch error}
-	{error}
-{/await}
+	{:catch error}
+		{error}
+	{/await}
+</table>
 
 <style>
 	td.size {

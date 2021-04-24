@@ -20,5 +20,5 @@ export function hrsize(size: number): string {
 export function isDir(file: FileStat) { return file.type == "directory" }
 
 export function parent(path: string) {
-	return path.match(/(.*)\//)[1]
+	return path.slice(0, -2).match(/(.*\/)/)[1]
 }
