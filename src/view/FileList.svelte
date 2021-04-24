@@ -4,7 +4,6 @@
 	import type { Backend } from "../model/Backend";
 	import { edit } from "../stores";
 	import { hrsize, isDir, parent } from "../utils";
-	import Editor from "./Editor.svelte";
 
 	export let backend: Backend;
 	export let root: string;
@@ -80,8 +79,6 @@
 {:catch error}
 	<p class="error">{error}</p>
 {/await}
-
-<Editor {backend} />
 
 <style>
 	td.size {

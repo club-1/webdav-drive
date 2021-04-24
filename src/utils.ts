@@ -23,6 +23,10 @@ export function parent(path: string) {
 	return path.slice(0, -2).match(/(.*\/)/)[1]
 }
 
+export function basename(path:string) {
+	return path.match(/[^\/]+$/);
+}
+
 export function ab2str(buf: ArrayBuffer): string {
 	return String.fromCharCode.apply(null, new Uint8Array(buf));
 }
