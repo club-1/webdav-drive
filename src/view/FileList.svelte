@@ -36,16 +36,16 @@
 	}
 </script>
 
-<table>
-	<tr>
-		<th scope="col">Name</th>
-		<th scope="col">Size</th>
-	</tr>
-	{#await files then files}
+{#await files then files}
+	<table>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+		</tr>
 		{#if path != root}
 			<tr class="directory" on:click={() => changeDir(parent(path))}>
-				<td class="filename">..</td>
-				<td />
+				<td class="name">..</td>
+				<td class="size" />
 			</tr>
 		{/if}
 		{#each files as file}
@@ -53,16 +53,20 @@
 				class:directory={isDir(file)}
 				on:click={() => isDir(file) && changeDir(file.filename + "/")}
 			>
-				<td class="filename">
-					{file.filename}
+				<td class="name">
+					{file.basename}
 				</td>
-				<td class="size">{hrsize(file.size)}</td>
+				<td class="size">
+					{#if !isDir(file)}
+						{hrsize(file.size)}
+					{/if}
+				</td>
 			</tr>
 		{/each}
-	{:catch error}
-		{error}
-	{/await}
-</table>
+	</table>
+{:catch error}
+	<p class="error">{error}</p>
+{/await}
 
 <style>
 	td.size {
@@ -74,7 +78,7 @@
 	tr.directory:hover {
 		background-color: blue;
 	}
-	tr.directory td.filename {
+	tr.directory td.name {
 		text-decoration: underline;
 	}
 </style>
