@@ -1,25 +1,58 @@
 <script lang="ts">
 	import type { FileStat } from "webdav";
-	import { hrsize } from "../utils";
+	import type { Backend } from "../model/Backend";
+	import { hrsize, isDir, parent } from "../utils";
 
-	export let files: FileStat[];
+	export let backend: Backend;
+	export const root = "/files";
+
+	let path = root;
+	$: files = backend.listFiles(path);
+
+	function changeDir(dir: string) {
+		path = dir;
+	}
 </script>
 
-<table>
-	<tr>
-		<th scope="col">Name</th>
-		<th scope="col">Size</th>
-	</tr>
-	{#each files as file}
+{#await files then files}
+	<table>
 		<tr>
-			<td>{file.filename}</td>
-			<td class="size">{hrsize(file.size)}</td>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
 		</tr>
-	{/each}
-</table>
+		{#if path != root}
+			<tr class="directory" on:click={() => changeDir(parent(path))}>
+				<td class="filename">..</td>
+				<td></td>
+			</tr>
+		{/if}
+		{#each files as file}
+			<tr
+				class:directory={isDir(file)}
+				on:click={() => isDir(file) && changeDir(file.filename)}
+			>
+				<td class="filename">
+					{file.filename}
+				</td>
+				<td class="size">{hrsize(file.size)}</td>
+			</tr>
+		{/each}
+	</table>
+{:catch error}
+	{error}
+{/await}
 
 <style>
 	td.size {
 		text-align: right;
+	}
+	tr.directory {
+		cursor: pointer;
+	}
+	tr.directory:hover {
+		background-color: blue;
+	}
+	tr.directory td.filename {
+		text-decoration: underline;
 	}
 </style>

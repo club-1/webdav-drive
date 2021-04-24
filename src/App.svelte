@@ -16,10 +16,6 @@
 	<Login {backend}/>
 {:else}
 	<h2>Files</h2>
-	{#await backend.listFiles("/files") then files}
-		<FileList {files} />
-	{:catch error}
-		{error}
-	{/await}
+	<FileList {backend}/>
 	<button on:click={logout}>Log out</button>
 {/if}

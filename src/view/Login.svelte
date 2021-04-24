@@ -8,12 +8,11 @@
 	let password: string;
 
 	async function login(e: Event) {
-		e.preventDefault();
 		logged.set(await backend.login(username, password));
 	}
 </script>
 
-<form on:submit={login}>
+<form on:submit|preventDefault={login}>
 	<label>
 		Username
 		<input bind:value={username} type="text" />
