@@ -34,9 +34,6 @@
 
 <style>
 	div {
-		display: inline-block;
 		overflow: auto;
-		width: 49%;
-		vertical-align: top;
 	}
 </style>

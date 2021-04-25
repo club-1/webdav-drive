@@ -43,6 +43,25 @@
 	function editFile(file: string) {
 		fileEdit.set(file);
 	}
+
+	async function newFile() {
+		let name = prompt("New file name");
+		if (name != null) {
+			let res = await backend.createFile(path + name);
+			console.log(res);
+			if (res) {
+				fileListUpdate.update((value) => value + 1);
+			}
+		}
+	}
+
+	async function newDir() {
+		let name = prompt("New file name");
+		if (name != null) {
+			await backend.createDirectory(path + name);
+			fileListUpdate.update((value) => value + 1);
+		}
+	}
 </script>
 
 {#await files then files}
@@ -80,6 +99,8 @@
 			</tr>
 		{/each}
 	</table>
+	<button on:click={newFile}>New file</button>
+	<button on:click={newDir}>New directory</button>
 {:catch error}
 	<p class="error">{error}</p>
 {/await}

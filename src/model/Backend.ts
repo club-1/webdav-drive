@@ -34,6 +34,23 @@ export interface Backend {
 	getFileContent(path: string): Promise<string>;
 
 	/**
+	 * Write data to a file.
+	 * @param path the path of the file.
+	 * @param data the data to write.
+	 * @returns success.
+	 */
+	putFileContent(path: string, data: string | Buffer): Promise<boolean>;
+
+	createDirectory(path: string): Promise<void>;
+
+	/**
+	 * Create a new file.
+	 * @param path the path of the file.
+	 * @returns false if the file already existed.
+	 */
+	createFile(path: string): Promise<boolean>;
+
+	/**
 	 * Delete a file.
 	 * @param path the path of the file.
 	 * @returns success.

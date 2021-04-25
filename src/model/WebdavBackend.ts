@@ -52,6 +52,29 @@ export class WebdavBackend implements Backend {
 		}
 	}
 
+	putFileContent(path: string, data: string | Buffer): Promise<boolean>{
+		this.requireLogged();
+		return this.client!.putFileContents(path, data);
+	}
+
+	createDirectory(path: string): Promise<void> {
+		this.requireLogged();
+		return this.client!.createDirectory(path);
+	}
+
+	async createFile(path: string): Promise<boolean> {
+		this.requireLogged();
+		if (await this.client!.exists(path)) {
+			let res = await this.client!.stat(path);
+			let data = extractData(res);
+			if (data.type == "directory") {
+				throw new Error(`File already exists but is a directory: '${data.filename}'`);
+			}
+			return false;
+		}
+		return this.putFileContent(path, "");
+	}
+
 	deleteFile(path: string): Promise<void> {
 		this.requireLogged();
 		return this.client!.deleteFile(path);
@@ -69,7 +92,7 @@ export class WebdavBackend implements Backend {
  * @param res the response from WebDAVClient.
  * @returns the data.
  */
-export function extractData<T>(res: T | ResponseDataDetailed<T>): T {
+function extractData<T>(res: T | ResponseDataDetailed<T>): T {
 	if (isDetailedData(res)) {
 		return res.data;
 	} else {
