@@ -12,7 +12,7 @@
 	$: content = backend.getFileContent(file);
 	$: console.log(content);
 
-	function closeFile(e: MouseEvent) {
+	function closeFile() {
 		edit.set("");
 	}
 </script>

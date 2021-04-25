@@ -7,7 +7,7 @@
 	let username: string;
 	let password: string;
 
-	async function login(e: Event) {
+	async function login() {
 		logged.set(await backend.login(username, password));
 	}
 </script>

@@ -6,7 +6,6 @@ import type { Backend } from "./Backend";
 
 export class WebdavBackend implements Backend {
 	protected client: WebDAVClient | null = null;
-	protected logged = false;
 
 	constructor(
 		protected serverUrl: string,
@@ -19,26 +18,30 @@ export class WebdavBackend implements Backend {
 			username: username,
 			password: password,
 		});
-		this.logged = await this.client.exists("/");
-		return this.logged;
+		if (!await this.client.exists("/")) {
+			this.client = null;
+			return false;
+		}
+		return true;
 	}
 
 	logout(): void {
 		this.client = null;
-		this.logged = false;
 	}
 
 	isLogged(): boolean {
-		return this.logged;
+		return this.client != null;
 	}
 
 	async listFiles(path: string): Promise<FileStat[]> {
-		let res = await this.client.getDirectoryContents(path);
+		this.requireLogged();
+		let res = await this.client!.getDirectoryContents(path);
 		return extractData(res);
 	}
 
 	async getFileContent(path: string): Promise<string> {
-		let res = await this.client.getFileContents(path);
+		this.requireLogged();
+		let res = await this.client!.getFileContents(path);
 		let buf = extractData(res);
 		if (typeof buf == "string") {
 			return buf;
@@ -46,6 +49,12 @@ export class WebdavBackend implements Backend {
 			return ab2str(buf);
 		} else {
 			return buf.toString();
+		}
+	}
+
+	protected requireLogged():void {
+		if (!this.isLogged()) {
+			throw new Error("No user logged in.");
 		}
 	}
 }

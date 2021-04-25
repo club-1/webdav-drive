@@ -20,7 +20,7 @@ export function hrsize(size: number): string {
 export function isDir(file: FileStat) { return file.type == "directory" }
 
 export function parent(path: string) {
-	return path.slice(0, -2).match(/(.*\/)/)[1]
+	return path.slice(0, -2).match(/(.*\/)/)![1];
 }
 
 export function basename(path:string) {
@@ -28,5 +28,6 @@ export function basename(path:string) {
 }
 
 export function ab2str(buf: ArrayBuffer): string {
+	// @ts-ignore
 	return String.fromCharCode.apply(null, new Uint8Array(buf));
 }
