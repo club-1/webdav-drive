@@ -154,6 +154,7 @@
 		cursor: pointer;
 	}
 	tr.line:hover {
+		color: white;
 		background-color: blue;
 	}
 </style>
