@@ -52,6 +52,11 @@ export class WebdavBackend implements Backend {
 		}
 	}
 
+	deleteFile(path: string): Promise<void> {
+		this.requireLogged();
+		return this.client!.deleteFile(path);
+	}
+
 	protected requireLogged():void {
 		if (!this.isLogged()) {
 			throw new Error("No user logged in.");

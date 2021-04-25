@@ -1,24 +1,30 @@
 <script lang="ts">
 	import type { Backend } from "../model/Backend";
-	import { edit } from "../stores";
+	import { fileEdit, fileListUpdate } from "../stores";
 	import { basename } from "../utils";
 
 	export let backend: Backend;
 
-	let file: string;
-	edit.subscribe((value) => {
-		file = value;
+	let content: Promise<string>;
+	fileEdit.subscribe((value: string) => {
+		if (value != "") {
+			content = backend.getFileContent(value);
+		}
 	});
-	$: content = backend.getFileContent(file);
-	$: console.log(content);
 
 	function closeFile() {
-		edit.set("");
+		fileEdit.set("");
+	}
+
+	function deleteFile() {
+		backend.deleteFile($fileEdit);
+		fileListUpdate.update((value) => value + 1);
+		closeFile();
 	}
 </script>
 
-{#if $edit != ""}
-	<h3>{basename($edit)}</h3>
+{#if $fileEdit != ""}
+	<h3>{basename($fileEdit)}</h3>
 	{#await content then content}
 		<pre>
 			{content}
@@ -27,6 +33,7 @@
 		<p class="error">{error}</p>
 	{/await}
 	<button on:click={closeFile}>Close</button>
+	<button on:click={deleteFile}>Delete</button>
 {/if}
 
 <style>

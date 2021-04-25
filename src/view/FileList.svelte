@@ -2,7 +2,7 @@
 	import type { FileStat } from "webdav";
 
 	import type { Backend } from "../model/Backend";
-	import { edit } from "../stores";
+	import { fileEdit, fileListUpdate } from "../stores";
 	import { hrsize, isDir, parent } from "../utils";
 
 	export let backend: Backend;
@@ -21,6 +21,10 @@
 		files = backend.listFiles(path);
 	}
 
+	fileListUpdate.subscribe(async (value) => {
+		files = Promise.resolve(await backend.listFiles(path));
+	});
+
 	window.addEventListener("hashchange", onHashChange);
 
 	function onHashChange(e: HashChangeEvent) {
@@ -37,7 +41,7 @@
 	}
 
 	function editFile(file: string) {
-		edit.set(file);
+		fileEdit.set(file);
 	}
 </script>
 

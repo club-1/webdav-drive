@@ -32,4 +32,11 @@ export interface Backend {
 	 * @returns the content of the file.
 	 */
 	getFileContent(path: string): Promise<string>;
+
+	/**
+	 * Delete a file.
+	 * @param path the path of the file.
+	 * @returns success.
+	 */
+	deleteFile(path: string): Promise<void>;
 }
