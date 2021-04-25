@@ -13,7 +13,7 @@
 	}
 </script>
 
-<form on:submit|preventDefault={login}>
+<form on:submit|preventDefault={login} class="bordered">
 	<label>
 		Username
 		<input bind:value={username} type="text" />
@@ -22,5 +22,20 @@
 		Password
 		<input bind:value={password} type="password" />
 	</label>
-	<button type="submit">Log in</button>
+	<input type="submit" value="Log in" />
 </form>
+
+<style>
+	form {
+		max-width: 500px;
+		margin: 50px auto;
+	}
+	label {
+		text-align: center;
+	}
+	label,
+	input {
+		display: block;
+		margin: 10px auto;
+	}
+</style>

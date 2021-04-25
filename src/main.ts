@@ -1,15 +1,17 @@
 import App from "./App.svelte";
 import { AuthType } from "webdav/web";
-import * as config from "../config.json";
+import * as configFile from "../config.json";
 import { WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
+import type { Config } from "./model/Config";
 
+let config = configFile as Config;
 let provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
 
 let app = new App({
 	target: document.body,
 	props: {
 		provider,
-		root: config.root,
+		config,
 	}
 });
 

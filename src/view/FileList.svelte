@@ -134,6 +134,12 @@
 {/await}
 
 <style>
+	table {
+		width: 100%;
+	}
+	td.checkbox, td.icon {
+		width: 10px;
+	}
 	td.size {
 		text-align: right;
 	}

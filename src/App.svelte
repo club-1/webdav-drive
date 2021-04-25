@@ -4,9 +4,10 @@
 	import Login from "./view/Login.svelte";
 	import Editor from "./view/Editor.svelte";
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
+	import type { Config } from "./model/Config";
 
 	export let provider: FileSystemProvider;
-	export let root: string;
+	export let config: Config;
 
 	let fs: FileSystem;
 	let logged = false;
@@ -21,20 +22,33 @@
 	}
 </script>
 
-{#if !logged}
-	<Login {provider} callback={setFileSystem} />
-{:else}
-	<h2>Files</h2>
-	<div class="file-list">
-		<FileList {fs} {root} />
-	</div>
-	<div class="editor">
-		<Editor {fs} />
-	</div>
-	<button on:click={logout}>Log out</button>
-{/if}
+<svelte:head>
+	<title>{config.branding.site_name}</title>
+</svelte:head>
+
+<main class="bordered">
+	<h1>{config.branding.site_name}</h1>
+	{#if !logged}
+		<Login {provider} callback={setFileSystem} />
+	{:else}
+		<div class="file-list">
+			<FileList {fs} root={config.root} />
+		</div>
+		<div class="editor">
+			<Editor {fs} />
+		</div>
+		<button on:click={logout}>Log out</button>
+	{/if}
+</main>
 
 <style>
+	main {
+		max-width: 900px;
+		margin: 5px auto;
+	}
+	h1 {
+		text-align: center;
+	}
 	div {
 		overflow: auto;
 	}

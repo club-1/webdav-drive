@@ -1,5 +1,10 @@
 * {
 	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+pre, code {
+	font-family: monospace;
 }
 
 html, body {
@@ -11,5 +16,12 @@ html, body {
 }
 
 html {
+	padding: 0 5px;
+}
+
+.bordered {
+	border: solid 1px grey;
+	border-radius: 10px;
+	margin: 20px;
 	padding: 10px;
 }
