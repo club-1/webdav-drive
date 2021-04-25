@@ -69,7 +69,7 @@
 	}
 
 	function deleteSelected() {
-		if (!confirm("Are you sure you want to delete these files/directories?")) {
+		if (!confirm("Are you sure you want to delete these files?")) {
 			return;
 		}
 		while (checked.length > 0) {
@@ -137,7 +137,14 @@
 	table {
 		width: 100%;
 	}
-	td.checkbox, td.icon {
+	td {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		max-width: 50px;
+		overflow: clip;
+	}
+	td.checkbox,
+	td.icon {
 		width: 10px;
 	}
 	td.size {
