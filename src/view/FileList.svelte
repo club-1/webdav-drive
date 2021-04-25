@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { FileSystem } from "../model/FileSystem";
-	import type { Entry } from "../model/Files";
+	import { Directory, Entry, File } from "../model/Files";
 	import { fileEdit, fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { hrsize, parent } from "../utils";
 
@@ -65,7 +65,7 @@
 
 	function checkFile(file: Entry) {
 		file.checked = !file.checked;
-		checked.push(file.stat.filename);
+		checked.push(file.path);
 	}
 
 	function deleteSelected() {
@@ -95,12 +95,12 @@
 		{#each files as file}
 			<tr
 				class="line"
-				class:directory={file.isDirectory()}
+				class:directory={file instanceof Directory}
 				on:click={() => {
-					if (file.isDirectory()) {
-						changeDir(file.stat.filename + "/");
+					if (file instanceof Directory) {
+						changeDir(file.path + "/");
 					} else {
-						editFile(file.stat.filename);
+						editFile(file.path);
 					}
 				}}
 			>
@@ -111,13 +111,13 @@
 						on:click|stopPropagation={() => checkFile(file)}
 					/>
 				</td>
-				<td class="icon">{file.isDirectory() ? "📁" : "📄"}</td>
+				<td class="icon">{file instanceof Directory ? "📁" : "📄"}</td>
 				<td class="name">
-					{file.stat.basename}
+					{file.basename}
 				</td>
 				<td class="size">
-					{#if !file.isDirectory()}
-						{hrsize(file.stat.size)}
+					{#if file instanceof File}
+						{hrsize(file.size)}
 					{/if}
 				</td>
 			</tr>

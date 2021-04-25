@@ -1,7 +1,7 @@
 import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav";
-import { ab2str } from "../utils";
-import type { FileSystem } from "./FileSystem";
-import { Entry, File, Directory } from "./Files";
+import { ab2str } from "../../utils";
+import type { FileSystem } from "../FileSystem";
+import { Entry, File, Directory } from "../Files";
 
 export class WebdavFileSystem implements FileSystem {
 	constructor(
@@ -69,8 +69,20 @@ function isDetailedData(res: any | ResponseDataDetailed<any>): res is ResponseDa
 
 function createEntry(stat: FileStat): Entry {
 	if (stat.type == "directory") {
-		return new Directory(stat);
+		return new Directory(
+			stat.filename,
+			stat.basename,
+			stat.lastmod,
+			stat.etag,
+		);
 	} else {
-		return new File(stat);
+		return new File(
+			stat.filename,
+			stat.basename,
+			stat.lastmod,
+			stat.etag,
+			stat.size,
+			stat.mime!
+		);
 	}
 }

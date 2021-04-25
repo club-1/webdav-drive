@@ -1,6 +1,6 @@
 import { AuthType, createClient } from "webdav/web";
-import type { FileSystem } from "./FileSystem";
-import type { FileSystemProvider } from "./FileSystemProvider";
+import type { FileSystem } from "../FileSystem";
+import type { FileSystemProvider } from "../FileSystemProvider";
 import { WebdavFileSystem } from "./WebdavFileSystem";
 
 export class WebdavFileSystemProvider implements FileSystemProvider {

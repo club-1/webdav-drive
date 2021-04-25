@@ -1,21 +1,25 @@
-import type { FileStat } from "webdav/web";
-
 export abstract class Entry {
 	constructor(
-		public stat: FileStat,
+		public path: string,
+		public basename: string,
+		public lastmod: string,
+		public etag: string | null,
 		public checked: boolean = false,
 	) { }
-
-	isFile() {
-		return this instanceof File;
-	}
-
-	isDirectory() {
-		return this instanceof Directory;
-	}
 }
 
 export class File extends Entry {
+	constructor(
+		path: string,
+		basename: string,
+		lastmod: string,
+		etag: string | null,
+		public size: number,
+		public mime: string,
+		checked: boolean = false,
+	) {
+		super(path, basename, lastmod, etag, checked);
+	}
 }
 
 export class Directory extends Entry {
