@@ -1,16 +1,15 @@
 <script lang="ts">
 	import type { FileSystem } from "../model/FileSystem";
+	import type { FileSystemProvider } from "../model/FileSystemProvider";
 
-	export let fs: FileSystem;
-	export let callback: () => void;
+	export let provider: FileSystemProvider;
+	export let callback: (fs: FileSystem) => void;
 
 	let username: string;
 	let password: string;
 
 	async function login() {
-		if (await fs.login(username, password)) {
-			callback();
-		}
+		callback(await provider.getFileSystem(username, password));
 	}
 </script>
 

@@ -3,24 +3,26 @@
 	import FileList from "./view/FileList.svelte";
 	import Login from "./view/Login.svelte";
 	import Editor from "./view/Editor.svelte";
+	import type { FileSystemProvider } from "./model/FileSystemProvider";
 
-	export let fs: FileSystem;
+	export let provider: FileSystemProvider;
 	export let root: string;
 
+	let fs: FileSystem;
 	let logged = false;
 
-	function login() {
+	function setFileSystem(res: FileSystem) {
+		fs = res;
 		logged = true;
 	}
 
 	function logout() {
-		fs.logout();
 		logged = false;
 	}
 </script>
 
 {#if !logged}
-	<Login {fs} callback={login} />
+	<Login {provider} callback={setFileSystem} />
 {:else}
 	<h2>Files</h2>
 	<div class="file-list">

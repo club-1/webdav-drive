@@ -2,24 +2,6 @@ import type { File } from "./File";
 
 export interface FileSystem {
 	/**
-	 * Log a user in.
-	 * @param username the user's name.
-	 * @param password the user's password.
-	 * @returns success.
-	 */
-	login(username: string, password: string): Promise<boolean>;
-
-	/**
-	 * Log a user out.
-	 */
-	logout(): void;
-
-	/**
-	 * Check if a user is currently logged in.
-	 */
-	isLogged(): boolean;
-
-	/**
 	 * List files of a directory.
 	 * @param path the path of the directory.
 	 * @returns a list of files.
