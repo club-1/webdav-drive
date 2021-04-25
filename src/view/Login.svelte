@@ -1,14 +1,16 @@
 <script lang="ts">
-	import { logged } from "../stores"
 	import type { Backend } from "../model/Backend";
 
 	export let backend: Backend;
+	export let callback: () => void;
 
 	let username: string;
 	let password: string;
 
 	async function login() {
-		logged.set(await backend.login(username, password));
+		if (await backend.login(username, password)) {
+			callback();
+		}
 	}
 </script>
 
