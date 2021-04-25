@@ -2,6 +2,8 @@
 
 WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV share, built with [Svelte](https://svelte.dev) and [perry-mitchell/webdav-client/](https://github.com/perry-mitchell/webdav-client).
 
+![screenshot](./docs/screenshot.png)
+
 
 ## Build
 

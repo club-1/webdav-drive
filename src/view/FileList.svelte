@@ -80,12 +80,14 @@
 	<table>
 		<tr>
 			<th scope="col" />
+			<th scope="col" />
 			<th scope="col">Name</th>
 			<th scope="col">Size</th>
 		</tr>
 		{#if path != root}
 			<tr class="line directory" on:click={() => changeDir(parent(path))}>
 				<td class="checkbox" />
+				<td class="icon">🔙</td>
 				<td class="name">..</td>
 				<td class="size" />
 			</tr>
@@ -109,6 +111,7 @@
 						on:click|stopPropagation={() => checkFile(file)}
 					/>
 				</td>
+				<td class="icon">{file.isDir() ? "📁" : "📄"}</td>
 				<td class="name">
 					{file.stat.basename}
 				</td>
