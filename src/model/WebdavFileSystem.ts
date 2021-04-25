@@ -1,17 +1,16 @@
-import type { AuthType, FileStat, ResponseDataDetailed, WebDAVClient } from "webdav";
+import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav";
 import { ab2str } from "../utils";
 import type { FileSystem } from "./FileSystem";
-import { File } from "./File";
-
+import { Entry, File, Directory } from "./Files";
 
 export class WebdavFileSystem implements FileSystem {
 	constructor(
 		protected client: WebDAVClient
 	) { }
 
-	async listFiles(path: string): Promise<File[]> {
+	async listFiles(path: string): Promise<Entry[]> {
 		let res = await this.client.getDirectoryContents(path);
-		return extractData(res).map((stat) => new File(stat));
+		return extractData(res).map((stat) => createEntry(stat));
 	}
 
 	async getFileContent(path: string): Promise<string> {
@@ -66,4 +65,12 @@ function extractData<T>(res: T | ResponseDataDetailed<T>): T {
 /** Check if res is detailed response. */
 function isDetailedData(res: any | ResponseDataDetailed<any>): res is ResponseDataDetailed<any> {
 	return (res as ResponseDataDetailed<any>).data !== undefined;
+}
+
+function createEntry(stat: FileStat): Entry {
+	if (stat.type == "directory") {
+		return new Directory(stat);
+	} else {
+		return new File(stat);
+	}
 }

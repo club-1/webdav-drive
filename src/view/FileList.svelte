@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { FileSystem } from "../model/FileSystem";
-	import type { File } from "../model/File";
+	import type { Entry } from "../model/Files";
 	import { fileEdit, fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { hrsize, parent } from "../utils";
 
@@ -8,7 +8,7 @@
 	export let root: string;
 
 	let path = root;
-	let files: Promise<File[]>;
+	let files: Promise<Entry[]>;
 	let checked: string[] = [];
 
 	$: document.title = path;
@@ -21,7 +21,7 @@
 		files = fs.listFiles(path);
 	}
 
-	fileListUpdate.subscribe(async (value) => {
+	fileListUpdate.subscribe(async () => {
 		files = Promise.resolve(await fs.listFiles(path));
 	});
 
@@ -63,7 +63,7 @@
 		}
 	}
 
-	function checkFile(file: File) {
+	function checkFile(file: Entry) {
 		file.checked = !file.checked;
 		checked.push(file.stat.filename);
 	}
@@ -95,9 +95,9 @@
 		{#each files as file}
 			<tr
 				class="line"
-				class:directory={file.isDir()}
+				class:directory={file.isDirectory()}
 				on:click={() => {
-					if (file.isDir()) {
+					if (file.isDirectory()) {
 						changeDir(file.stat.filename + "/");
 					} else {
 						editFile(file.stat.filename);
@@ -111,12 +111,12 @@
 						on:click|stopPropagation={() => checkFile(file)}
 					/>
 				</td>
-				<td class="icon">{file.isDir() ? "📁" : "📄"}</td>
+				<td class="icon">{file.isDirectory() ? "📁" : "📄"}</td>
 				<td class="name">
 					{file.stat.basename}
 				</td>
 				<td class="size">
-					{#if !file.isDir()}
+					{#if !file.isDirectory()}
 						{hrsize(file.stat.size)}
 					{/if}
 				</td>

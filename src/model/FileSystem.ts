@@ -1,12 +1,12 @@
-import type { File } from "./File";
+import type { Entry } from "./Files";
 
 export interface FileSystem {
 	/**
-	 * List files of a directory.
+	 * List entries of a directory.
 	 * @param path the path of the directory.
-	 * @returns a list of files.
+	 * @returns a list of entries.
 	 */
-	listFiles(path: string): Promise<File[]>;
+	listFiles(path: string): Promise<Entry[]>;
 
 	/**
 	 * Get the content of a file.
