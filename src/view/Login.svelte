@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Backend } from "../model/Backend";
+	import type { FileSystem } from "../model/FileSystem";
 
-	export let backend: Backend;
+	export let fs: FileSystem;
 	export let callback: () => void;
 
 	let username: string;
 	let password: string;
 
 	async function login() {
-		if (await backend.login(username, password)) {
+		if (await fs.login(username, password)) {
 			callback();
 		}
 	}

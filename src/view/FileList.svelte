@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Backend } from "../model/Backend";
+	import type { FileSystem } from "../model/FileSystem";
 	import type { File } from "../model/File";
 	import { fileEdit, fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { hrsize, parent } from "../utils";
 
-	export let backend: Backend;
+	export let fs: FileSystem;
 	export let root: string;
 
 	let path = root;
@@ -18,11 +18,11 @@
 	} else if (!path.includes(root)) {
 		files = Promise.reject("Permission denied.");
 	} else {
-		files = backend.listFiles(path);
+		files = fs.listFiles(path);
 	}
 
 	fileListUpdate.subscribe(async (value) => {
-		files = Promise.resolve(await backend.listFiles(path));
+		files = Promise.resolve(await fs.listFiles(path));
 	});
 
 	window.addEventListener("hashchange", onHashChange);
@@ -47,7 +47,7 @@
 	async function newFile() {
 		let name = prompt("New file name");
 		if (name != null) {
-			let res = await backend.createFile(path + name);
+			let res = await fs.createFile(path + name);
 			console.log(res);
 			if (res) {
 				fileListUpdateIncr();
@@ -58,7 +58,7 @@
 	async function newDir() {
 		let name = prompt("New file name");
 		if (name != null) {
-			await backend.createDirectory(path + name);
+			await fs.createDirectory(path + name);
 			fileListUpdateIncr();
 		}
 	}
@@ -70,7 +70,7 @@
 
 	function deleteSelected() {
 		while (checked.length > 0) {
-			backend.deleteFile(checked.pop()!);
+			fs.deleteFile(checked.pop()!);
 		}
 		fileListUpdateIncr();
 	}

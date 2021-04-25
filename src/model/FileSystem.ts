@@ -1,6 +1,6 @@
 import type { File } from "./File";
 
-export interface Backend {
+export interface FileSystem {
 	/**
 	 * Log a user in.
 	 * @param username the user's name.

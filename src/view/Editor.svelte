@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Backend } from "../model/Backend";
+	import type { FileSystem } from "../model/FileSystem";
 	import { fileEdit, fileListUpdateIncr } from "../stores";
 	import { basename } from "../utils";
 
-	export let backend: Backend;
+	export let fs: FileSystem;
 
 	let content: Promise<string>;
 	fileEdit.subscribe((value: string) => {
 		if (value != "") {
-			content = backend.getFileContent(value);
+			content = fs.getFileContent(value);
 		}
 	});
 
@@ -17,7 +17,7 @@
 	}
 
 	function deleteFile() {
-		backend.deleteFile($fileEdit);
+		fs.deleteFile($fileEdit);
 		fileListUpdateIncr();
 		closeFile();
 	}

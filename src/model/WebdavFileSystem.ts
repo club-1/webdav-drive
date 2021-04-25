@@ -1,11 +1,11 @@
 import type { AuthType, FileStat, ResponseDataDetailed, WebDAVClient } from "webdav";
 import { createClient } from "webdav/web";
 import { ab2str } from "../utils";
-import type { Backend } from "./Backend";
+import type { FileSystem } from "./FileSystem";
 import { File } from "./File";
 
 
-export class WebdavBackend implements Backend {
+export class WebdavFileSystem implements FileSystem {
 	protected client: WebDAVClient | null = null;
 
 	constructor(
