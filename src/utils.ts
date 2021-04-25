@@ -1,5 +1,3 @@
-import type { FileStat } from "webdav";
-
 const SIZE_SYMBOLS = ['o', 'Kio', 'Mio', 'Gio', 'Tio'];
 
 /**
@@ -16,8 +14,6 @@ export function hrsize(size: number): string {
 	return (i > 0 ? size.toFixed(1) : size) + ' ' + SIZE_SYMBOLS[i]
 }
 
-
-export function isDir(file: FileStat) { return file.type == "directory" }
 
 export function parent(path: string) {
 	return path.slice(0, -2).match(/(.*\/)/)![1];

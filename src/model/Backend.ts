@@ -1,4 +1,4 @@
-import type { FileStat } from "webdav";
+import type { File } from "./File";
 
 export interface Backend {
 	/**
@@ -24,7 +24,7 @@ export interface Backend {
 	 * @param path the path of the directory.
 	 * @returns a list of files.
 	 */
-	listFiles(path: string): Promise<FileStat[]>;
+	listFiles(path: string): Promise<File[]>;
 
 	/**
 	 * Get the content of a file.

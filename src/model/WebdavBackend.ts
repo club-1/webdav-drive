@@ -2,6 +2,7 @@ import type { AuthType, FileStat, ResponseDataDetailed, WebDAVClient } from "web
 import { createClient } from "webdav/web";
 import { ab2str } from "../utils";
 import type { Backend } from "./Backend";
+import { File } from "./File";
 
 
 export class WebdavBackend implements Backend {
@@ -33,10 +34,10 @@ export class WebdavBackend implements Backend {
 		return this.client != null;
 	}
 
-	async listFiles(path: string): Promise<FileStat[]> {
+	async listFiles(path: string): Promise<File[]> {
 		this.requireLogged();
 		let res = await this.client!.getDirectoryContents(path);
-		return extractData(res);
+		return extractData(res).map((stat) => new File(stat));
 	}
 
 	async getFileContent(path: string): Promise<string> {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Backend } from "../model/Backend";
-	import { fileEdit, fileListUpdate } from "../stores";
+	import { fileEdit, fileListUpdateIncr } from "../stores";
 	import { basename } from "../utils";
 
 	export let backend: Backend;
@@ -18,7 +18,7 @@
 
 	function deleteFile() {
 		backend.deleteFile($fileEdit);
-		fileListUpdate.update((value) => value + 1);
+		fileListUpdateIncr();
 		closeFile();
 	}
 </script>
