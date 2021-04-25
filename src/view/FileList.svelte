@@ -69,6 +69,9 @@
 	}
 
 	function deleteSelected() {
+		if (!confirm("Are you sure you want to delete these files/directories?")) {
+			return;
+		}
 		while (checked.length > 0) {
 			fs.deleteFile(checked.pop()!);
 		}

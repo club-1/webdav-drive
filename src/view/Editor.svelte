@@ -17,6 +17,7 @@
 	}
 
 	function deleteFile() {
+		if (!confirm("Are you sure you want to delete this file?")) return;
 		fs.deleteFile($fileEdit);
 		fileListUpdateIncr();
 		closeFile();
