@@ -16,6 +16,7 @@ html, body {
 
 html {
 	padding: 0 2%;
+	overflow-y: scroll;
 }
 
 .bordered {

@@ -16,7 +16,7 @@ export function hrsize(size: number): string {
 
 
 export function parent(path: string) {
-	return path.slice(0, -2).match(/(.*\/)/)![1];
+	return path.slice(0, -1).match(/(.*\/)/)![1];
 }
 
 export function basename(path:string) {

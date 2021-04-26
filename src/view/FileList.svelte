@@ -8,24 +8,32 @@
 	export let root: string;
 
 	let path = root;
-	let files: Promise<Entry[]>;
+	let files: Entry[];
+	let error: string | undefined = "Loading";
 	let checked: string[] = [];
 
 	$: document.title = path;
 	$: window.location.href = `#${path}`;
 	$: if (path.charAt(path.length - 1) != "/") {
-		files = Promise.reject("Not a directory.");
+		error = "Not a directory.";
 	} else if (!path.includes(root)) {
-		files = Promise.reject("Permission denied.");
+		error = "Permission denied.";
 	} else {
-		files = fs.listFiles(path);
+		listFiles(path);
 	}
 
-	fileListUpdate.subscribe(async () => {
-		files = Promise.resolve(await fs.listFiles(path));
-	});
+	fileListUpdate.subscribe(() => listFiles(path));
 
 	window.addEventListener("hashchange", onHashChange);
+
+	function listFiles(path: string) {
+		fs.listFiles(path)
+			.then((res) => {
+				files = res;
+				error = undefined;
+			})
+			.catch((err) => (error = err));
+	}
 
 	function onHashChange(e: HashChangeEvent) {
 		let newPath = "";
@@ -79,25 +87,27 @@
 	}
 </script>
 
-{#await files then files}
-	<table>
-		<tr>
-			<th scope="col" />
-			<th scope="col" />
-			<th scope="col">Name</th>
-			<th scope="col">Size</th>
+<table>
+	<tr>
+		<th scope="col" />
+		<th scope="col" />
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+	</tr>
+	{#if path.includes(root) && path.length > root.length }
+		<tr class="entry directory" on:click={() => changeDir(parent(path))}>
+			<td class="checkbox" />
+			<td class="icon">🔙</td>
+			<td class="name">..</td>
+			<td class="size" />
 		</tr>
-		{#if path != root}
-			<tr class="line directory" on:click={() => changeDir(parent(path))}>
-				<td class="checkbox" />
-				<td class="icon">🔙</td>
-				<td class="name">..</td>
-				<td class="size" />
-			</tr>
-		{/if}
+	{:else}
+		<tr><td /><td /><td>.</td></tr>
+	{/if}
+	{#if !error}
 		{#each files as file}
 			<tr
-				class="line"
+				class="entry"
 				class:directory={file instanceof Directory}
 				on:click={() => {
 					if (file instanceof Directory) {
@@ -125,13 +135,15 @@
 				</td>
 			</tr>
 		{/each}
-	</table>
+	{/if}
+</table>
+{#if !error}
 	<button on:click={newFile}>New file</button>
 	<button on:click={newDir}>New directory</button>
 	<button on:click={deleteSelected}>Delete selected</button>
-{:catch error}
+{:else}
 	<p class="error">{error}</p>
-{/await}
+{/if}
 
 <style>
 	table {
@@ -145,15 +157,16 @@
 	}
 	td.checkbox,
 	td.icon {
-		width: 10px;
+		width: 25px;
+		text-align: center;
 	}
 	td.size {
 		text-align: right;
 	}
-	tr.line {
+	tr.entry {
 		cursor: pointer;
 	}
-	tr.line:hover {
+	tr.entry:hover {
 		color: white;
 		background-color: blue;
 	}
