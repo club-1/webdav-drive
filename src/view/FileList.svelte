@@ -19,14 +19,15 @@
 	} else if (!path.includes(root)) {
 		error = "Permission denied.";
 	} else {
-		listFiles(path);
+		listFiles();
 	}
-
-	fileListUpdate.subscribe(() => listFiles(path));
+	$: if ($fileListUpdate > 0) {
+		listFiles();
+	}
 
 	window.addEventListener("hashchange", onHashChange);
 
-	function listFiles(path: string) {
+	function listFiles() {
 		fs.listFiles(path)
 			.then((res) => {
 				files = res;
@@ -94,7 +95,7 @@
 		<th scope="col">Name</th>
 		<th scope="col">Size</th>
 	</tr>
-	{#if path.includes(root) && path.length > root.length }
+	{#if path.includes(root) && path.length > root.length}
 		<tr class="entry directory" on:click={() => changeDir(parent(path))}>
 			<td class="checkbox" />
 			<td class="icon">🔙</td>
