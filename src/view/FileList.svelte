@@ -23,9 +23,9 @@
 		let newPath = "";
 		let matches = e.newURL.match(/#(.*)$/);
 		if (matches != null) {
-			newPath = matches[1];
+			newPath = unescape(matches[1]);
 		}
-		path = newPath;
+		if (path != newPath) path = newPath;
 	});
 
 	function listFiles(path: string) {
