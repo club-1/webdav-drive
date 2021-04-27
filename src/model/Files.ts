@@ -6,6 +6,10 @@ export abstract class Entry {
 		public etag: string | null,
 		public checked: boolean = false,
 	) { }
+
+	isHidden(): boolean {
+		return this.basename.startsWith(".");
+	}
 }
 
 export class File extends Entry {

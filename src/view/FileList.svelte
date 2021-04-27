@@ -72,6 +72,14 @@
 		}
 		Promise.allSettled(deleted).then(() => fileListUpdateIncr());
 	}
+
+	function clickOnEntry(entry: Entry) {
+		if (entry instanceof Directory) {
+			changeDir(entry.path + "/");
+		} else {
+			editFile(entry.path);
+		}
+	}
 </script>
 
 <table>
@@ -93,34 +101,32 @@
 	{/if}
 	{#if !message}
 		{#each files as file}
-			<tr
-				class="entry"
-				class:directory={file instanceof Directory}
-				on:click={() => {
-					if (file instanceof Directory) {
-						changeDir(file.path + "/");
-					} else {
-						editFile(file.path);
-					}
-				}}
-			>
-				<td class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={file.checked}
-						on:click|stopPropagation
-					/>
-				</td>
-				<td class="icon">{file instanceof Directory ? "📁" : "📄"}</td>
-				<td class="name">
-					{file.basename}
-				</td>
-				<td class="size">
-					{#if file instanceof File}
-						{hrsize(file.size)}
-					{/if}
-				</td>
-			</tr>
+			{#if !file.isHidden()}
+				<tr
+					class="entry"
+					class:directory={file instanceof Directory}
+					on:click={() => clickOnEntry(file)}
+				>
+					<td class="checkbox">
+						<input
+							type="checkbox"
+							bind:checked={file.checked}
+							on:click|stopPropagation
+						/>
+					</td>
+					<td class="icon">
+						{file instanceof Directory ? "📁" : "📄"}
+					</td>
+					<td class="name">
+						{file.basename}
+					</td>
+					<td class="size">
+						{#if file instanceof File}
+							{hrsize(file.size)}
+						{/if}
+					</td>
+				</tr>
+			{/if}
 		{/each}
 	{/if}
 </table>
