@@ -40,7 +40,7 @@ table {
 }
 
 td, th {
-	padding: 3px 0;
+	padding: 3px 2px;
 }
 td {
 	border-top: solid 1px grey;

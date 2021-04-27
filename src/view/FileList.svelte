@@ -92,16 +92,21 @@
 		<th scope="col" />
 		<th scope="col">Name</th>
 		<th scope="col">Size</th>
+		<th scope="col" />
 	</tr>
 	{#if isAncestor(root, path)}
-		<tr class="clickable directory" on:click={() => changeDir(parent(path))}>
+		<tr
+			class="clickable directory"
+			on:click={() => changeDir(parent(path))}
+		>
 			<td class="checkbox" />
 			<td class="icon">🔙</td>
 			<td class="name">..</td>
 			<td class="size" />
+			<td class="action" />
 		</tr>
 	{:else}
-		<tr><td /><td /><td>.</td><td/></tr>
+		<tr><td /><td /><td>.</td><td /><td /></tr>
 	{/if}
 	{#if !message}
 		{#each files as file}
@@ -129,6 +134,15 @@
 							{hrsize(file.size)}
 						{/if}
 					</td>
+					<td class="action">
+						{#if file instanceof File}
+							<a
+								href={fs.getFileDownloadLink(file.path)}
+								target="_blank"
+								on:click|stopPropagation>⬇️</a
+							>
+						{/if}
+					</td>
 				</tr>
 			{/if}
 		{/each}
@@ -153,7 +167,8 @@
 		overflow: clip;
 	}
 	td.checkbox,
-	td.icon {
+	td.icon,
+	td.action {
 		width: 25px;
 		text-align: center;
 	}

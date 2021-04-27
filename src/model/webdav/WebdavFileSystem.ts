@@ -23,6 +23,10 @@ export class WebdavFileSystem implements FileSystem {
 		return extractData(res).map((stat) => createEntry(stat));
 	}
 
+	getFileDownloadLink(path: string): string {
+		return this.client.getFileDownloadLink(path);
+	}
+
 	async getFileContent(path: string): Promise<string> {
 		let res = await this.client.getFileContents(path);
 		let buf = extractData(res);

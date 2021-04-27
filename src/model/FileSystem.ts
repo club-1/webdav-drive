@@ -13,6 +13,13 @@ export interface FileSystem {
 	listFiles(path: string): Promise<Entry[]>;
 
 	/**
+	 * Get the download link of a file.
+	 * @param path the path of the file.
+	 * @returns the download link for this file.
+	 */
+	getFileDownloadLink(path: string): string;
+
+	/**
 	 * Get the content of a file.
 	 * @param path the path of the file.
 	 * @returns the content of the file.
@@ -27,6 +34,10 @@ export interface FileSystem {
 	 */
 	putFileContent(path: string, data: string | Buffer): Promise<boolean>;
 
+	/**
+	 * Create a new directory.
+	 * @param path the path of the new directory.
+	 */
 	createDirectory(path: string): Promise<void>;
 
 	/**
