@@ -14,7 +14,7 @@
 	let checked: Entry[] = [];
 
 	$: document.title = path;
-	$: window.location.href = `#${path}`;
+	$: window.location.href = `#${escape(path)}`;
 	$: listFiles(path);
 	$: $fileListUpdate && listFiles(path);
 	$: checked = files.filter((entry) => entry.checked);
