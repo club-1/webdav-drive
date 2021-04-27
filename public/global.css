@@ -1,3 +1,5 @@
+/* Global CSS */
+
 * {
 	box-sizing: border-box;
 	font-family: sans-serif;
@@ -19,9 +21,40 @@ html {
 	overflow-y: scroll;
 }
 
-.bordered {
+.bordered, button, input:not([type=checkbox]) {
 	border: solid 1px grey;
 	border-radius: 10px;
 	margin: 20px;
 	padding: 10px;
+}
+
+button {
+	font-size: 0.9rem;
+	margin: 5px 0;
+	border-radius: 10px;
+	padding: 5px 10px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 3px 0;
+}
+td {
+	border-top: solid 1px grey;
+}
+
+/* Clickable elements */
+
+.clickable, button {
+	cursor: pointer;
+}
+.clickable:hover, button:hover {
+	color: white;
+	background-color: blue;
+}
+.clickable:active, button:active {
+	background-color: darkblue;
 }

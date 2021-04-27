@@ -3,6 +3,7 @@
 	import { Directory, Entry, File } from "../model/Files";
 	import { fileEdit, fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { hrsize, isAncestor, parent } from "../utils";
+	import Breadcrumbs from "./Breadcrumbs.svelte";
 
 	export let fs: FileSystem;
 	const root = fs.getRoot();
@@ -82,6 +83,9 @@
 	}
 </script>
 
+{#key path}
+	<Breadcrumbs {path} callback={changeDir} />
+{/key}
 <table>
 	<tr>
 		<th scope="col" />
@@ -90,20 +94,20 @@
 		<th scope="col">Size</th>
 	</tr>
 	{#if isAncestor(root, path)}
-		<tr class="entry directory" on:click={() => changeDir(parent(path))}>
+		<tr class="clickable directory" on:click={() => changeDir(parent(path))}>
 			<td class="checkbox" />
 			<td class="icon">🔙</td>
 			<td class="name">..</td>
 			<td class="size" />
 		</tr>
 	{:else}
-		<tr><td /><td /><td>.</td></tr>
+		<tr><td /><td /><td>.</td><td/></tr>
 	{/if}
 	{#if !message}
 		{#each files as file}
 			{#if !file.isHidden()}
 				<tr
-					class="entry"
+					class="clickable"
 					class:directory={file instanceof Directory}
 					on:click={() => clickOnEntry(file)}
 				>
@@ -155,12 +159,5 @@
 	}
 	td.size {
 		text-align: right;
-	}
-	tr.entry {
-		cursor: pointer;
-	}
-	tr.entry:hover {
-		color: white;
-		background-color: blue;
 	}
 </style>

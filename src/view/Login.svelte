@@ -22,7 +22,7 @@
 		Password
 		<input bind:value={password} type="password" />
 	</label>
-	<input type="submit" value="Log in" />
+	<button type="submit">Log in</button>
 </form>
 
 <style>
@@ -33,8 +33,7 @@
 	label {
 		text-align: center;
 	}
-	label,
-	input {
+	form * {
 		display: block;
 		margin: 10px auto;
 	}
