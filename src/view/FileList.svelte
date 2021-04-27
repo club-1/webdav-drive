@@ -8,14 +8,15 @@
 	const root = fs.getRoot();
 
 	let path = root;
-	let files: Entry[];
+	let files: Entry[] = [];
 	let message: string | undefined = "Loading";
-	let checked: string[] = [];
+	let checked: Entry[] = [];
 
 	$: document.title = path;
 	$: window.location.href = `#${path}`;
 	$: listFiles(path);
 	$: $fileListUpdate && listFiles(path);
+	$: checked = files.filter((entry) => entry.checked);
 
 	window.addEventListener("hashchange", (e: HashChangeEvent) => {
 		let newPath = "";
@@ -47,7 +48,6 @@
 		let name = prompt("New file name");
 		if (name != null) {
 			let res = await fs.createFile(path + name);
-			console.log(res);
 			if (res) {
 				fileListUpdateIncr();
 			}
@@ -62,19 +62,15 @@
 		}
 	}
 
-	function checkFile(file: Entry) {
-		file.checked = !file.checked;
-		checked.push(file.path);
-	}
-
 	function deleteSelected() {
 		if (!confirm("Are you sure you want to delete these files?")) {
 			return;
 		}
+		let deleted: Promise<any>[] = [];
 		while (checked.length > 0) {
-			fs.deleteFile(checked.pop()!);
+			deleted.push(fs.deleteFile(checked.pop()!.path));
 		}
-		fileListUpdateIncr();
+		Promise.allSettled(deleted).then(() => fileListUpdateIncr());
 	}
 </script>
 
@@ -111,8 +107,8 @@
 				<td class="checkbox">
 					<input
 						type="checkbox"
-						checked={file.checked}
-						on:click|stopPropagation={() => checkFile(file)}
+						bind:checked={file.checked}
+						on:click|stopPropagation
 					/>
 				</td>
 				<td class="icon">{file instanceof Directory ? "📁" : "📄"}</td>

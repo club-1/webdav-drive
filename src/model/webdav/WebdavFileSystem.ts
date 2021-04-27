@@ -44,14 +44,6 @@ export class WebdavFileSystem implements FileSystem {
 	}
 
 	async createFile(path: string): Promise<boolean> {
-		if (await this.client.exists(path)) {
-			let res = await this.client.stat(path);
-			let data = extractData(res);
-			if (data.type == "directory") {
-				throw new Error(`File already exists but is a directory: '${data.filename}'`);
-			}
-			return false;
-		}
 		return this.putFileContent(path, "");
 	}
 
