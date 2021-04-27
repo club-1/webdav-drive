@@ -2,6 +2,10 @@ import type { Entry } from "./Files";
 
 export interface FileSystem {
 	/**
+	 * Get file system root.
+	 */
+	getRoot(): string;
+	/**
 	 * List entries of a directory.
 	 * @param path the path of the directory.
 	 * @returns a list of entries.

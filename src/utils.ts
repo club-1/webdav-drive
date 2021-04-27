@@ -19,6 +19,10 @@ export function parent(path: string) {
 	return path.slice(0, -1).match(/(.*\/)/)![1];
 }
 
+export function isAncestor(parent: string, child: string): boolean {
+	return child.startsWith(parent) && child.length > parent.length
+}
+
 export function basename(path:string) {
 	return path.match(/[^\/]+$/);
 }

@@ -32,7 +32,7 @@
 		<Login {provider} callback={setFileSystem} />
 	{:else}
 		<div class="file-list">
-			<FileList {fs} root={config.root} />
+			<FileList {fs} />
 		</div>
 		<div class="editor">
 			<Editor {fs} />

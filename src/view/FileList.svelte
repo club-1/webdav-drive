@@ -2,47 +2,37 @@
 	import type { FileSystem } from "../model/FileSystem";
 	import { Directory, Entry, File } from "../model/Files";
 	import { fileEdit, fileListUpdate, fileListUpdateIncr } from "../stores";
-	import { hrsize, parent } from "../utils";
+	import { hrsize, isAncestor, parent } from "../utils";
 
 	export let fs: FileSystem;
-	export let root: string;
+	const root = fs.getRoot();
 
 	let path = root;
 	let files: Entry[];
-	let error: string | undefined = "Loading";
+	let message: string | undefined = "Loading";
 	let checked: string[] = [];
 
 	$: document.title = path;
 	$: window.location.href = `#${path}`;
-	$: if (path.charAt(path.length - 1) != "/") {
-		error = "Not a directory.";
-	} else if (!path.includes(root)) {
-		error = "Permission denied.";
-	} else {
-		listFiles();
-	}
-	$: if ($fileListUpdate > 0) {
-		listFiles();
-	}
+	$: listFiles(path);
+	$: $fileListUpdate && listFiles(path);
 
-	window.addEventListener("hashchange", onHashChange);
-
-	function listFiles() {
-		fs.listFiles(path)
-			.then((res) => {
-				files = res;
-				error = undefined;
-			})
-			.catch((err) => (error = err));
-	}
-
-	function onHashChange(e: HashChangeEvent) {
+	window.addEventListener("hashchange", (e: HashChangeEvent) => {
 		let newPath = "";
 		let matches = e.newURL.match(/#(.*)$/);
 		if (matches != null) {
 			newPath = matches[1];
 		}
 		path = newPath;
+	});
+
+	function listFiles(path: string) {
+		fs.listFiles(path)
+			.then((res) => {
+				files = res;
+				message = undefined;
+			})
+			.catch((err) => (message = err));
 	}
 
 	function changeDir(dir: string) {
@@ -95,7 +85,7 @@
 		<th scope="col">Name</th>
 		<th scope="col">Size</th>
 	</tr>
-	{#if path.includes(root) && path.length > root.length}
+	{#if isAncestor(root, path)}
 		<tr class="entry directory" on:click={() => changeDir(parent(path))}>
 			<td class="checkbox" />
 			<td class="icon">🔙</td>
@@ -105,7 +95,7 @@
 	{:else}
 		<tr><td /><td /><td>.</td></tr>
 	{/if}
-	{#if !error}
+	{#if !message}
 		{#each files as file}
 			<tr
 				class="entry"
@@ -138,12 +128,12 @@
 		{/each}
 	{/if}
 </table>
-{#if !error}
+{#if !message}
 	<button on:click={newFile}>New file</button>
 	<button on:click={newDir}>New directory</button>
 	<button on:click={deleteSelected}>Delete selected</button>
 {:else}
-	<p class="error">{error}</p>
+	<p class="error">{message}</p>
 {/if}
 
 <style>

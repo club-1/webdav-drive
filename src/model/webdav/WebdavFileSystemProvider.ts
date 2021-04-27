@@ -19,6 +19,6 @@ export class WebdavFileSystemProvider implements FileSystemProvider {
 		if (!await client.exists(this.root)) {
 			throw new Error("Could not access to filesystem.");
 		}
-		return new WebdavFileSystem(client);
+		return new WebdavFileSystem(client, this.root);
 	}
 }
