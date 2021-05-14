@@ -76,9 +76,17 @@ export abstract class FileSystemBase {
 	sortFiles(files: Entry[], orderBy: Column, direction: Direction): Entry[] {
 		switch (orderBy) {
 			case "basename":
-				return files.sort((a, b) => { return this.compareStrings(a.basename, b.basename) });
+				if (direction == "ASC") {
+					return files.sort((a, b) => { return this.compareStrings(a.basename, b.basename) });
+				} else {
+					return files.sort((a, b) => { return this.compareStrings(a.basename, b.basename) * -1 });
+				}
 			case "lastmod":
-				return files.sort((a, b) => { return this.compareStrings(a.lastmod, b.lastmod) });
+				if (direction == "ASC") {
+					return files.sort((a, b) => { return this.compareStrings(a.lastmod, b.lastmod) });
+				} else {
+					return files.sort((a, b) => { return this.compareStrings(a.lastmod, b.lastmod) * -1 });
+				}
 		}
 	}
 }
