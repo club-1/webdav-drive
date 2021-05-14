@@ -81,14 +81,14 @@ function createEntry(stat: FileStat): Entry {
 		return new Directory(
 			stat.filename,
 			stat.basename,
-			stat.lastmod,
+			new Date(stat.lastmod),
 			stat.etag,
 		);
 	} else {
 		return new File(
 			stat.filename,
 			stat.basename,
-			stat.lastmod,
+			new Date(stat.lastmod),
 			stat.etag,
 			stat.size,
 			stat.mime!

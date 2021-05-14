@@ -83,9 +83,9 @@ export abstract class FileSystemBase {
 				}
 			case "lastmod":
 				if (direction == "ASC") {
-					return files.sort((a, b) => { return this.compareStrings(a.lastmod, b.lastmod) });
+					return files.sort((a, b) => { return (a.lastmod.getTime() - b.lastmod.getTime()) });
 				} else {
-					return files.sort((a, b) => { return this.compareStrings(a.lastmod, b.lastmod) * -1 });
+					return files.sort((a, b) => { return (a.lastmod.getTime() - b.lastmod.getTime()) * -1 });
 				}
 		}
 	}

@@ -91,6 +91,7 @@
 		<th scope="col" />
 		<th scope="col" />
 		<th scope="col">Name</th>
+		<th scope="col">Last modified</th>
 		<th scope="col">Size</th>
 		<th scope="col" />
 	</tr>
@@ -102,11 +103,12 @@
 			<td class="checkbox" />
 			<td class="icon">🔙</td>
 			<td class="name">..</td>
+			<td class="lastmod" />
 			<td class="size" />
 			<td class="action" />
 		</tr>
 	{:else}
-		<tr><td /><td /><td>.</td><td /><td /></tr>
+		<tr><td /><td /><td>.</td><td /><td /><td /></tr>
 	{/if}
 	{#if !message}
 		{#each files as file}
@@ -128,6 +130,9 @@
 					</td>
 					<td class="name">
 						{file.basename}
+					</td>
+					<td class="lastmod">
+						{file.lastmod.toLocaleString()}
 					</td>
 					<td class="size">
 						{#if file instanceof File}
@@ -163,7 +168,6 @@
 	td {
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		max-width: 50px;
 		overflow: clip;
 	}
 	td.checkbox,
