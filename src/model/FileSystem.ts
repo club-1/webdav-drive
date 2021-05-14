@@ -1,5 +1,8 @@
 import type { Entry } from "./Files";
 
+export type Column = "basename" | "lastmod";
+export type Direction = "ASC" | "DESC";
+
 export interface FileSystem {
 	/**
 	 * Get file system root.
@@ -10,7 +13,7 @@ export interface FileSystem {
 	 * @param path the path of the directory.
 	 * @returns a list of entries.
 	 */
-	listFiles(path: string): Promise<Entry[]>;
+	listFiles(path: string, orderby?: Column, direction?: Direction): Promise<Entry[]>;
 
 	/**
 	 * Get the download link of a file.
@@ -53,4 +56,29 @@ export interface FileSystem {
 	 * @returns success.
 	 */
 	deleteFile(path: string): Promise<void>;
+}
+
+export abstract class FileSystemBase {
+
+	protected compareStrings(a: string, b: string) {
+		var nameA = a.toUpperCase(); // ignore upper and lowercase
+		var nameB = b.toUpperCase(); // ignore upper and lowercase
+		if (nameA < nameB) {
+			return -1;
+		}
+		if (nameA > nameB) {
+			return 1;
+		}
+		// names must be equal
+		return 0;
+	}
+
+	sortFiles(files: Entry[], orderBy: Column, direction: Direction): Entry[] {
+		switch (orderBy) {
+			case "basename":
+				return files.sort((a, b) => { return this.compareStrings(a.basename, b.basename) });
+			case "lastmod":
+				return files.sort((a, b) => { return this.compareStrings(a.lastmod, b.lastmod) });
+		}
+	}
 }

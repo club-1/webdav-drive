@@ -1,26 +1,29 @@
 import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav";
 import { ab2str } from "../../utils";
-import type { FileSystem } from "../FileSystem";
+import { Column, Direction, FileSystem, FileSystemBase } from "../FileSystem";
 import { Entry, File, Directory } from "../Files";
 
-export class WebdavFileSystem implements FileSystem {
+export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	constructor(
 		protected client: WebDAVClient,
 		protected root: string = "/",
-	) { }
+	) {
+		super();
+	}
 
 	getRoot(): string {
 		return this.root;
 	}
 
-	async listFiles(path: string): Promise<Entry[]> {
+	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Entry[]> {
 		if (path.charAt(path.length - 1) != "/") {
 			throw new Error("Not a directory.");
 		} else if (!path.startsWith(this.root)) {
 			throw new Error("Permission denied.");
 		}
 		let res = await this.client.getDirectoryContents(path);
-		return extractData(res).map((stat) => createEntry(stat));
+		let files = extractData(res).map((stat) => createEntry(stat));
+		return this.sortFiles(files, orderBy, direction);
 	}
 
 	getFileDownloadLink(path: string): string {
