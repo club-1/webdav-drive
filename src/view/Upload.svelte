@@ -23,11 +23,9 @@
 				upload.progress = p;
 				uploads = uploads;
 			})
-				.then(() => {
-					uploads = uploads.filter((u) => u != upload);
-					callback();
-				})
-				.catch(alert);
+				.then(callback)
+				.catch((e) => alert(`${e} (${upload.file.name})`))
+				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}
 		uploads = uploads;
 		form.reset();
@@ -45,15 +43,17 @@
 		<input type="file" name="file" bind:files multiple />
 	</label>
 	<table>
-		{#each uploads as upload}
+		{#each uploads as u}
 			<tr>
-				<td class="name">{upload.file.name}</td>
+				<td class="name">{u.file.name}</td>
 				<td>
-					{#if upload.progress}
+					{#if u.progress}
 						<progress
-							max={upload.progress.total}
-							value={upload.progress.loaded}
-						/>
+							max={u.progress.total}
+							value={u.progress.loaded}
+						>
+							{(u.progress.loaded / u.progress.total) * 100}%
+						</progress>
 					{:else}
 						<progress />
 					{/if}
@@ -65,10 +65,14 @@
 </form>
 
 <style>
+	progress {
+		max-width: 30vw;
+	}
 	td {
 		border: none;
 	}
 	td.name {
 		width: 100%;
+		max-width: 0;
 	}
 </style>

@@ -29,6 +29,7 @@ form {
 form > *, label > * {
 	display: block;
 	margin: 10px auto;
+	max-width: 100%;
 }
 
 label {
