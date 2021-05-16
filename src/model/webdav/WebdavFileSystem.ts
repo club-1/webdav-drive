@@ -1,7 +1,8 @@
-import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav";
+import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav/web";
 import { ab2str } from "../../utils";
 import { Column, Direction, FileSystem, FileSystemBase } from "../FileSystem";
 import { Entry, File, Directory } from "../Files";
+import type { Progress } from "../Upload";
 
 export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	constructor(
@@ -19,7 +20,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		if (path.charAt(path.length - 1) != "/") {
 			throw new Error("Not a directory.");
 		}
-		let res = await this.client.getDirectoryContents(this.root + path, {details: true});
+		let res = await this.client.getDirectoryContents(this.root + path, { details: true });
 		let files = extractData(res).map((stat) => createEntry(stat, this.root));
 		return this.sortFiles(files, orderBy, direction);
 	}
@@ -40,8 +41,10 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		}
 	}
 
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer): Promise<boolean> {
-		return this.client.putFileContents(this.root + path, data);
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (e: Progress) => void): Promise<boolean> {
+		return this.client.putFileContents(this.root + path, data, {
+			onUploadProgress: progressHandler,
+		});
 	}
 
 	createDirectory(path: string): Promise<void> {

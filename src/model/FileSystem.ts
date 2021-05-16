@@ -1,4 +1,5 @@
 import type { Entry } from "./Files";
+import type { Progress } from "./Upload";
 
 export type Column = "basename" | "lastmod";
 export type Direction = "ASC" | "DESC";
@@ -35,7 +36,7 @@ export interface FileSystem {
 	 * @param data the data to write.
 	 * @returns success.
 	 */
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer): Promise<boolean>;
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (e: Progress) => void): Promise<boolean>;
 
 	/**
 	 * Create a new directory.

@@ -26,7 +26,7 @@ form {
 	margin: 50px auto;
 }
 
-form * {
+form > *, label > * {
 	display: block;
 	margin: 10px auto;
 }
@@ -55,8 +55,12 @@ table {
 td, th {
 	padding: 3px 2px;
 }
+
 td {
 	border-top: solid 1px grey;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: clip;
 }
 
 /* Clickable elements */
