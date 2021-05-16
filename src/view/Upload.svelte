@@ -10,9 +10,9 @@
 
 	async function submitHandler() {
 		for (const file of files) {
-			fs.putFileContent(path + file.name, await file.arrayBuffer()).then(
-				callback
-			);
+			fs.putFileContent(path + file.name, await file.arrayBuffer())
+				.then(callback)
+				.catch(alert);
 		}
 		form.reset();
 	}
