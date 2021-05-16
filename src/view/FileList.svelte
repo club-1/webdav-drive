@@ -81,6 +81,13 @@
 			editFile(entry.path);
 		}
 	}
+
+	function checkAll(e: MouseEvent) {
+		files = files.map((f) => {
+			f.checked = (e.target as HTMLInputElement).checked;
+			return f;
+		});
+	}
 </script>
 
 {#key path}
@@ -88,7 +95,9 @@
 {/key}
 <table>
 	<tr>
-		<th scope="col" />
+		<th scope="col">
+			<input type="checkbox" on:click={checkAll} />
+		</th>
 		<th scope="col" />
 		<th scope="col">Name</th>
 		<th scope="col">Last modified</th>
