@@ -6,7 +6,7 @@ import { Entry, File, Directory } from "../Files";
 export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	constructor(
 		protected client: WebDAVClient,
-		protected root: string = "/",
+		protected root: string = "",
 	) {
 		super();
 	}
@@ -18,20 +18,18 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Entry[]> {
 		if (path.charAt(path.length - 1) != "/") {
 			throw new Error("Not a directory.");
-		} else if (!path.startsWith(this.root)) {
-			throw new Error("Permission denied.");
 		}
-		let res = await this.client.getDirectoryContents(path);
-		let files = extractData(res).map((stat) => createEntry(stat));
+		let res = await this.client.getDirectoryContents(this.root + path, {details: true});
+		let files = extractData(res).map((stat) => createEntry(stat, this.root));
 		return this.sortFiles(files, orderBy, direction);
 	}
 
 	getFileDownloadLink(path: string): string {
-		return this.client.getFileDownloadLink(path);
+		return this.client.getFileDownloadLink(this.root + path);
 	}
 
 	async getFileContent(path: string): Promise<string> {
-		let res = await this.client.getFileContents(path);
+		let res = await this.client.getFileContents(this.root + path);
 		let buf = extractData(res);
 		if (typeof buf == "string") {
 			return buf;
@@ -43,19 +41,19 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	}
 
 	putFileContent(path: string, data: string | Buffer): Promise<boolean> {
-		return this.client.putFileContents(path, data);
+		return this.client.putFileContents(this.root + path, data);
 	}
 
 	createDirectory(path: string): Promise<void> {
-		return this.client.createDirectory(path);
+		return this.client.createDirectory(this.root + path);
 	}
 
 	async createFile(path: string): Promise<boolean> {
-		return this.putFileContent(path, "");
+		return this.putFileContent(this.root + path, "");
 	}
 
 	deleteFile(path: string): Promise<void> {
-		return this.client.deleteFile(path);
+		return this.client.deleteFile(this.root + path);
 	}
 }
 
@@ -76,17 +74,17 @@ function isDetailedData(res: any | ResponseDataDetailed<any>): res is ResponseDa
 	return (res as ResponseDataDetailed<any>).data !== undefined;
 }
 
-function createEntry(stat: FileStat): Entry {
+function createEntry(stat: FileStat, root: string = ""): Entry {
 	if (stat.type == "directory") {
 		return new Directory(
-			stat.filename,
+			stat.filename.substring(root.length),
 			stat.basename,
 			new Date(stat.lastmod),
 			stat.etag,
 		);
 	} else {
 		return new File(
-			stat.filename,
+			stat.filename.substring(root.length),
 			stat.basename,
 			new Date(stat.lastmod),
 			stat.etag,

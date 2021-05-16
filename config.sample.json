@@ -1,6 +1,6 @@
 {
   "server_url": "https://webdav.exemple.fr",
-  "root": "/files/",
+  "root": "/files/{username}",
   "branding": {
     "site_name": "WebDAV Cloud"
   }

@@ -6,9 +6,8 @@
 	import Breadcrumbs from "./Breadcrumbs.svelte";
 
 	export let fs: FileSystem;
-	const root = fs.getRoot();
 
-	let path = root;
+	let path = "/";
 	let files: Entry[] = [];
 	let message: string | undefined = "Loading";
 	let checked: Entry[] = [];
@@ -95,7 +94,7 @@
 		<th scope="col">Size</th>
 		<th scope="col" />
 	</tr>
-	{#if isAncestor(root, path)}
+	{#if isAncestor("/", path)}
 		<tr
 			class="clickable directory"
 			on:click={() => changeDir(parent(path))}
