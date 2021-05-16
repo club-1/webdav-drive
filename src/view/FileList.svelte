@@ -165,11 +165,20 @@
 <style>
 	table {
 		width: 100%;
+		overflow-x: auto;
+		display: block;
 	}
 	td {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: clip;
+	}
+	td.name {
+		width: 100%; /** To make it grow */
+		max-width: 20vw;
+	}
+	td.lastmod {
+		max-width: 30vw;
 	}
 	td.checkbox,
 	td.icon,

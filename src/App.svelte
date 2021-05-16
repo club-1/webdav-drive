@@ -49,7 +49,4 @@
 	h1 {
 		text-align: center;
 	}
-	div {
-		overflow: auto;
-	}
 </style>
