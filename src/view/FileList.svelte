@@ -4,6 +4,7 @@
 	import { fileEdit, fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { hrsize, isAncestor, parent } from "../utils";
 	import Breadcrumbs from "./Breadcrumbs.svelte";
+	import Upload from "./Upload.svelte";
 
 	export let fs: FileSystem;
 
@@ -70,7 +71,7 @@
 		while (checked.length > 0) {
 			deleted.push(fs.deleteFile(checked.pop()!.path));
 		}
-		Promise.allSettled(deleted).then(() => fileListUpdateIncr());
+		Promise.allSettled(deleted).then(fileListUpdateIncr);
 	}
 
 	function clickOnEntry(entry: Entry) {
@@ -156,6 +157,7 @@
 	<button on:click={newFile}>New file</button>
 	<button on:click={newDir}>New directory</button>
 	<button on:click={deleteSelected}>Delete selected</button>
+	<Upload {fs} {path} callback={fileListUpdateIncr} />
 {:else}
 	<p class="error">{message}</p>
 {/if}

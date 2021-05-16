@@ -35,7 +35,7 @@ export interface FileSystem {
 	 * @param data the data to write.
 	 * @returns success.
 	 */
-	putFileContent(path: string, data: string | Buffer): Promise<boolean>;
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer): Promise<boolean>;
 
 	/**
 	 * Create a new directory.

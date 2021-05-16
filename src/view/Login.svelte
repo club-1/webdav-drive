@@ -24,17 +24,3 @@
 	</label>
 	<button type="submit">Log in</button>
 </form>
-
-<style>
-	form {
-		max-width: 500px;
-		margin: 50px auto;
-	}
-	label {
-		text-align: center;
-	}
-	form * {
-		display: block;
-		margin: 10px auto;
-	}
-</style>

@@ -21,16 +21,29 @@ html {
 	overflow-y: scroll;
 }
 
+form {
+	max-width: 500px;
+	margin: 50px auto;
+}
+
+form * {
+	display: block;
+	margin: 10px auto;
+}
+
+label {
+	text-align: center;
+}
+
 .bordered, button, input:not([type=checkbox]) {
 	border: solid 1px grey;
 	border-radius: 10px;
-	margin: 20px;
 	padding: 10px;
 }
 
 button {
 	font-size: 0.9rem;
-	margin: 5px 0;
+	margin-top: 5px;
 	border-radius: 10px;
 	padding: 5px 10px;
 }
