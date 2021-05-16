@@ -24,7 +24,7 @@
 	class="bordered"
 >
 	<label>
-		Upload a file
+		Upload files
 		<input type="file" name="file" bind:files multiple />
 	</label>
 	<button type="submit">Upload</button>
