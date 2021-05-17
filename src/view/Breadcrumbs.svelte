@@ -1,12 +1,12 @@
 <script lang="ts">
 	export let path: string;
-	export let callback: (path: string) => void;
+	export let onBreadcrumbClick: (path: string) => any;
 	let elements = [""] // initialise elements with root
 	elements = elements.concat(path.split("/").filter((val) => val != ""));
 
 	function onClick(idx: number) {
 		let path =  elements.slice(0, idx + 1).join("/") + "/";
-		callback(path);
+		onBreadcrumbClick(path);
 	}
 </script>
 

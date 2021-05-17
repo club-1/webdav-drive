@@ -3,13 +3,13 @@
 	import type { FileSystemProvider } from "../model/FileSystemProvider";
 
 	export let provider: FileSystemProvider;
-	export let callback: (fs: FileSystem) => void;
+	export let onLoginSuccess: (fs: FileSystem) => any;
 
 	let username: string;
 	let password: string;
 
 	async function login() {
-		callback(await provider.getFileSystem(username, password));
+		onLoginSuccess(await provider.getFileSystem(username, password));
 	}
 </script>
 

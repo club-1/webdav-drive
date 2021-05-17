@@ -5,7 +5,7 @@
 
 	export let fs: FileSystem;
 	export let path: string;
-	export let callback: () => void;
+	export let onUploadSuccess: () => void;
 
 	let form: HTMLFormElement;
 	let files: FileList | null = null;
@@ -23,7 +23,7 @@
 				upload.progress = p;
 				uploads = uploads;
 			})
-				.then(callback)
+				.then(onUploadSuccess)
 				.catch((e) => alert(`${e} (${upload.file.name})`))
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}

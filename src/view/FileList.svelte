@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { FileSystem } from "../model/FileSystem";
 	import { Directory, Entry, File } from "../model/Files";
-	import { fileEdit, fileListUpdate, fileListUpdateIncr } from "../stores";
+	import { fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { hrsize, isAncestor, parent } from "../utils";
 	import Breadcrumbs from "./Breadcrumbs.svelte";
 	import Upload from "./Upload.svelte";
 
 	export let fs: FileSystem;
+	export let onFileClick: (f: File) => any;
 
 	let path = "/";
 	let files: Entry[] = [];
@@ -41,10 +42,6 @@
 		path = dir;
 	}
 
-	function editFile(file: string) {
-		fileEdit.set(file);
-	}
-
 	async function newFile() {
 		let name = prompt("New file name");
 		if (name != null) {
@@ -74,11 +71,11 @@
 		Promise.allSettled(deleted).then(fileListUpdateIncr);
 	}
 
-	function clickOnEntry(entry: Entry) {
+	function onEntryClick(entry: Entry) {
 		if (entry instanceof Directory) {
 			changeDir(entry.path + "/");
 		} else {
-			editFile(entry.path);
+			onFileClick(entry as File);
 		}
 	}
 
@@ -91,7 +88,7 @@
 </script>
 
 {#key path}
-	<Breadcrumbs {path} callback={changeDir} />
+	<Breadcrumbs {path} onBreadcrumbClick={changeDir} />
 {/key}
 <table>
 	<tr>
@@ -125,7 +122,7 @@
 				<tr
 					class="clickable"
 					class:directory={file instanceof Directory}
-					on:click={() => clickOnEntry(file)}
+					on:click={() => onEntryClick(file)}
 				>
 					<td class="checkbox">
 						<input
@@ -166,7 +163,7 @@
 	<button on:click={newFile}>New file</button>
 	<button on:click={newDir}>New directory</button>
 	<button on:click={deleteSelected}>Delete selected</button>
-	<Upload {fs} {path} callback={fileListUpdateIncr} />
+	<Upload {fs} {path} onUploadSuccess={fileListUpdateIncr} />
 {:else}
 	<p class="error">{message}</p>
 {/if}
