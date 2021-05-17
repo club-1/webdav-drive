@@ -36,10 +36,11 @@ export class File extends Entry {
 	}
 
 	getIconChar(): string {
-		switch (this.mime) {
-			case "image/jpeg":
-			case "image/png":
+		switch (this.mime.split("/")[0]) {
+			case "image":
 				return "🖼️";
+			case "video":
+				return "🎞️";
 			default:
 				return "📄";
 		}
