@@ -51,6 +51,8 @@ button {
 
 table {
 	border-collapse: collapse;
+	overflow-x: auto;
+	display: block;
 }
 
 td, th {
