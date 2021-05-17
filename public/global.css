@@ -78,3 +78,13 @@ td {
 .clickable:active, button:active {
 	background-color: darkblue;
 }
+
+/* Colors */
+
+button.danger:hover {
+	background-color: red;
+}
+
+button.danger:active {
+	background-color: darkred;
+}

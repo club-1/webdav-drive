@@ -61,7 +61,11 @@
 	}
 
 	function deleteSelected() {
-		if (!confirm("Are you sure you want to delete these files?")) {
+		let n = checked.length;
+		if (n == 0) {
+			return alert("The selection is empty.");
+		}
+		if (!confirm(`Are you sure you want to delete ${n} files?`)) {
 			return;
 		}
 		let deleted: Promise<any>[] = [];
@@ -162,7 +166,7 @@
 {#if !message}
 	<button on:click={newFile}>New file</button>
 	<button on:click={newDir}>New directory</button>
-	<button on:click={deleteSelected}>Delete selected</button>
+	<button on:click={deleteSelected} class="danger">Delete selected</button>
 	<Upload {fs} {path} onUploadSuccess={fileListUpdateIncr} />
 {:else}
 	<p class="error">{message}</p>
