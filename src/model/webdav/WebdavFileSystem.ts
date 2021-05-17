@@ -43,7 +43,6 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 
 	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (e: Progress) => void): Promise<boolean> {
 		return this.client.putFileContents(this.root + path, data, {
-			// @ts-ignore TODO: remove when https://github.com/perry-mitchell/webdav-client/pull/263 is merged
 			onUploadProgress: progressHandler,
 		});
 	}
