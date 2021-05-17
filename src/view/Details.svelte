@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { File } from "../model/Files";
 	import { basename } from "../utils";
+	import Properties from "./Properties.svelte";
 
 	export let file: File | null = null;
 
@@ -9,14 +10,10 @@
 	}
 </script>
 
-{#if file }
-	<h3>{basename(file.basename)}</h3>
-	<pre>{JSON.stringify(file, undefined, 4)}</pre>
-	<button on:click={closeFile}>Close</button>
+{#if file}
+	<div class="bordered">
+		<h3>{basename(file.basename)}</h3>
+		<Properties object={file} />
+		<button on:click={closeFile}>Close</button>
+	</div>
 {/if}
-
-<style>
-	pre {
-		overflow: auto;
-	}
-</style>
