@@ -135,7 +135,7 @@
 						/>
 					</td>
 					<td class="icon">
-						{file instanceof Directory ? "📁" : "📄"}
+						{file.getIconChar()}
 					</td>
 					<td class="name">
 						{file.basename}
