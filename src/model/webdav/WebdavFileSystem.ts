@@ -21,7 +21,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 			throw new Error("Not a directory.");
 		}
 		let res = await this.client.getDirectoryContents(this.root + path, { details: true });
-		let files = extractData(res).map((stat) => createEntry(stat, this.root));
+		let files = extractData(res).map((stat) => this.createEntry(stat));
 		return this.sortFiles(files, orderBy, direction);
 	}
 
@@ -58,6 +58,30 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	deleteFile(path: string): Promise<void> {
 		return this.client.deleteFile(this.root + path);
 	}
+
+	createEntry(stat: FileStat): Entry {
+		if (stat.type == "directory") {
+			return new Directory(
+				this.directoryProps,
+				stat.filename.substring(this.rootLength()),
+				stat.basename,
+				new Date(stat.lastmod),
+				stat.etag,
+			);
+		} else {
+			return new File(
+				this.fileProps,
+				stat.filename.substring(this.rootLength()),
+				stat.basename,
+				new Date(stat.lastmod),
+				stat.etag,
+				stat.size,
+				stat.mime!
+			);
+		}
+	}
+
+	protected rootLength(): number { return this.root.length }
 }
 
 /**
@@ -75,24 +99,4 @@ function extractData<T>(res: T | ResponseDataDetailed<T>): T {
 /** Check if res is detailed response. */
 function isDetailedData(res: any | ResponseDataDetailed<any>): res is ResponseDataDetailed<any> {
 	return (res as ResponseDataDetailed<any>).data !== undefined;
-}
-
-function createEntry(stat: FileStat, root: string = ""): Entry {
-	if (stat.type == "directory") {
-		return new Directory(
-			stat.filename.substring(root.length),
-			stat.basename,
-			new Date(stat.lastmod),
-			stat.etag,
-		);
-	} else {
-		return new File(
-			stat.filename.substring(root.length),
-			stat.basename,
-			new Date(stat.lastmod),
-			stat.etag,
-			stat.size,
-			stat.mime!
-		);
-	}
 }

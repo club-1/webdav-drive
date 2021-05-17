@@ -1,4 +1,5 @@
-import type { Entry } from "./Files";
+import { Core } from "./Core";
+import type { Entry, PropertyGenMap } from "./Files";
 import type { Progress } from "./Upload";
 
 export type Column = "basename" | "lastmod";
@@ -60,6 +61,14 @@ export interface FileSystem {
 }
 
 export abstract class FileSystemBase {
+	protected directoryProps: PropertyGenMap;
+	protected fileProps: PropertyGenMap;
+
+	constructor() {
+		this.directoryProps = Core.getDirectoryProps()
+		this.fileProps = Core.getFileProps();
+	}
+
 
 	protected compareStrings(a: string, b: string) {
 		var nameA = a.toUpperCase(); // ignore upper and lowercase

@@ -1,12 +1,14 @@
 <script lang="ts">
-	export let object: Object;
+	import type { Listable } from "../model/Generics";
+
+	export let object: Listable;
 </script>
 
 <table>
-	{#each Object.entries(object) as prop}
+	{#each [...object.list()] as [key, value]}
 		<tr>
-			<td><code>{prop[0]}</code></td>
-			<td><code>{prop[1]}</code></td>
+			<td><code>{key}</code></td>
+			<td><code>{value}</code></td>
 		</tr>
 	{/each}
 </table>
