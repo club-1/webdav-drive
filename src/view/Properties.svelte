@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Listable } from "../model/Generics";
+	import type { Listable } from "../main/Generics";
 
 	export let object: Listable;
 </script>

@@ -1,5 +1,5 @@
-import { Core } from "./Core";
-import type { Entry, PropertyGenMap } from "./Files";
+import { Core } from "../main/Core";
+import type { Entry, PropertyMap } from "./Files";
 import type { Progress } from "./Upload";
 
 export type Column = "basename" | "lastmod";
@@ -61,8 +61,8 @@ export interface FileSystem {
 }
 
 export abstract class FileSystemBase {
-	protected directoryProps: PropertyGenMap;
-	protected fileProps: PropertyGenMap;
+	protected directoryProps: PropertyMap;
+	protected fileProps: PropertyMap;
 
 	constructor() {
 		this.directoryProps = Core.getDirectoryProps()

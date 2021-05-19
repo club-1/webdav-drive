@@ -1,7 +1,7 @@
 export interface Listable {
 	/**
 	 * List all the properties of this object.
-	 * @returns a map of string properties.
+	 * @returns a map of properties.
 	 */
-	list(): Map<string, string>;
+	list(): Map<string, any>;
 }

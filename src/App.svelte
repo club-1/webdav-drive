@@ -4,7 +4,7 @@
 	import Login from "./view/Login.svelte";
 	import Details from "./view/Details.svelte";
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
-	import type { Config } from "./model/Config";
+	import type { Config } from "./main/Config";
 	import type { File } from "./model/Files";
 
 	export let provider: FileSystemProvider;

@@ -13,10 +13,10 @@ WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV 
     npm install
     ```
 
-2. Copy the sample config file into `config.json` then edit it:
+2. Copy the sample config file into `config.ts` then edit it:
 
     ```bash
-    cp config.sample.json config.json
+    cp config.sample.ts config.ts
     ```
 
 ### Production instructions
