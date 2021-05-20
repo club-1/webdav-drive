@@ -5,3 +5,7 @@ export interface Listable {
 	 */
 	list(): Map<string, any>;
 }
+
+export type Property<T, U> = {
+	read: (data: T) => U,
+};

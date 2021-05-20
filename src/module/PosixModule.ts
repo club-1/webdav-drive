@@ -3,7 +3,7 @@ import { Directory } from "../model/Files";
 
 export class PosixModule implements Module {
 	init(core: Core) {
-		core.registerEntryProp("type", {
+		core.registerInodeProperty("type", {
 			read: (e) => {
 				return e instanceof Directory ? "directory" : "file";
 			},

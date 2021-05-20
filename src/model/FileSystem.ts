@@ -1,5 +1,5 @@
 import { Core } from "../main/Core";
-import type { Entry, PropertyMap } from "./Files";
+import type { Inode, InodeProperties } from "./Files";
 import type { Progress } from "./Upload";
 
 export type Column = "basename" | "lastmod";
@@ -15,7 +15,7 @@ export interface FileSystem {
 	 * @param path the path of the directory.
 	 * @returns a list of entries.
 	 */
-	listFiles(path: string, orderby?: Column, direction?: Direction): Promise<Entry[]>;
+	listFiles(path: string, orderby?: Column, direction?: Direction): Promise<Inode[]>;
 
 	/**
 	 * Get the download link of a file.
@@ -61,8 +61,8 @@ export interface FileSystem {
 }
 
 export abstract class FileSystemBase {
-	protected directoryProps: PropertyMap;
-	protected fileProps: PropertyMap;
+	protected directoryProps: InodeProperties;
+	protected fileProps: InodeProperties;
 
 	constructor() {
 		this.directoryProps = Core.getDirectoryProps()
@@ -83,7 +83,7 @@ export abstract class FileSystemBase {
 		return 0;
 	}
 
-	sortFiles(files: Entry[], orderBy: Column, direction: Direction): Entry[] {
+	sortFiles(files: Inode[], orderBy: Column, direction: Direction): Inode[] {
 		switch (orderBy) {
 			case "basename":
 				if (direction == "ASC") {

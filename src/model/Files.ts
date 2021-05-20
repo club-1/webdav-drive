@@ -1,16 +1,13 @@
-import type { Listable } from "../main/Generics";
+import type { Listable, Property } from "../main/Generics";
 
-export type Property<T, U> = {
-	read: (e: T) => U,
-};
-export type EntryProperty<T> = Property<Entry, T>;
+export type InodeProperty<T> = Property<Inode, T>;
 export type FileProperty<T> = Property<File, T>;
 
-export type PropertyMap = Map<string, EntryProperty<any>>;
+export type InodeProperties = Map<string, InodeProperty<any>>;
 
-export abstract class Entry implements Listable {
+export abstract class Inode implements Listable {
 	constructor(
-		protected properties: PropertyMap,
+		protected properties: InodeProperties,
 		public path: string,
 		public basename: string,
 		public lastmod: Date,
@@ -27,23 +24,23 @@ export abstract class Entry implements Listable {
 	}
 
 	/**
-	 * Check if an entry is hidden.
-	 * @returns true if the entry is hidden.
+	 * Check if an inode is hidden.
+	 * @returns true if the inode is hidden.
 	 */
 	isHidden(): boolean {
 		return this.basename.startsWith(".");
 	}
 
 	/**
-	 * Get the icon's emoji of an entry.
-	 * @returns the icon's emoji of this entry.
+	 * Get the icon's emoji of an inode.
+	 * @returns the icon's emoji of this inode.
 	 */
 	abstract getIconChar(): string;
 }
 
-export class File extends Entry {
+export class File extends Inode {
 	constructor(
-		properties: PropertyMap,
+		properties: InodeProperties,
 		path: string,
 		basename: string,
 		lastmod: Date,
@@ -67,7 +64,7 @@ export class File extends Entry {
 	}
 }
 
-export class Directory extends Entry {
+export class Directory extends Inode {
 	getIconChar(): string {
 		return "📁";
 	}

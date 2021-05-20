@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { FileSystem } from "../model/FileSystem";
-	import { Directory, Entry, File } from "../model/Files";
+	import { Directory, Inode, File } from "../model/Files";
 	import { fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { hrsize, isAncestor, parent } from "../utils";
 	import Breadcrumbs from "./Breadcrumbs.svelte";
@@ -10,15 +10,15 @@
 	export let onFileClick: (f: File) => any;
 
 	let path = "/";
-	let files: Entry[] = [];
+	let files: Inode[] = [];
 	let message: string | undefined = "Loading";
-	let checked: Entry[] = [];
+	let checked: Inode[] = [];
 
 	$: document.title = path;
 	$: window.location.href = `#${escape(path)}`;
 	$: listFiles(path);
 	$: $fileListUpdate && listFiles(path);
-	$: checked = files.filter((entry) => entry.checked);
+	$: checked = files.filter((inode) => inode.checked);
 
 	window.addEventListener("hashchange", (e: HashChangeEvent) => {
 		let newPath = "";
@@ -75,11 +75,11 @@
 		Promise.allSettled(deleted).then(fileListUpdateIncr);
 	}
 
-	function onEntryClick(entry: Entry) {
-		if (entry instanceof Directory) {
-			changeDir(entry.path + "/");
+	function onInodeClick(inode: Inode) {
+		if (inode instanceof Directory) {
+			changeDir(inode.path + "/");
 		} else {
-			onFileClick(entry as File);
+			onFileClick(inode as File);
 		}
 	}
 
@@ -126,7 +126,7 @@
 				<tr
 					class="clickable"
 					class:directory={file instanceof Directory}
-					on:click={() => onEntryClick(file)}
+					on:click={() => onInodeClick(file)}
 				>
 					<td class="checkbox">
 						<input

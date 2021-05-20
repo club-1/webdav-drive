@@ -1,29 +1,29 @@
-import type { FileProperty, EntryProperty, PropertyMap as EntryProperties } from "../model/Files";
+import type { FileProperty, InodeProperty, InodeProperties } from "../model/Files";
 
 export interface Module {
 	init(core: Core): void;
 }
 
 export class Core {
-	protected static directoryProps: EntryProperties = new Map();
-	protected static fileProps: EntryProperties = new Map();
+	protected static directoryProps: InodeProperties = new Map();
+	protected static fileProps: InodeProperties = new Map();
 
-	public static getDirectoryProps(): EntryProperties {
+	public static getDirectoryProps(): InodeProperties {
 		return Core.directoryProps;
 	}
 
-	public static getFileProps(): EntryProperties {
+	public static getFileProps(): InodeProperties {
 		return Core.fileProps;
 	}
 
-	registerEntryProp(key: string, prop: EntryProperty<any>) {
+	registerInodeProperty(key: string, prop: InodeProperty<any>) {
 		Core.directoryProps.set(key, prop);
 		Core.fileProps.set(key, prop);
 
 	}
 
-	registerFileProp(key: string, prop: FileProperty<any>) {
-		Core.fileProps.set(key, prop as EntryProperty<any>);
+	registerFileProperty(key: string, prop: FileProperty<any>) {
+		Core.fileProps.set(key, prop as InodeProperty<any>);
 	}
 
 }

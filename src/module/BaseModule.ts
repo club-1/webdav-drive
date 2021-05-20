@@ -1,9 +1,9 @@
 import type { Core, Module } from "../main/Core";
-import type { EntryProperty } from "../model/Files";
+import type { InodeProperty } from "../model/Files";
 
 export class BaseModule implements Module {
 	init(core: Core) {
-		let baseProps: Record<string, EntryProperty<any>> = {
+		let baseProps: Record<string, InodeProperty<any>> = {
 			path: {
 				read: (e) => e.path,
 			},
@@ -21,12 +21,12 @@ export class BaseModule implements Module {
 			},
 		}
 		for (const [key, prop] of Object.entries(baseProps)) {
-			core.registerEntryProp(key, prop);
+			core.registerInodeProperty(key, prop);
 		}
-		core.registerFileProp("size", {
+		core.registerFileProperty("size", {
 			read: (f) => f.size,
 		});
-		core.registerFileProp("mime", {
+		core.registerFileProperty("mime", {
 			read: (f) => f.mime,
 		});
 	}

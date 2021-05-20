@@ -1,7 +1,7 @@
 import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav/web";
 import { ab2str } from "../../utils";
 import { Column, Direction, FileSystem, FileSystemBase } from "../FileSystem";
-import { Entry, File, Directory } from "../Files";
+import { Inode, File, Directory } from "../Files";
 import type { Progress } from "../Upload";
 
 export class WebdavFileSystem extends FileSystemBase implements FileSystem {
@@ -16,12 +16,12 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		return this.root;
 	}
 
-	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Entry[]> {
+	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Inode[]> {
 		if (path.charAt(path.length - 1) != "/") {
 			throw new Error("Not a directory.");
 		}
 		let res = await this.client.getDirectoryContents(this.root + path, { details: true });
-		let files = extractData(res).map((stat) => this.createEntry(stat));
+		let files = extractData(res).map((stat) => this.createInode(stat));
 		return this.sortFiles(files, orderBy, direction);
 	}
 
@@ -59,7 +59,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		return this.client.deleteFile(this.root + path);
 	}
 
-	createEntry(stat: FileStat): Entry {
+	createInode(stat: FileStat): Inode {
 		if (stat.type == "directory") {
 			return new Directory(
 				this.directoryProps,
