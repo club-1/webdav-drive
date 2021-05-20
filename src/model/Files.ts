@@ -8,6 +8,7 @@ export type InodeProperties = Map<string, InodeProperty<any>>;
 export abstract class Inode implements Listable {
 	constructor(
 		protected properties: InodeProperties,
+		public raw: object,
 		public path: string,
 		public basename: string,
 		public lastmod: Date,
@@ -41,6 +42,7 @@ export abstract class Inode implements Listable {
 export class File extends Inode {
 	constructor(
 		properties: InodeProperties,
+		raw: object,
 		path: string,
 		basename: string,
 		lastmod: Date,
@@ -49,7 +51,7 @@ export class File extends Inode {
 		public mime: string,
 		checked: boolean = false,
 	) {
-		super(properties, path, basename, lastmod, etag, checked);
+		super(properties, raw, path, basename, lastmod, etag, checked);
 	}
 
 	getIconChar(): string {

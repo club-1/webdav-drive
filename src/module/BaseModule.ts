@@ -5,29 +5,29 @@ export class BaseModule implements Module {
 	init(core: Core) {
 		let baseProps: Record<string, InodeProperty<any>> = {
 			path: {
-				read: (e) => e.path,
+				read: (i): string => i.path,
 			},
 			basename: {
-				read: (e) => e.basename,
+				read: (i): string => i.basename,
 			},
 			lastmod: {
-				read: (e) => e.lastmod,
+				read: (i): Date => i.lastmod,
 			},
 			etag: {
-				read: (e) => e.etag,
+				read: (i): string | null => i.etag,
 			},
 			checked: {
-				read: (e) => e.checked,
+				read: (i): boolean => i.checked,
 			},
 		}
 		for (const [key, prop] of Object.entries(baseProps)) {
 			core.registerInodeProperty(key, prop);
 		}
 		core.registerFileProperty("size", {
-			read: (f) => f.size,
+			read: (f): number => f.size,
 		});
 		core.registerFileProperty("mime", {
-			read: (f) => f.mime,
+			read: (f): string => f.mime,
 		});
 	}
 }

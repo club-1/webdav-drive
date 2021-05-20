@@ -41,7 +41,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		}
 	}
 
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (e: Progress) => void): Promise<boolean> {
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => any): Promise<boolean> {
 		return this.client.putFileContents(this.root + path, data, {
 			onUploadProgress: progressHandler,
 		});
@@ -63,6 +63,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		if (stat.type == "directory") {
 			return new Directory(
 				this.directoryProps,
+				stat.props || {},
 				stat.filename.substring(this.rootLength()),
 				stat.basename,
 				new Date(stat.lastmod),
@@ -71,6 +72,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		} else {
 			return new File(
 				this.fileProps,
+				stat.props || {},
 				stat.filename.substring(this.rootLength()),
 				stat.basename,
 				new Date(stat.lastmod),

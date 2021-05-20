@@ -35,9 +35,10 @@ export interface FileSystem {
 	 * Write data to a file.
 	 * @param path the path of the file.
 	 * @param data the data to write.
+	 * @param progressHandler callback for progress updates.
 	 * @returns success.
 	 */
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (e: Progress) => void): Promise<boolean>;
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => any): Promise<boolean>;
 
 	/**
 	 * Create a new directory.
