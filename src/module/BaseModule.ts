@@ -16,9 +16,6 @@ export class BaseModule implements Module {
 			etag: {
 				read: (i): string | null => i.etag,
 			},
-			checked: {
-				read: (i): boolean => i.checked,
-			},
 		}
 		for (const [key, prop] of Object.entries(baseProps)) {
 			core.registerInodeProperty(key, prop);

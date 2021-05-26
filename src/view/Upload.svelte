@@ -1,17 +1,11 @@
 <script lang="ts">
 	import {
 		Button,
-		Column,
-		FileUploader,
 		FileUploaderButton,
 		Form,
 		FormGroup,
 		Grid,
 		Row,
-		StructuredList,
-		StructuredListBody,
-		StructuredListCell,
-		StructuredListRow,
 		Tile,
 	} from "carbon-components-svelte";
 
@@ -29,7 +23,7 @@
 
 	$: files = ref ? ref.files : null;
 
-	async function submitHandler(e: Event) {
+	async function submitHandler() {
 		if (files == null) {
 			return;
 		}
