@@ -52,7 +52,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	}
 
 	async createFile(path: string): Promise<boolean> {
-		return this.putFileContent(this.root + path, "");
+		return this.putFileContent(path, "");
 	}
 
 	deleteFile(path: string): Promise<void> {

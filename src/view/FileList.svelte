@@ -2,32 +2,33 @@
 	import type { FileSystem } from "../model/FileSystem";
 	import { Directory, Inode, File } from "../model/Files";
 	import { fileListUpdate, fileListUpdateIncr } from "../stores";
-	import { hrsize, isAncestor, parent } from "../utils";
-	import Breadcrumbs from "./Breadcrumbs.svelte";
+	import { files2table } from "../model/FileUtils";
 	import Upload from "./Upload.svelte";
+	import {
+		DataTable,
+		Toolbar,
+		ToolbarContent,
+		ToolbarBatchActions,
+		Button,
+		Link,
+		ButtonSet,
+	} from "carbon-components-svelte";
 
 	export let fs: FileSystem;
 	export let onFileClick: (f: File) => any;
+	export let path = "/";
 
-	let path = "/";
 	let files: Inode[] = [];
 	let message: string | undefined = "Loading";
 	let checked: Inode[] = [];
+	let selectedRowIds: string[] = [];
 
-	$: document.title = path;
-	$: window.location.href = `#${escape(path)}`;
 	$: listFiles(path);
 	$: $fileListUpdate && listFiles(path);
-	$: checked = files.filter((inode) => inode.checked);
-
-	window.addEventListener("hashchange", (e: HashChangeEvent) => {
-		let newPath = "";
-		let matches = e.newURL.match(/#(.*)$/);
-		if (matches != null) {
-			newPath = unescape(matches[1]);
-		}
-		if (path != newPath) path = newPath;
-	});
+	$: checked = files.filter((inode) =>
+		selectedRowIds.includes(inode.basename)
+	);
+	$: tableData = files2table(files);
 
 	function listFiles(path: string) {
 		fs.listFiles(path)
@@ -72,126 +73,62 @@
 		while (checked.length > 0) {
 			deleted.push(fs.deleteFile(checked.pop()!.path));
 		}
+		selectedRowIds = [];
 		Promise.allSettled(deleted).then(fileListUpdateIncr);
 	}
 
-	function onInodeClick(inode: Inode) {
+	function onRowClick(e: CustomEvent, inode: Inode) {
+		// @ts-ignore: this is a fix to not trigger the event on checkbox click.
+		let target: HTMLElement = e.explicitOriginalTarget;
+		if (
+			target instanceof HTMLLabelElement ||
+			target.className == "bx--table-column-checkbox"
+		) {
+			return false;
+		}
 		if (inode instanceof Directory) {
 			changeDir(inode.path + "/");
 		} else {
 			onFileClick(inode as File);
 		}
 	}
-
-	function checkAll(e: MouseEvent) {
-		files = files.map((f) => {
-			f.checked = (e.target as HTMLInputElement).checked;
-			return f;
-		});
-	}
 </script>
 
-{#key path}
-	<Breadcrumbs {path} onBreadcrumbClick={changeDir} />
-{/key}
-<table>
-	<tr>
-		<th scope="col">
-			<input type="checkbox" on:click={checkAll} />
-		</th>
-		<th scope="col" />
-		<th scope="col">Name</th>
-		<th scope="col">Last modified</th>
-		<th scope="col">Size</th>
-		<th scope="col" />
-	</tr>
-	{#if isAncestor("/", path)}
-		<tr
-			class="clickable directory"
-			on:click={() => changeDir(parent(path))}
-		>
-			<td class="checkbox" />
-			<td class="icon">🔙</td>
-			<td class="name">..</td>
-			<td class="lastmod" />
-			<td class="size" />
-			<td class="action" />
-		</tr>
-	{:else}
-		<tr><td /><td /><td>.</td><td /><td /><td /></tr>
-	{/if}
-	{#if !message}
-		{#each files as file}
-			{#if !file.isHidden()}
-				<tr
-					class="clickable"
-					class:directory={file instanceof Directory}
-					on:click={() => onInodeClick(file)}
-				>
-					<td class="checkbox">
-						<input
-							type="checkbox"
-							bind:checked={file.checked}
-							on:click|stopPropagation
-						/>
-					</td>
-					<td class="icon">
-						{file.getIconChar()}
-					</td>
-					<td class="name">
-						{file.basename}
-					</td>
-					<td class="lastmod">
-						{file.lastmod.toLocaleString()}
-					</td>
-					<td class="size">
-						{#if file instanceof File}
-							{hrsize(file.size)}
-						{/if}
-					</td>
-					<td class="action">
-						{#if file instanceof File}
-							<a
-								href={fs.getFileDownloadLink(file.path)}
-								target="_blank"
-								on:click|stopPropagation>⬇️</a
-							>
-						{/if}
-					</td>
-				</tr>
-			{/if}
-		{/each}
-	{/if}
-</table>
 {#if !message}
-	<button on:click={newFile}>New file</button>
-	<button on:click={newDir}>New directory</button>
-	<button on:click={deleteSelected} class="danger">Delete selected</button>
+	<DataTable
+		batchSelection
+		sortable
+		bind:selectedRowIds
+		{...tableData}
+		size="short"
+		style="width: 100%"
+		on:click:row={(e) => onRowClick(e, e.detail.inode)}
+	>
+		<Toolbar size="sm">
+			<ToolbarBatchActions>
+				<Button on:click={deleteSelected}>Delete</Button>
+			</ToolbarBatchActions>
+			<ToolbarContent>
+				<Button on:click={newFile}>New file</Button>
+				<Button on:click={newDir}>New directory</Button>
+			</ToolbarContent>
+		</Toolbar>
+		<div slot="cell" let:cell>
+			{#if cell.key === "name" && cell.value instanceof File}
+				{cell.value.getIconChar()}
+				<Link
+					inline
+					href={fs.getFileDownloadLink(cell.value.path)}
+					target="_blank"
+				>
+					{cell.value.basename}
+				</Link>
+			{:else}
+				{cell.display ? cell.display(cell.value) : cell.value}
+			{/if}
+		</div>
+	</DataTable>
 	<Upload {fs} {path} onUploadSuccess={fileListUpdateIncr} />
 {:else}
 	<p class="error">{message}</p>
 {/if}
-
-<style>
-	table {
-		width: 100%;
-		overflow-x: auto;
-		display: block;
-	}
-	td.name {
-		width: 100%; /** To make it grow */
-		max-width: 20vw;
-	}
-	td.lastmod {
-		max-width: 30vw;
-	}
-	td.checkbox,
-	td.icon,
-	td.action {
-		width: 25px;
-		text-align: center;
-	}
-	td.size {
-		text-align: right;
-	}
-</style>

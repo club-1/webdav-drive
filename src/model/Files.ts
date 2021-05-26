@@ -13,7 +13,6 @@ export abstract class Inode implements Listable {
 		public basename: string,
 		public lastmod: Date,
 		public etag: string | null,
-		public checked: boolean = false,
 	) { }
 
 	list(): Map<string, any> {
@@ -49,9 +48,8 @@ export class File extends Inode {
 		etag: string | null,
 		public size: number,
 		public mime: string,
-		checked: boolean = false,
 	) {
-		super(properties, raw, path, basename, lastmod, etag, checked);
+		super(properties, raw, path, basename, lastmod, etag);
 	}
 
 	getIconChar(): string {

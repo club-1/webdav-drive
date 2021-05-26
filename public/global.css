@@ -1,90 +1,12 @@
-/* Global CSS */
-
-* {
-	box-sizing: border-box;
-	font-family: sans-serif;
-}
-
-pre, code {
-	font-family: monospace;
-}
-
-html, body {
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	position: relative;
-}
-
-html {
-	padding: 0 2%;
-	overflow-y: scroll;
-}
-
-form {
-	max-width: 500px;
-	margin: 50px auto;
-}
-
-form > *, label > * {
-	display: block;
-	margin: 10px auto;
-	max-width: 100%;
-}
-
-label {
-	text-align: center;
-}
-
-.bordered, button, input:not([type=checkbox]) {
-	border: solid 1px grey;
-	border-radius: 10px;
-	padding: 10px;
-}
-
-button {
-	font-size: 0.9rem;
-	margin-top: 5px;
-	border-radius: 10px;
-	padding: 5px 10px;
-}
-
-table {
-	border-collapse: collapse;
-	overflow-x: auto;
-	display: block;
-}
-
-td, th {
-	padding: 3px 2px;
-}
-
-td {
-	border-top: solid 1px grey;
+td:not(.bx--table-column-checkbox), td a {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: clip;
-}
-
-/* Clickable elements */
-
-.clickable, button {
+	max-width: 30vw;
 	cursor: pointer;
 }
-.clickable:hover, button:hover {
-	color: white;
-	background-color: blue;
-}
-.clickable:active, button:active {
-	background-color: darkblue;
-}
 
-/* Colors */
-
-button.danger:hover {
-	background-color: red;
-}
-
-button.danger:active {
-	background-color: darkred;
+td a {
+	display: inline-block !important;
+	width: 100%;
 }

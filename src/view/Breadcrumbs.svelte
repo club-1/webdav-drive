@@ -1,33 +1,26 @@
 <script lang="ts">
+	import {
+		Breadcrumb,
+		BreadcrumbItem,
+	} from "carbon-components-svelte";
+
 	export let path: string;
-	export let onBreadcrumbClick: (path: string) => any;
-	let elements = [""] // initialise elements with root
+	let elements = [""]; // initialise elements with root
 	elements = elements.concat(path.split("/").filter((val) => val != ""));
 
-	function onClick(idx: number) {
-		let path =  elements.slice(0, idx + 1).join("/") + "/";
-		onBreadcrumbClick(path);
+	function href(idx: number) {
+		return "#" + elements.slice(0, idx + 1).join("/") + "/";
 	}
 </script>
 
-<div class="breadcrumbs">
+<Breadcrumb>
 	{#each elements as element, idx}
-		{#if idx > 0}
-			<span>❯</span>
-		{/if}
-		<p on:click={() => onClick(idx)} class="clickable bordered crumb">{element ? element : "Home"}</p>
+		<BreadcrumbItem
+			href={href(idx)}
+			class="clickable bordered crumb"
+			isCurrentPage={idx === elements.length - 1}
+		>
+			{element ? element : "Home"}
+		</BreadcrumbItem>
 	{/each}
-</div>
-
-<style>
-	.breadcrumbs {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-	}
-
-	p.crumb {
-		margin: 5px 2px;
-		padding: 4px 8px;
-	}
-</style>
+</Breadcrumb>

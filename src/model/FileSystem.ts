@@ -1,4 +1,5 @@
 import { Core } from "../main/Core";
+import { compareStrings } from "../utils";
 import type { Inode, InodeProperties } from "./Files";
 import type { Progress } from "./Upload";
 
@@ -70,27 +71,13 @@ export abstract class FileSystemBase {
 		this.fileProps = Core.getFileProps();
 	}
 
-
-	protected compareStrings(a: string, b: string) {
-		var nameA = a.toUpperCase(); // ignore upper and lowercase
-		var nameB = b.toUpperCase(); // ignore upper and lowercase
-		if (nameA < nameB) {
-			return -1;
-		}
-		if (nameA > nameB) {
-			return 1;
-		}
-		// names must be equal
-		return 0;
-	}
-
 	sortFiles(files: Inode[], orderBy: Column, direction: Direction): Inode[] {
 		switch (orderBy) {
 			case "basename":
 				if (direction == "ASC") {
-					return files.sort((a, b) => { return this.compareStrings(a.basename, b.basename) });
+					return files.sort((a, b) => { return compareStrings(a.basename, b.basename) });
 				} else {
-					return files.sort((a, b) => { return this.compareStrings(a.basename, b.basename) * -1 });
+					return files.sort((a, b) => { return compareStrings(a.basename, b.basename) * -1 });
 				}
 			case "lastmod":
 				if (direction == "ASC") {
