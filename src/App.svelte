@@ -16,6 +16,7 @@
 		HeaderGlobalAction,
 		HeaderUtilities,
 		Row,
+		SkipToContent,
 	} from "carbon-components-svelte";
 	import Moon20 from "carbon-icons-svelte/lib/Moon20";
 	import Sun20 from "carbon-icons-svelte/lib/Sun20";
@@ -65,6 +66,9 @@
 </svelte:head>
 
 <Header platformName={config.branding.site_name}>
+	<div slot="skip-to-content">
+		<SkipToContent />
+	</div>
 	<HeaderUtilities>
 		<HeaderGlobalAction
 			aria-label="Theme"
@@ -82,12 +86,14 @@
 			</Row>
 		{:else}
 			<Row>
-				<Column>
-					{#key path}
-						<Breadcrumbs bind:path />
-					{/key}
-				</Column>
+				{#key path}
+					<Breadcrumbs bind:path />
+				{/key}
+			</Row>
+			<Row>
 				<FileList {fs} {onFileClick} bind:path />
+			</Row>
+			<Row>
 				<Details {file} />
 			</Row>
 			<Row>

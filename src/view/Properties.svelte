@@ -4,7 +4,7 @@
 	export let object: Listable;
 </script>
 
-<table>
+<table class="raw">
 	{#each [...object.list()] as [key, value]}
 		<tr>
 			<td><code>{key}</code></td>

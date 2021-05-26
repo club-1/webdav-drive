@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Button, Tile } from "carbon-components-svelte";
 	import type { File } from "../model/Files";
 	import { basename } from "../utils";
 	import Properties from "./Properties.svelte";
@@ -11,9 +12,9 @@
 </script>
 
 {#if file}
-	<div class="bordered">
+	<Tile>
 		<h3>{basename(file.basename)}</h3>
 		<Properties object={file} />
-		<button on:click={closeFile}>Close</button>
-	</div>
+		<Button on:click={closeFile}>Close</Button>
+	</Tile>
 {/if}

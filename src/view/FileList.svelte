@@ -12,6 +12,8 @@
 		Button,
 		Link,
 		ButtonSet,
+		Row as Column,
+Row,
 	} from "carbon-components-svelte";
 
 	export let fs: FileSystem;

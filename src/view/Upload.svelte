@@ -1,4 +1,20 @@
 <script lang="ts">
+	import {
+		Button,
+		Column,
+		FileUploader,
+		FileUploaderButton,
+		Form,
+		FormGroup,
+		Grid,
+		Row,
+		StructuredList,
+		StructuredListBody,
+		StructuredListCell,
+		StructuredListRow,
+		Tile,
+	} from "carbon-components-svelte";
+
 	import type { FileSystem } from "../model/FileSystem";
 	import type { Progress } from "../model/Upload";
 	import { FileUpload } from "../model/Upload";
@@ -7,11 +23,13 @@
 	export let path: string;
 	export let onUploadSuccess: () => void;
 
-	let form: HTMLFormElement;
-	let files: FileList | null = null;
+	let labelText="Browse";
+	let ref: HTMLInputElement;
 	let uploads: FileUpload[] = [];
 
-	async function submitHandler() {
+	$: files = ref ? ref.files : null;
+
+	async function submitHandler(e: Event) {
 		if (files == null) {
 			return;
 		}
@@ -28,51 +46,42 @@
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}
 		uploads = uploads;
-		form.reset();
+		ref = ref;
 		files = null;
+		labelText = "Browse";
+		ref.form!.reset();
 	}
 </script>
 
-<form
-	bind:this={form}
-	on:submit|preventDefault={submitHandler}
-	class="bordered"
->
-	<label>
-		Upload files
-		<input type="file" name="file" bind:files multiple />
-	</label>
-	<table>
-		{#each uploads as u}
-			<tr>
-				<td class="name">{u.file.name}</td>
-				<td>
-					{#if u.progress}
-						<progress
-							max={u.progress.total}
-							value={u.progress.loaded}
-						>
-							{(u.progress.loaded / u.progress.total) * 100}%
-						</progress>
-					{:else}
-						<progress />
-					{/if}
-				</td>
-			</tr>
-		{/each}
-	</table>
-	<button type="submit">Upload</button>
-</form>
-
-<style>
-	progress {
-		max-width: 30vw;
-	}
-	td {
-		border: none;
-	}
-	td.name {
-		width: 100%;
-		max-width: 0;
-	}
-</style>
+<Grid>
+	<Row>
+		<Tile>
+			<Form>
+				<FormGroup legendText="Upload files">
+					<FileUploaderButton multiple bind:labelText bind:ref />
+				</FormGroup>
+				<Button type="submit" on:click={submitHandler}>Upload</Button>
+			</Form>
+			<table class="raw">
+				{#each uploads as u}
+					<tr>
+						<td class="name">{u.file.name}</td>
+						<td>
+							{#if u.progress}
+								<progress
+									max={u.progress.total}
+									value={u.progress.loaded}
+								>
+									{(u.progress.loaded / u.progress.total) *
+										100}%
+								</progress>
+							{:else}
+								<progress />
+							{/if}
+						</td>
+					</tr>
+				{/each}
+			</table>
+		</Tile>
+	</Row>
+</Grid>
