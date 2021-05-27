@@ -81,6 +81,7 @@
 		let target: HTMLElement = e.explicitOriginalTarget;
 		if (
 			target instanceof HTMLLabelElement ||
+			target instanceof HTMLAnchorElement ||
 			target.className == "bx--table-column-checkbox"
 		) {
 			return false;
