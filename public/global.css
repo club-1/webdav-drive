@@ -1,19 +1,31 @@
 /* DataTable customizations */
 
-td:not(.bx--table-column-checkbox), td a {
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: clip;
+div.file-table td {
 	max-width: 30vw;
+	padding-right: 2px;
 }
 
-.clickable-table td {
+div.file-table-cell {
+	display: flex;
+	white-space: nowrap;
+}
+
+div.file-table-cell *:not(span.file-icon) {
+	text-overflow: ellipsis;
+	overflow: clip;
+	min-width: 0;
+}
+
+span.file-icon {
+	margin-right: 5px;
+}
+
+.file-table td {
 	cursor: pointer;
 }
 
 td a {
-	display: inline-block !important;
-	max-width: 100%;
+	display: block !important;
 }
 
 /* Raw table display */
@@ -21,11 +33,17 @@ td a {
 table.raw {
 	margin-top: 10px;
 	color: var(--cds-text-02);
+	overflow-x: auto;
+	display: block;
 }
 
 table.raw td {
 	padding: 5px;
 	border-top: solid 1px var(--cds-active-01);
+	text-overflow: ellipsis;
+	overflow: clip;
+	white-space: nowrap;
+	max-width: 50vw;
 }
 
 /* Breadcrumbs customizations */

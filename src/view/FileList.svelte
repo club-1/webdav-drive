@@ -100,7 +100,7 @@
 		bind:selectedRowIds
 		{...tableData}
 		size="short"
-		class="clickable-table"
+		class="file-table"
 		style="width: 100%"
 		on:click:row={(e) => onRowClick(e, e.detail.inode)}
 	>
@@ -113,18 +113,28 @@
 				<Button on:click={newDir}>New directory</Button>
 			</ToolbarContent>
 		</Toolbar>
-		<div slot="cell" let:cell>
-			{#if cell.key === "name" && cell.value instanceof File}
-				{cell.value.getIconChar()}
-				<Link
-					inline
-					href={fs.getFileDownloadLink(cell.value.path)}
-					target="_blank"
-				>
-					{cell.value.basename}
-				</Link>
+		<div slot="cell" class="file-table-cell" let:cell>
+			{#if cell.key === "name"}
+				<span class="file-icon">
+					{cell.value.getIconChar()}
+				</span>
+				{#if cell.value instanceof File}
+					<Link
+						inline
+						href={fs.getFileDownloadLink(cell.value.path)}
+						target="_blank"
+					>
+						{cell.value.basename}
+					</Link>
+				{:else}
+					<div>
+						{cell.value.basename}
+					</div>
+				{/if}
 			{:else}
-				{cell.display ? cell.display(cell.value) : cell.value}
+				<div>
+					{cell.display ? cell.display(cell.value) : cell.value}
+				</div>
 			{/if}
 		</div>
 	</DataTable>
