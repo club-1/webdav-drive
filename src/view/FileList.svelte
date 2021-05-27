@@ -100,6 +100,7 @@
 		bind:selectedRowIds
 		{...tableData}
 		size="short"
+		class="clickable-table"
 		style="width: 100%"
 		on:click:row={(e) => onRowClick(e, e.detail.inode)}
 	>

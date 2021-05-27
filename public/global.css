@@ -5,6 +5,9 @@ td:not(.bx--table-column-checkbox), td a {
 	white-space: nowrap;
 	overflow: clip;
 	max-width: 30vw;
+}
+
+.clickable-table td {
 	cursor: pointer;
 }
 
