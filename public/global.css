@@ -1,3 +1,5 @@
+/* DataTable customizations */
+
 td:not(.bx--table-column-checkbox), td a {
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -11,6 +13,8 @@ td a {
 	max-width: 100%;
 }
 
+/* Raw table display */
+
 table.raw {
 	margin-top: 10px;
 	color: var(--cds-text-02);
@@ -21,6 +25,22 @@ table.raw td {
 	border-top: solid 1px var(--cds-active-01);
 }
 
+/* Breadcrumbs customizations */
+
+nav[aria-label="Breadcrumb"] {
+	overflow: hidden;
+}
 ol.bx--breadcrumb {
 	display: flex !important;
+	flex-wrap: wrap;
+}
+
+.bx--breadcrumb-item {
+	overflow: hidden;
+}
+
+.bx--breadcrumb-item a {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
 }
