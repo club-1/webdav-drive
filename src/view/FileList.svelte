@@ -39,6 +39,7 @@
 	}
 
 	function changeDir(dir: string) {
+		selectedRowIds = [];
 		path = dir;
 	}
 
