@@ -44,6 +44,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => any): Promise<boolean> {
 		return this.client.putFileContents(this.root + path, data, {
 			onUploadProgress: progressHandler,
+			contentLength: false,
 		});
 	}
 

@@ -31,7 +31,7 @@
 		}
 		for (const file of files) {
 			let upload = new FileUpload(file);
-			uploads.push(upload);
+			uploads = [...uploads, upload];
 			let content = await file.arrayBuffer();
 			fs.putFileContent(path + file.name, content, (p: Progress) => {
 				upload.progress = p;
@@ -41,8 +41,6 @@
 				.catch((err) => alert(`${err} (${upload.file.name})`))
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}
-		uploads = uploads;
-		ref = ref;
 		files = null;
 		labelText = "Browse";
 		ref.form!.reset();
@@ -61,9 +59,9 @@
 						bind:ref
 					/>
 				</FormGroup>
-				<Button type="submit" bind:disabled on:click={submitHandler}
-					>Upload</Button
-				>
+				<Button type="submit" bind:disabled on:click={submitHandler}>
+					Upload
+				</Button>
 			</Form>
 			<table class="raw">
 				{#each uploads as u}
