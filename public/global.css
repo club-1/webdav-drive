@@ -49,7 +49,7 @@ table.raw td {
 /* Breadcrumbs customizations */
 
 nav[aria-label="Breadcrumb"] {
-	overflow: hidden;
+	width: 100%;
 }
 ol.bx--breadcrumb {
 	display: flex !important;
@@ -57,7 +57,7 @@ ol.bx--breadcrumb {
 }
 
 .bx--breadcrumb-item {
-	overflow: hidden;
+	min-width: 0;
 }
 
 .bx--breadcrumb-item a {
