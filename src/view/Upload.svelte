@@ -17,11 +17,13 @@
 	export let path: string;
 	export let onUploadSuccess: () => void;
 
-	let labelText="Browse";
+	let labelText = "Browse";
 	let ref: HTMLInputElement;
 	let uploads: FileUpload[] = [];
+	let files: FileList | null = null;
+	let disabled: boolean = true;
 
-	$: files = ref ? ref.files : null;
+	$: disabled = files === null || files.length === 0;
 
 	async function submitHandler() {
 		if (files == null) {
@@ -52,9 +54,16 @@
 		<Tile>
 			<Form>
 				<FormGroup legendText="Upload files">
-					<FileUploaderButton multiple bind:labelText bind:ref />
+					<FileUploaderButton
+						on:change={() => (files = ref.files)}
+						multiple
+						bind:labelText
+						bind:ref
+					/>
 				</FormGroup>
-				<Button type="submit" on:click={submitHandler}>Upload</Button>
+				<Button type="submit" bind:disabled on:click={submitHandler}
+					>Upload</Button
+				>
 			</Form>
 			<table class="raw">
 				{#each uploads as u}
