@@ -20,7 +20,7 @@ span.file-icon {
 	margin-right: 5px;
 }
 
-.file-table td {
+.file-table td:not(.bx--table-column-checkbox) {
 	cursor: pointer;
 }
 
