@@ -15,7 +15,6 @@
 		HeaderGlobalAction,
 		HeaderUtilities,
 		Row,
-		SkipToContent,
 	} from "carbon-components-svelte";
 	import Moon20 from "carbon-icons-svelte/lib/Moon20";
 	import Sun20 from "carbon-icons-svelte/lib/Sun20";
@@ -65,9 +64,6 @@
 </svelte:head>
 
 <Header platformName={config.branding.site_name}>
-	<div slot="skip-to-content">
-		<SkipToContent />
-	</div>
 	<HeaderUtilities>
 		<HeaderGlobalAction
 			aria-label="Theme"
