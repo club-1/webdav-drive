@@ -82,6 +82,7 @@
 		if (
 			target instanceof HTMLLabelElement ||
 			target instanceof HTMLAnchorElement ||
+			target instanceof HTMLInputElement ||
 			target.className == "bx--table-column-checkbox"
 		) {
 			return false;
