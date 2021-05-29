@@ -4,20 +4,24 @@
 	import Login from "./view/Login.svelte";
 	import Details from "./view/Details.svelte";
 	import Breadcrumbs from "./view/Breadcrumbs.svelte";
+	import Upload from "./view/Upload.svelte";
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
 	import type { Config } from "./main/Config";
 	import type { File } from "./model/Files";
 	import {
 		Button,
+		Column,
 		Content,
 		Grid,
 		Header,
 		HeaderGlobalAction,
 		HeaderUtilities,
 		Row,
+		Tile,
 	} from "carbon-components-svelte";
 	import Moon20 from "carbon-icons-svelte/lib/Moon20";
 	import Sun20 from "carbon-icons-svelte/lib/Sun20";
+	import { fileListUpdateIncr } from "./stores";
 
 	export let provider: FileSystemProvider;
 	export let config: Config;
@@ -81,18 +85,33 @@
 			</Row>
 		{:else}
 			<Row>
-				{#key path}
-					<Breadcrumbs bind:path />
-				{/key}
+				<Tile light>
+					{#key path}
+						<Breadcrumbs bind:path />
+					{/key}
+				</Tile>
 			</Row>
 			<Row>
-				<FileList {fs} {onFileClick} bind:path />
+				<Column lg={12}>
+					<FileList {fs} {onFileClick} bind:path />
+				</Column>
+				<Column>
+					<Upload
+						{fs}
+						bind:path
+						onUploadSuccess={fileListUpdateIncr}
+					/>
+				</Column>
 			</Row>
 			<Row>
-				<Details {file} />
+				<Column>
+					<Details {file} />
+				</Column>
 			</Row>
 			<Row>
-				<Button on:click={logout}>Log out</Button>
+				<Tile light>
+					<Button on:click={logout}>Log out</Button>
+				</Tile>
 			</Row>
 		{/if}
 	</Grid>

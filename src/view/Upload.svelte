@@ -7,11 +7,17 @@
 		Grid,
 		Row,
 		Tile,
+		StructuredList,
+		StructuredListHead,
+		StructuredListRow,
+		StructuredListCell,
+		StructuredListBody,
 	} from "carbon-components-svelte";
 
 	import type { FileSystem } from "../model/FileSystem";
 	import type { Progress } from "../model/Upload";
 	import { FileUpload } from "../model/Upload";
+	import Upload20 from "carbon-icons-svelte/lib/Upload20";
 
 	export let fs: FileSystem;
 	export let path: string;
@@ -47,42 +53,42 @@
 	}
 </script>
 
-<Grid>
-	<Row>
-		<Tile>
-			<Form>
-				<FormGroup legendText="Upload files">
-					<FileUploaderButton
-						on:change={() => (files = ref.files)}
-						multiple
-						bind:labelText
-						bind:ref
-					/>
-				</FormGroup>
-				<Button type="submit" bind:disabled on:click={submitHandler}>
-					Upload
-				</Button>
-			</Form>
-			<table class="raw">
-				{#each uploads as u}
-					<tr>
-						<td class="name">{u.file.name}</td>
-						<td>
-							{#if u.progress}
-								<progress
-									max={u.progress.total}
-									value={u.progress.loaded}
-								>
-									{(u.progress.loaded / u.progress.total) *
-										100}%
-								</progress>
-							{:else}
-								<progress />
-							{/if}
-						</td>
-					</tr>
-				{/each}
-			</table>
-		</Tile>
-	</Row>
-</Grid>
+<Tile>
+	<Form>
+		<FormGroup legendText="Upload files">
+			<FileUploaderButton
+				on:change={() => (files = ref.files)}
+				multiple
+				bind:labelText
+				bind:ref
+			/>
+		</FormGroup>
+		<Button
+			type="submit"
+			bind:disabled
+			on:click={submitHandler}
+			icon={Upload20}
+		>
+			Upload
+		</Button>
+	</Form>
+	<table class="raw">
+		{#each uploads as u}
+			<tr>
+				<td class="name">{u.file.name}</td>
+				<td>
+					{#if u.progress}
+						<progress
+							max={u.progress.total}
+							value={u.progress.loaded}
+						>
+							{(u.progress.loaded / u.progress.total) * 100}%
+						</progress>
+					{:else}
+						<progress />
+					{/if}
+				</td>
+			</tr>
+		{/each}
+	</table>
+</Tile>

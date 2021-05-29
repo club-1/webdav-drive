@@ -3,7 +3,6 @@
 	import { Directory, Inode, File } from "../model/Files";
 	import { fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { files2table } from "../model/FileUtils";
-	import Upload from "./Upload.svelte";
 	import {
 		DataTable,
 		Toolbar,
@@ -12,6 +11,8 @@
 		Button,
 		Link,
 	} from "carbon-components-svelte";
+	import Add20 from "carbon-icons-svelte/lib/Add20";
+	import Delete20 from "carbon-icons-svelte/lib/Delete20";
 
 	export let fs: FileSystem;
 	export let onFileClick: (f: File) => any;
@@ -54,7 +55,7 @@
 	}
 
 	async function newDir() {
-		let name = prompt("New file name");
+		let name = prompt("New folder name");
 		if (name != null) {
 			await fs.createDirectory(path + name);
 			fileListUpdateIncr();
@@ -107,13 +108,18 @@
 		style="width: 100%"
 		on:click:row={(e) => onRowClick(e, e.detail.inode)}
 	>
-		<Toolbar size="sm">
+		<Toolbar>
 			<ToolbarBatchActions>
-				<Button on:click={deleteSelected}>Delete</Button>
+				<Button
+					on:click={deleteSelected}
+					icon={Delete20}
+					kind="danger-ghost"
+				>
+					Delete
+				</Button>
 			</ToolbarBatchActions>
 			<ToolbarContent>
-				<Button on:click={newFile}>New file</Button>
-				<Button on:click={newDir}>New directory</Button>
+				<Button on:click={newDir} icon={Add20}>New folder</Button>
 			</ToolbarContent>
 		</Toolbar>
 		<div slot="cell" class="file-table-cell" let:cell>
@@ -141,7 +147,6 @@
 			{/if}
 		</div>
 	</DataTable>
-	<Upload {fs} {path} onUploadSuccess={fileListUpdateIncr} />
 {:else}
 	<p class="error">{message}</p>
 {/if}
