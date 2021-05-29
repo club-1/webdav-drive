@@ -77,7 +77,7 @@
 	</HeaderUtilities>
 </Header>
 
-<Content style="padding: 2%">
+<Content style="padding: 0px 2% 2rem">
 	<Grid>
 		{#if !logged}
 			<Row>
@@ -85,7 +85,7 @@
 			</Row>
 		{:else}
 			<Row>
-				<Tile light>
+				<Tile light style="min-height: auto">
 					{#key path}
 						<Breadcrumbs bind:path />
 					{/key}
