@@ -5,8 +5,17 @@ h1, h2, h3, h4, h5, label.bx--btn {
 }
 
 /* Headerbar customizations */
+
 .bx--header__name {
 	white-space: nowrap;
+}
+
+.bx--header .bx--inline-loading__text {
+	color: #c6c6c6;
+}
+
+.bx--header .bx--loading__background {
+	stroke: #393939;
 }
 
 /* DataTable customizations */
@@ -39,18 +48,24 @@ td a {
 	display: block !important;
 }
 
+@media (pointer: coarse) {
+	.bx--data-table--short thead tr, .bx--data-table--short tbody tr, .bx--data-table--short tbody tr th {
+		height: 2.5rem !important;
+	}
+}
+
 /* Raw table display */
 
 table.raw {
-	margin-top: 10px;
-	color: var(--cds-text-02);
+	margin-top: 1rem;
+	color: var(--cds-text-02, #525252);
 	overflow-x: auto;
 	display: block;
 }
 
 table.raw td {
-	padding: 5px;
-	border-top: solid 1px var(--cds-active-01);
+	padding: 0.5rem;
+	border-top: solid 1px var(--cds-ui-03, #e0e0e0);
 	text-overflow: ellipsis;
 	overflow: clip;
 	white-space: nowrap;

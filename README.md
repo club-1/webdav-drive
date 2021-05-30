@@ -36,5 +36,3 @@ Start the dev server using the following comand, then navigate to [localhost:500
 ```bash
 npm run dev
 ```
-
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
