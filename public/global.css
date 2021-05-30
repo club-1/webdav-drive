@@ -52,6 +52,10 @@ td a {
 	.bx--data-table--short thead tr, .bx--data-table--short tbody tr, .bx--data-table--short tbody tr th {
 		height: 2.5rem !important;
 	}
+
+	.bx--data-table--short.bx--data-table--sort th {
+		height: 2.5rem !important;
+	}
 }
 
 /* Raw table display */
