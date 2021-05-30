@@ -4,10 +4,6 @@
 	import { fileListUpdate, fileListUpdateIncr, loading } from "../stores";
 	import { files2table } from "../model/FileUtils";
 	import {
-		ComposedModal,
-		ModalBody,
-		ModalHeader,
-		ModalFooter,
 		DataTable,
 		Toolbar,
 		ToolbarContent,
@@ -16,6 +12,7 @@
 		Link,
 		TextInput,
 		Modal,
+		Form,
 	} from "carbon-components-svelte";
 	import Add20 from "carbon-icons-svelte/lib/Add20";
 	import Delete20 from "carbon-icons-svelte/lib/Delete20";
@@ -162,27 +159,30 @@
 	<p class="error">{message}</p>
 {/if}
 
-<ComposedModal
+<Modal
 	bind:open={newFolderModal}
+	size="xs"
+	modalHeading="Create new folder"
+	primaryButtonText="Create"
+	primaryButtonDisabled={!newFolder}
+	secondaryButtonText="Cancel"
+	on:click:button--secondary={() => (newFolderModal = false)}
 	on:submit={newDir}
 	on:close={() => (newFolder = "")}
 >
-	<ModalHeader title="New folder" />
-	<ModalBody hasForm>
+	<p>Enter a name for the new folder.</p>
+	<Form on:submit={newDir}>
 		<TextInput
-			labelText="Enter a name for the new folder"
+			labelText="Name"
 			bind:value={newFolder}
+			data-modal-primary-focus
 		/>
-	</ModalBody>
-	<ModalFooter
-		primaryButtonText="Create"
-		primaryButtonDisabled={!newFolder}
-		secondaryButtonText="Cancel"
-	/>
-</ComposedModal>
+	</Form>
+</Modal>
 
 <Modal
 	bind:open={deleteSelectedModal}
+	size="xs"
 	danger
 	modalHeading="Delete selected files"
 	primaryButtonText="Delete"

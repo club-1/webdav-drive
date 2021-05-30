@@ -22,7 +22,7 @@
 
 <Form on:submit={login}>
 	<FormGroup>
-		<TextInput bind:value={username} labelText="Username" type="text" />
+		<TextInput bind:value={username} labelText="Username" type="text" autofocus/>
 		<PasswordInput bind:value={password} labelText="Password" />
 	</FormGroup>
 	<Button type="submit">Log in</Button>
