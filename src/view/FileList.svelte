@@ -10,6 +10,7 @@
 		ToolbarBatchActions,
 		Button,
 		Link,
+		Loading,
 	} from "carbon-components-svelte";
 	import Add20 from "carbon-icons-svelte/lib/Add20";
 	import Delete20 from "carbon-icons-svelte/lib/Delete20";
@@ -19,7 +20,8 @@
 	export let path = "/";
 
 	let files: Inode[] = [];
-	let message: string | undefined = "Loading";
+	let response: Promise<Inode[]>;
+	let message: string | null = null;
 	let checked: Inode[] = [];
 	let selectedRowIds: string[] = [];
 
@@ -31,12 +33,16 @@
 	$: tableData = files2table(files);
 
 	function listFiles(path: string) {
-		fs.listFiles(path)
+		response = fs.listFiles(path);
+		response
 			.then((res) => {
 				files = res;
-				message = undefined;
+				message = null;
 			})
-			.catch((err) => (message = err));
+			.catch((err) => {
+				files = [];
+				message = err;
+			});
 	}
 
 	function changeDir(dir: string) {
@@ -96,6 +102,10 @@
 		}
 	}
 </script>
+
+{#await response}
+	<Loading />
+{/await}
 
 {#if !message}
 	<DataTable
