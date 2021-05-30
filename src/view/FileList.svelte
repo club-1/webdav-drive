@@ -4,6 +4,10 @@
 	import { fileListUpdate, fileListUpdateIncr } from "../stores";
 	import { files2table } from "../model/FileUtils";
 	import {
+		ComposedModal,
+		ModalBody,
+		ModalHeader,
+		ModalFooter,
 		DataTable,
 		Toolbar,
 		ToolbarContent,
@@ -11,6 +15,8 @@
 		Button,
 		Link,
 		Loading,
+		TextInput,
+		Modal,
 	} from "carbon-components-svelte";
 	import Add20 from "carbon-icons-svelte/lib/Add20";
 	import Delete20 from "carbon-icons-svelte/lib/Delete20";
@@ -24,6 +30,9 @@
 	let message: string | null = null;
 	let checked: Inode[] = [];
 	let selectedRowIds: string[] = [];
+	let newFolderModal: boolean = false;
+	let newFolder: string = "";
+	let deleteSelectedModal: boolean = false;
 
 	$: listFiles(path);
 	$: $fileListUpdate && listFiles(path);
@@ -61,21 +70,16 @@
 	}
 
 	async function newDir() {
-		let name = prompt("New folder name");
-		if (name != null) {
-			await fs.createDirectory(path + name);
+		newFolderModal = false;
+		if (newFolder) {
+			await fs.createDirectory(path + newFolder);
 			fileListUpdateIncr();
 		}
+		newFolder = "";
 	}
 
 	function deleteSelected() {
-		let n = checked.length;
-		if (n == 0) {
-			return alert("The selection is empty.");
-		}
-		if (!confirm(`Are you sure you want to delete ${n} files?`)) {
-			return;
-		}
+		deleteSelectedModal = false;
 		let deleted: Promise<any>[] = [];
 		while (checked.length > 0) {
 			deleted.push(fs.deleteFile(checked.pop()!.path));
@@ -121,7 +125,7 @@
 		<Toolbar>
 			<ToolbarBatchActions>
 				<Button
-					on:click={deleteSelected}
+					on:click={() => (deleteSelectedModal = true)}
 					icon={Delete20}
 					kind="danger-ghost"
 				>
@@ -129,7 +133,9 @@
 				</Button>
 			</ToolbarBatchActions>
 			<ToolbarContent>
-				<Button on:click={newDir} icon={Add20}>New folder</Button>
+				<Button on:click={() => (newFolderModal = true)} icon={Add20}>
+					New folder
+				</Button>
 			</ToolbarContent>
 		</Toolbar>
 		<div slot="cell" class="file-table-cell" let:cell>
@@ -160,3 +166,34 @@
 {:else}
 	<p class="error">{message}</p>
 {/if}
+
+<ComposedModal
+	bind:open={newFolderModal}
+	on:submit={newDir}
+	on:close={() => (newFolder = "")}
+>
+	<ModalHeader title="New folder" />
+	<ModalBody hasForm>
+		<TextInput
+			labelText="Enter a name for the new folder"
+			bind:value={newFolder}
+		/>
+	</ModalBody>
+	<ModalFooter
+		primaryButtonText="Create"
+		primaryButtonDisabled={!newFolder}
+		secondaryButtonText="Cancel"
+	/>
+</ComposedModal>
+
+<Modal
+	bind:open={deleteSelectedModal}
+	danger
+	modalHeading="Delete selected files"
+	primaryButtonText="Delete"
+	secondaryButtonText="Cancel"
+	on:click:button--secondary={() => (deleteSelectedModal = false)}
+	on:submit={deleteSelected}
+>
+	<p>Are you sure you want to delete {checked.length} files?</p>
+</Modal>
