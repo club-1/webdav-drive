@@ -16,12 +16,13 @@
 		Header,
 		HeaderGlobalAction,
 		HeaderUtilities,
+		InlineLoading,
 		Row,
 		Tile,
 	} from "carbon-components-svelte";
 	import Moon20 from "carbon-icons-svelte/lib/Moon20";
 	import Sun20 from "carbon-icons-svelte/lib/Sun20";
-	import { fileListUpdateIncr } from "./stores";
+	import { fileListUpdateIncr, loading } from "./stores";
 
 	export let provider: FileSystemProvider;
 	export let config: Config;
@@ -68,6 +69,9 @@
 </svelte:head>
 
 <Header platformName={config.branding.site_name}>
+	{#if $loading != ""}
+		<InlineLoading description="Loading {$loading}..." />
+	{/if}
 	<HeaderUtilities>
 		<HeaderGlobalAction
 			aria-label="Theme"

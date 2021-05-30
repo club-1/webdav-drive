@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { FileSystem } from "../model/FileSystem";
 	import { Directory, Inode, File } from "../model/Files";
-	import { fileListUpdate, fileListUpdateIncr } from "../stores";
+	import { fileListUpdate, fileListUpdateIncr, loading } from "../stores";
 	import { files2table } from "../model/FileUtils";
 	import {
 		ComposedModal,
@@ -14,7 +14,6 @@
 		ToolbarBatchActions,
 		Button,
 		Link,
-		Loading,
 		TextInput,
 		Modal,
 	} from "carbon-components-svelte";
@@ -26,7 +25,6 @@
 	export let path = "/";
 
 	let files: Inode[] = [];
-	let response: Promise<Inode[]>;
 	let message: string | null = null;
 	let checked: Inode[] = [];
 	let selectedRowIds: string[] = [];
@@ -42,8 +40,8 @@
 	$: tableData = files2table(files);
 
 	function listFiles(path: string) {
-		response = fs.listFiles(path);
-		response
+		loading.set("files");
+		fs.listFiles(path)
 			.then((res) => {
 				files = res;
 				message = null;
@@ -51,7 +49,8 @@
 			.catch((err) => {
 				files = [];
 				message = err;
-			});
+			})
+			.finally(() => loading.set(""));
 	}
 
 	function changeDir(dir: string) {
@@ -106,10 +105,6 @@
 		}
 	}
 </script>
-
-{#await response}
-	<Loading />
-{/await}
 
 {#if !message}
 	<DataTable

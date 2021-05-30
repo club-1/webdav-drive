@@ -4,6 +4,11 @@ h1, h2, h3, h4, h5, label.bx--btn {
 	word-break: break-word;
 }
 
+/* Headerbar customizations */
+.bx--header__name {
+	white-space: nowrap;
+}
+
 /* DataTable customizations */
 
 div.file-table td {
