@@ -85,7 +85,9 @@
 	<Grid>
 		{#if !logged}
 			<Row>
-				<Login {provider} {onLoginSuccess} />
+				<Column md={4} lg={4}>
+					<Login {provider} {onLoginSuccess} />
+				</Column>
 			</Row>
 		{:else}
 			<Row>

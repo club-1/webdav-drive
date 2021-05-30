@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, label.bx--btn {
 /* DataTable customizations */
 
 div.file-table td {
-	max-width: 20vw;
+	max-width: 30vw;
 	padding-right: 2px;
 }
 
@@ -75,4 +75,21 @@ ol.bx--breadcrumb {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: block;
+}
+
+/* Grid customizations */
+
+@media(max-width: 38rem) {
+	div.bx--grid {
+		padding-right:0;
+		padding-left:0
+	}
+	div.bx--row > div {
+		padding-right: 0;
+		padding-left: 0;
+	}
+	div.bx--row {
+		margin-right: 0;
+		margin-left: 0;
+	}
 }
