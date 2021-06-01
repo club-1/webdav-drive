@@ -18,6 +18,7 @@
 		HeaderGlobalAction,
 		HeaderUtilities,
 		InlineLoading,
+		InlineNotification,
 		Row,
 		Tile,
 	} from "carbon-components-svelte";
@@ -32,6 +33,7 @@
 	let fs: FileSystem | null;
 	let file: File;
 	let path: string = url2path(document.location.href) || "/";
+	let errors: string[] = [];
 
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
@@ -51,6 +53,19 @@
 		let newPath = url2path(e.newURL);
 		if (path != newPath) path = newPath;
 	});
+
+	window.addEventListener("error", (e: ErrorEvent) => {
+		errors = [...errors, e.error];
+		return false;
+	});
+
+	window.addEventListener(
+		"unhandledrejection",
+		(e: PromiseRejectionEvent) => {
+			errors = [...errors, e.reason];
+			return false;
+		}
+	);
 
 	function onLoginSuccess(res: FileSystem) {
 		fs = res;
@@ -93,6 +108,19 @@
 
 <Content style="padding: 0px 2% 2rem">
 	<Grid>
+		<Row>
+			<Column>
+				{#each errors as e}
+					<InlineNotification
+						kind="error"
+						title="Unhandled: "
+						subtitle={e}
+						timeout={8000}
+						lowContrast
+					/>
+				{/each}
+			</Column>
+		</Row>
 		{#if !fs}
 			{#if !hasSession}
 				<Row>
