@@ -8,6 +8,7 @@
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
 	import type { Config } from "./main/Config";
 	import type { File } from "./model/Files";
+	import { url2path } from "./utils";
 	import {
 		Button,
 		Column,
@@ -28,36 +29,45 @@
 	export let config: Config;
 
 	let dark: boolean = localStorage.getItem("dark") == "true" ? true : false;
-	let fs: FileSystem;
-	let logged = false;
+	let fs: FileSystem | null;
 	let file: File;
-	let path: string = "/";
+	let path: string = url2path(document.location.href) || "/";
 
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
 	$: window.location.href = `#${escape(path)}`;
 
+	let username = localStorage.getItem("username");
+	let password = localStorage.getItem("password");
+	let hasSession = username != null && password != null;
+	if (username && password) {
+		provider
+			.getFileSystem(username, password)
+			.then((res) => (fs = res))
+			.catch(logout);
+	}
+
 	window.addEventListener("hashchange", (e: HashChangeEvent) => {
-		let newPath = "";
-		let matches = e.newURL.match(/#(.*)$/);
-		if (matches != null) {
-			newPath = unescape(matches[1]);
-		}
+		let newPath = url2path(e.newURL);
 		if (path != newPath) path = newPath;
 	});
 
 	function onLoginSuccess(res: FileSystem) {
 		fs = res;
-		logged = true;
 	}
 
 	function onFileClick(f: File) {
 		file = f;
 	}
 
-	function logout() {
-		logged = false;
+	function logout(): void {
+		fs = null;
+		path = "/";
+		hasSession = false;
+		localStorage.removeItem("username");
+		localStorage.removeItem("password");
 	}
+
 	function toggleTheme() {
 		dark = !dark;
 		localStorage.setItem("dark", dark ? "true" : "false");
@@ -83,12 +93,14 @@
 
 <Content style="padding: 0px 2% 2rem">
 	<Grid>
-		{#if !logged}
-			<Row>
-				<Column md={4} lg={4}>
-					<Login {provider} {onLoginSuccess} />
-				</Column>
-			</Row>
+		{#if !fs}
+			{#if !hasSession}
+				<Row>
+					<Column md={4} lg={4}>
+						<Login {provider} {onLoginSuccess} />
+					</Column>
+				</Row>
+			{/if}
 		{:else}
 			<Row>
 				<Tile light style="min-height: auto">

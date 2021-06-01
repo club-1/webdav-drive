@@ -3,10 +3,10 @@ import type { FileSystem } from "./FileSystem";
 export interface FileSystemProvider {
 
 	/**
-	 * Log a user in.
+	 * Get a filesystem given a user's credentials.
 	 * @param username the user's name.
 	 * @param password the user's password.
-	 * @returns success.
+	 * @returns the filesystem.
 	 */
 	getFileSystem(username: string, password: string): Promise<FileSystem>;
 }

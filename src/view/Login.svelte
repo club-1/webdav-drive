@@ -16,7 +16,10 @@
 	let password: string;
 
 	async function login() {
-		onLoginSuccess(await provider.getFileSystem(username, password));
+		let fs = await provider.getFileSystem(username, password);
+		localStorage.setItem("username", username);
+		localStorage.setItem("password", password);
+		onLoginSuccess(fs);
 	}
 </script>
 

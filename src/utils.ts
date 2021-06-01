@@ -44,3 +44,12 @@ export function compareStrings(a: string, b: string) {
 	// names must be equal
 	return 0;
 }
+
+export function url2path(url: string): string {
+	let path = "";
+	let matches = url.match(/#(.*)$/);
+	if (matches != null) {
+		path = unescape(matches[1]);
+	}
+	return path;
+}

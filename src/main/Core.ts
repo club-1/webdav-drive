@@ -9,11 +9,11 @@ export class Core {
 	protected static fileProps: InodeProperties = new Map();
 
 	public static getDirectoryProps(): InodeProperties {
-		return Core.directoryProps;
+		return this.directoryProps;
 	}
 
 	public static getFileProps(): InodeProperties {
-		return Core.fileProps;
+		return this.fileProps;
 	}
 
 	registerInodeProperty(key: string, prop: InodeProperty<any>) {
