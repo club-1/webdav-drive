@@ -84,17 +84,11 @@
 		Promise.allSettled(deleted).then(fileListUpdateIncr);
 	}
 
-	function onRowClick(e: CustomEvent, inode: Inode) {
-		// @ts-ignore: this is a fix to not trigger the event on checkbox click.
-		let target: HTMLElement = e.explicitOriginalTarget;
-		if (
-			target instanceof HTMLLabelElement ||
-			target instanceof HTMLAnchorElement ||
-			target instanceof HTMLInputElement ||
-			target.className == "bx--table-column-checkbox"
-		) {
+	function onRowClick(e: TableEvent) {
+		if (e.detail.header || !e.detail.cell) {
 			return false;
 		}
+		let inode = e.detail.row!.inode as Inode;
 		if (inode instanceof Directory) {
 			changeDir(inode.path + "/");
 		} else {
@@ -112,7 +106,7 @@
 		size="short"
 		class="file-table"
 		style="width: 100%"
-		on:click:row={(e) => onRowClick(e, e.detail.inode)}
+		on:click={(e) => onRowClick(e)}
 	>
 		<Toolbar>
 			<ToolbarBatchActions>
@@ -136,13 +130,15 @@
 					{cell.value.getIconChar()}
 				</span>
 				{#if cell.value instanceof File}
-					<Link
-						inline
-						href={fs.getFileDownloadLink(cell.value.path)}
-						target="_blank"
-					>
-						{cell.value.basename}
-					</Link>
+					<span on:click|stopPropagation>
+						<Link
+							inline
+							href={fs.getFileDownloadLink(cell.value.path)}
+							target="_blank"
+						>
+							{cell.value.basename}
+						</Link>
+					</span>
 				{:else}
 					<div>
 						{cell.value.basename}
