@@ -60,6 +60,19 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		return this.client.deleteFile(this.root + path);
 	}
 
+	moveFile(path: string, dest: string): Promise<void> {
+		return this.client.moveFile(this.root + path, this.root + dest);
+	}
+
+	copyFile(path: string, dest: string): Promise<void> {
+		return this.client.copyFile(this.root + path, this.root + dest);
+	}
+
+	/**
+	 * Create a File or Directory object from its status.
+	 * @param stat status of the file.
+	 * @returns the file or directory object
+	 */
 	createInode(stat: FileStat): Inode {
 		if (stat.type == "directory") {
 			return new Directory(
