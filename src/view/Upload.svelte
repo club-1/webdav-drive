@@ -44,7 +44,6 @@
 				uploads = uploads;
 			})
 				.then(onUploadSuccess)
-				.catch((err) => alert(`${err} (${upload.file.name})`))
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}
 		files = null;
