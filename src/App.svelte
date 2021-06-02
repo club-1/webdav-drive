@@ -124,7 +124,7 @@
 		{#if !fs}
 			{#if !hasSession}
 				<Row>
-					<Column md={4} lg={4}>
+					<Column md={4} lg={5}>
 						<Login {provider} {onLoginSuccess} />
 					</Column>
 				</Row>
