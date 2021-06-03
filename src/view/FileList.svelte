@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { TableEvent } from "./types";
 	import type { FileSystem } from "../model/FileSystem";
 	import { Directory, Inode, File } from "../model/Files";
 	import { fileListUpdate, fileListUpdateIncr, loading } from "../stores";
