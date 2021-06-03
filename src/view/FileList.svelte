@@ -56,16 +56,6 @@
 		path = dir;
 	}
 
-	async function newFile() {
-		let name = prompt("New file name");
-		if (name != null) {
-			let res = await fs.createFile(path + name);
-			if (res) {
-				fileListUpdateIncr();
-			}
-		}
-	}
-
 	async function newDir() {
 		newFolderModal = false;
 		if (newFolder) {

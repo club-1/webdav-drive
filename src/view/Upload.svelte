@@ -4,14 +4,7 @@
 		FileUploaderButton,
 		Form,
 		FormGroup,
-		Grid,
-		Row,
 		Tile,
-		StructuredList,
-		StructuredListHead,
-		StructuredListRow,
-		StructuredListCell,
-		StructuredListBody,
 	} from "carbon-components-svelte";
 
 	import type { FileSystem } from "../model/FileSystem";
