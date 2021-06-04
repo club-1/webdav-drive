@@ -66,9 +66,16 @@ td a {
 	overflow: hidden;
 }
 
-/* Hack to fix https://github.com/IBM/carbon-components-svelte/issues/668 */
 section.bx--table-toolbar {
+	/* Hack to fix https://github.com/IBM/carbon-components-svelte/issues/668 */
 	overflow: clip;
+	/* Hack to fix https://github.com/IBM/carbon-components-svelte/issues/426 */
+	z-index: 1;
+}
+
+/* Disable slow and useless transition */
+.bx--batch-actions, .bx--toolbar-content {
+	transition: none !important;
 }
 
 /* Raw table display */
