@@ -62,9 +62,14 @@ td a {
 	fill: var(--cds-disabled-03, #8d8d8d);
 }
 
-/* .bx--batch-actions {
+.bx--batch-actions {
 	overflow: hidden;
-} */
+}
+
+/* Hack to fix https://github.com/IBM/carbon-components-svelte/issues/668 */
+section.bx--table-toolbar {
+	overflow: clip;
+}
 
 /* Raw table display */
 
