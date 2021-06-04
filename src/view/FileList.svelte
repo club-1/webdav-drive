@@ -10,6 +10,7 @@
 		ToolbarContent,
 		ToolbarBatchActions,
 		Button,
+		InlineNotification,
 		Link,
 		TextInput,
 		Modal,
@@ -23,7 +24,7 @@
 	export let path = "/";
 
 	let files: Inode[] = [];
-	let message: string | null = null;
+	let error: Error | null = null;
 	let checked: Inode[] = [];
 	let selectedRowIds: string[] = [];
 	let newFolderModal: boolean = false;
@@ -42,11 +43,11 @@
 		fs.listFiles(path)
 			.then((res) => {
 				files = res;
-				message = null;
+				error = null;
 			})
-			.catch((err) => {
+			.catch((err: Error) => {
 				files = [];
-				message = err;
+				error = err;
 			})
 			.finally(() => loading.set(""));
 	}
@@ -88,7 +89,7 @@
 	}
 </script>
 
-{#if !message}
+{#if !error}
 	<DataTable
 		batchSelection
 		sortable
@@ -143,7 +144,12 @@
 		</div>
 	</DataTable>
 {:else}
-	<p class="error">{message}</p>
+	<InlineNotification
+		kind="error"
+		title="{error.name}: "
+		subtitle={error.message}
+		hideCloseButton
+	/>
 {/if}
 
 <Modal

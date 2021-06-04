@@ -9,3 +9,4 @@ config.ts
 
 # Other generated files
 *.log
+modules.svg

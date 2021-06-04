@@ -7,6 +7,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --host 0.0.0.0 --no-clear",
+    "analyse": "npx ts_dependency_graph --start src/main.ts | dot -T svg > modules.svg && open modules.svg",
     "check": "tsc --noEmit && svelte-check"
   },
   "devDependencies": {
