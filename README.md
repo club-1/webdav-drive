@@ -1,5 +1,7 @@
 # WebDAV Drive
 
+[![build status][buildimg]][buildurl]
+
 WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV share, built with [Svelte](https://svelte.dev) and [perry-mitchell/webdav-client/](https://github.com/perry-mitchell/webdav-client).
 
 ![screenshot](./docs/screenshot.png)
@@ -36,3 +38,6 @@ Start the dev server using the following comand, then navigate to [localhost:500
 ```bash
 npm run dev
 ```
+
+[buildimg]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml/badge.svg
+[buildurl]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml?query=branch%3Amain
