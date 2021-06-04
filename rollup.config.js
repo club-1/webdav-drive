@@ -3,7 +3,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import sveltePreprocess from 'svelte-preprocess';
+import { typescript as ts } from 'svelte-preprocess';
+import { optimizeCarbonImports as carbon } from "carbon-components-svelte/preprocess";
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 
@@ -40,7 +41,12 @@ export default {
 	},
 	plugins: [
 		svelte({
-			preprocess: sveltePreprocess({ sourceMap: !production }),
+			preprocess: [
+				// preprocess typescript in svelte files
+				ts(),
+				// optimize carbon components imports
+				carbon()
+			],
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production
@@ -61,7 +67,6 @@ export default {
 		}),
 		commonjs(),
 		typescript({
-			sourceMap: true,
 			inlineSources: !production
 		}),
 

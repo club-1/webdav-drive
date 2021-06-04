@@ -5,6 +5,7 @@
   "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
   "compilerOptions": {
     "resolveJsonModule": true,
+    "sourceMap": true,
     "strict": true
   }
 }

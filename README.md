@@ -2,10 +2,11 @@
 
 [![build status][buildimg]][buildurl]
 
-WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV share, built with [Svelte](https://svelte.dev) and [perry-mitchell/webdav-client/](https://github.com/perry-mitchell/webdav-client).
+WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV share, written in [TypeScript](https://github.com/microsoft/TypeScript) with [Svelte](https://svelte.dev), [Carbon](https://github.com/IBM/carbon-components-svelte) and [perry-mitchell/webdav-client](https://github.com/perry-mitchell/webdav-client).
 
 ![screenshot](./docs/screenshot.png)
 
+For now, it has to be configured before compilation, [suckless](https://suckless.org/) style, so it is not possible to distribute a precompiled bundle.
 
 ## Build
 
