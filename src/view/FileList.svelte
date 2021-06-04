@@ -2,6 +2,7 @@
 	import type { TableEvent } from "./types";
 	import type { FileSystem } from "../model/FileSystem";
 	import { Directory, Inode, File } from "../model/Files";
+	import { CopyTask, MoveTask, Task } from "../model/Tasks";
 	import { fileListUpdate, fileListUpdateIncr, loading } from "../stores";
 	import { files2table } from "../model/FileUtils";
 	import {
@@ -15,9 +16,14 @@
 		TextInput,
 		Modal,
 		Form,
+		ToolbarMenu,
+		ToolbarMenuItem,
 	} from "carbon-components-svelte";
-	import Add20 from "carbon-icons-svelte/lib/Add20";
-	import Delete20 from "carbon-icons-svelte/lib/Delete20";
+	import Add16 from "carbon-icons-svelte/lib/Add16";
+	import Delete16 from "carbon-icons-svelte/lib/Delete16";
+	import Copy16 from "carbon-icons-svelte/lib/Copy16";
+	import Cut16 from "carbon-icons-svelte/lib/Cut16";
+	import Paste16 from "carbon-icons-svelte/lib/Paste16";
 
 	export let fs: FileSystem;
 	export let onFileClick: (f: File) => any;
@@ -26,6 +32,7 @@
 	let files: Inode[] = [];
 	let error: Error | null = null;
 	let checked: Inode[] = [];
+	let tasks: Task[] = [];
 	let selectedRowIds: string[] = [];
 	let newFolderModal: boolean = false;
 	let newFolder: string = "";
@@ -66,6 +73,22 @@
 		newFolder = "";
 	}
 
+	function copySelected() {
+		tasks = [...tasks, new CopyTask(fs, [...checked])];
+		selectedRowIds = [];
+	}
+
+	function cutSelected() {
+		tasks = [...tasks, new MoveTask(fs, [...checked])];
+		selectedRowIds = [];
+	}
+
+	function applyTask(task: Task) {
+		let actions = task.apply(path);
+		tasks = tasks.filter((t) => t != task);
+		Promise.allSettled(actions).then(fileListUpdateIncr);
+	}
+
 	function deleteSelected() {
 		deleteSelectedModal = false;
 		let deleted: Promise<any>[] = [];
@@ -102,16 +125,30 @@
 	>
 		<Toolbar>
 			<ToolbarBatchActions>
+				<Button icon={Copy16} on:click={copySelected} />
+				<Button icon={Cut16} on:click={cutSelected} />
 				<Button
 					on:click={() => (deleteSelectedModal = true)}
-					icon={Delete20}
+					icon={Delete16}
 					kind="danger-ghost"
 				>
 					Delete
 				</Button>
 			</ToolbarBatchActions>
 			<ToolbarContent>
-				<Button on:click={() => (newFolderModal = true)} icon={Add20}>
+				<ToolbarMenu
+					icon={Paste16}
+					title="Paste"
+					disabled={tasks.length == 0}
+				>
+					{#each tasks as task}
+						<ToolbarMenuItem on:click={() => applyTask(task)}>
+							{task.type}
+							{task.files.length} files
+						</ToolbarMenuItem>
+					{/each}
+				</ToolbarMenu>
+				<Button on:click={() => (newFolderModal = true)} icon={Add16}>
 					New folder
 				</Button>
 			</ToolbarContent>
