@@ -58,6 +58,19 @@ td a {
 	}
 }
 
+.bx--toolbar-action[disabled] svg.bx--overflow-menu__icon {
+	fill: var(--cds-disabled-03, #8d8d8d);
+}
+
+.bx--batch-actions {
+	overflow: hidden;
+}
+
+/* Hack to fix https://github.com/IBM/carbon-components-svelte/issues/668 */
+section.bx--table-toolbar {
+	overflow: clip;
+}
+
 /* Raw table display */
 
 table.raw {
@@ -111,4 +124,11 @@ ol.bx--breadcrumb {
 		margin-right: 0;
 		margin-left: 0;
 	}
+}
+
+/* Button customizations */
+
+.bx--btn.bx--btn--icon-only svg.bx--btn__icon {
+	/* Fix for icon only buttons in toolbar */
+	margin: 0;
 }

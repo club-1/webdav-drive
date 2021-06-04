@@ -60,6 +60,20 @@ export interface FileSystem {
 	 * @returns success.
 	 */
 	deleteFile(path: string): Promise<void>;
+
+	/**
+	 * Move a file to a new path.
+	 * @param path the path of the file
+	 * @param dest the destination path of the file
+	 */
+	moveFile(path: string, dest: string): Promise<void>;
+
+	/**
+	 * Copy a file to a new path.
+	 * @param path the path of the file
+	 * @param dest the destination path of the file
+	 */
+	copyFile(path: string, dest: string): Promise<void>;
 }
 
 export abstract class FileSystemBase {
