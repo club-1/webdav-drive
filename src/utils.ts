@@ -1,3 +1,5 @@
+type Kind = "error" | "warning" | "warning-alt" | "info";
+
 const SIZE_SYMBOLS = ['o', 'Kio', 'Mio', 'Gio', 'Tio'];
 
 /**
@@ -23,7 +25,7 @@ export function isAncestor(parent: string, child: string): boolean {
 	return child.startsWith(parent) && child.length > parent.length
 }
 
-export function basename(path:string) {
+export function basename(path: string) {
 	return path.match(/[^\/]+$/);
 }
 
@@ -52,4 +54,17 @@ export function url2path(url: string): string {
 		path = unescape(matches[1]);
 	}
 	return path;
+}
+
+export function error2kind(e: Error): Kind {
+	let name = e.name.toLowerCase();
+	switch (name) {
+		case "error":
+		case "warning":
+		case "warning-alt":
+		case "info":
+			return name
+		default:
+			return "error"
+	}
 }

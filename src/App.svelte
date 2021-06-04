@@ -8,7 +8,7 @@
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
 	import type { Config } from "./main/Config";
 	import type { File } from "./model/Files";
-	import { url2path } from "./utils";
+	import { error2kind, url2path } from "./utils";
 	import {
 		Button,
 		Column,
@@ -33,7 +33,7 @@
 	let fs: FileSystem | null;
 	let file: File;
 	let path: string = url2path(document.location.href) || "/";
-	let errors: string[] = [];
+	let errors: Error[] = [];
 
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
@@ -112,10 +112,10 @@
 			<Column>
 				{#each errors as e}
 					<InlineNotification
-						kind="error"
-						title="Unhandled: "
-						subtitle={e}
-						timeout={8000}
+						kind={error2kind(e)}
+						title="Uncaught {e.name}: "
+						subtitle={e.message}
+						timeout={15000}
 						lowContrast
 					/>
 				{/each}
