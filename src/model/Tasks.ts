@@ -14,8 +14,13 @@ export abstract class Task {
 
 	apply(dest: string): Promise<any>[] {
 		let promises: Promise<any>[] = [];
+		let promise: Promise<any>;
 		for (const file of this.files) {
-			promises.push(this.action(file.path, dest + file.basename));
+			promise = this.action(file.path, dest + file.basename)
+				.catch((e: Error) => {
+					throw new Error(`${e.message} (${file.basename})`);
+				});
+			promises.push(promise);
 		}
 		return promises;
 	}

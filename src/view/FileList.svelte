@@ -5,6 +5,7 @@
 	import { CopyTask, MoveTask, Task } from "../model/Tasks";
 	import { fileListUpdate, fileListUpdateIncr, loading } from "../stores";
 	import { files2table } from "../model/FileUtils";
+	import { pass } from "../utils";
 	import {
 		DataTable,
 		Toolbar,
@@ -32,7 +33,7 @@
 	let files: Inode[] = [];
 	let error: Error | null = null;
 	let checked: Inode[] = [];
-	let tasks: Task[] = [];
+	let task: Task | null = null;
 	let selectedRowIds: string[] = [];
 	let newFolderModal: boolean = false;
 	let newFolder: string = "";
@@ -74,19 +75,20 @@
 	}
 
 	function copySelected() {
-		tasks = [...tasks, new CopyTask(fs, [...checked])];
+		task = new CopyTask(fs, checked);
 		selectedRowIds = [];
 	}
 
 	function cutSelected() {
-		tasks = [...tasks, new MoveTask(fs, [...checked])];
+		task = new MoveTask(fs, checked);
 		selectedRowIds = [];
 	}
 
-	function applyTask(task: Task) {
-		let actions = task.apply(path);
-		tasks = tasks.filter((t) => t != task);
+	function applyTask(t: Task) {
+		let actions = t.apply(path);
+		task = null;
 		Promise.allSettled(actions).then(fileListUpdateIncr);
+		actions.forEach((a) => a.catch(pass));
 	}
 
 	function deleteSelected() {
@@ -139,14 +141,16 @@
 				<ToolbarMenu
 					icon={Paste16}
 					title="Paste"
-					disabled={tasks.length == 0}
+					disabled={task == null}
 				>
-					{#each tasks as task}
-						<ToolbarMenuItem on:click={() => applyTask(task)}>
+					{#if task != null}
+						<ToolbarMenuItem
+							on:click={() => task && applyTask(task)}
+						>
 							{task.type}
 							{task.files.length} files
 						</ToolbarMenuItem>
-					{/each}
+					{/if}
 				</ToolbarMenu>
 				<Button on:click={() => (newFolderModal = true)} icon={Add16}>
 					New folder

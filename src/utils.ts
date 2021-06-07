@@ -68,3 +68,11 @@ export function error2kind(e: Error): Kind {
 			return "error"
 	}
 }
+
+/**
+ * Simply throw an exception back to main.
+ * @param e The exception to throw
+ */
+export function pass(e:Error): void {
+	throw e;
+}
