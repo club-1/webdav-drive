@@ -9,7 +9,7 @@
 	elements = elements.concat(path.split("/").filter((val) => val != ""));
 
 	function href(idx: number) {
-		return "#" + elements.slice(0, idx + 1).join("/") + "/";
+		return "#" + escape(elements.slice(0, idx + 1).join("/")) + "/";
 	}
 </script>
 
