@@ -20,8 +20,8 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		if (path.charAt(path.length - 1) != "/") {
 			throw new Error("Not a directory.");
 		}
-		let res = await this.client.getDirectoryContents(this.root + path, { details: true });
-		let files = extractData(res).map((stat) => this.createInode(stat));
+		const res = await this.client.getDirectoryContents(this.root + path, { details: true });
+		const files = extractData(res).map((stat) => this.createInode(stat));
 		return this.sortFiles(files, orderBy, direction);
 	}
 
@@ -30,8 +30,8 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	}
 
 	async getFileContent(path: string): Promise<string> {
-		let res = await this.client.getFileContents(this.root + path);
-		let buf = extractData(res);
+		const res = await this.client.getFileContents(this.root + path);
+		const buf = extractData(res);
 		if (typeof buf == "string") {
 			return buf;
 		} else if (buf instanceof ArrayBuffer) {
@@ -41,7 +41,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		}
 	}
 
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => any): Promise<boolean> {
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => unknown): Promise<boolean> {
 		return this.client.putFileContents(this.root + path, data, {
 			onUploadProgress: progressHandler,
 			contentLength: false,
@@ -113,6 +113,6 @@ function extractData<T>(res: T | ResponseDataDetailed<T>): T {
 	}
 }
 /** Check if res is detailed response. */
-function isDetailedData(res: any | ResponseDataDetailed<any>): res is ResponseDataDetailed<any> {
-	return (res as ResponseDataDetailed<any>).data !== undefined;
+function isDetailedData(res: unknown | ResponseDataDetailed<unknown>): res is ResponseDataDetailed<unknown> {
+	return (res as ResponseDataDetailed<unknown>).data !== undefined;
 }

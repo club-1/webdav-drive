@@ -27,7 +27,7 @@
 	import Paste16 from "carbon-icons-svelte/lib/Paste16";
 
 	export let fs: FileSystem;
-	export let onFileClick: (f: File) => any;
+	export let onFileClick: (f: File) => unknown;
 	export let path = "/";
 
 	let files: Inode[] = [];
@@ -35,9 +35,9 @@
 	let checked: Inode[] = [];
 	let task: Task | null = null;
 	let selectedRowIds: string[] = [];
-	let newFolderModal: boolean = false;
-	let newFolder: string = "";
-	let deleteSelectedModal: boolean = false;
+	let newFolderModal = false;
+	let newFolder = "";
+	let deleteSelectedModal = false;
 
 	$: listFiles(path);
 	$: $fileListUpdate && listFiles(path);
@@ -93,7 +93,7 @@
 
 	function deleteSelected() {
 		deleteSelectedModal = false;
-		let deleted: Promise<any>[] = [];
+		let deleted: Promise<unknown>[] = [];
 		while (checked.length > 0) {
 			deleted.push(fs.deleteFile(checked.pop()!.path));
 		}

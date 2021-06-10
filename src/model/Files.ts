@@ -3,20 +3,20 @@ import type { Listable, Property } from "../main/Generics";
 export type InodeProperty<T> = Property<Inode, T>;
 export type FileProperty<T> = Property<File, T>;
 
-export type InodeProperties = Map<string, InodeProperty<any>>;
+export type InodeProperties = Map<string, InodeProperty<unknown>>;
 
 export abstract class Inode implements Listable {
 	constructor(
 		protected properties: InodeProperties,
-		public raw: object,
+		public raw: object,  // eslint-disable-line @typescript-eslint/ban-types
 		public path: string,
 		public basename: string,
 		public lastmod: Date,
 		public etag: string | null,
 	) { }
 
-	list(): Map<string, any> {
-		let map = new Map<string, any>();
+	list(): Map<string, unknown> {
+		const map = new Map<string, unknown>();
 		for (const [key, prop] of this.properties.entries()) {
 			map.set(key, prop.read(this));
 		}
@@ -41,7 +41,7 @@ export abstract class Inode implements Listable {
 export class File extends Inode {
 	constructor(
 		properties: InodeProperties,
-		raw: object,
+		raw: object, // eslint-disable-line @typescript-eslint/ban-types
 		path: string,
 		basename: string,
 		lastmod: Date,

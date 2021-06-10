@@ -10,11 +10,11 @@ export abstract class Task {
 		public files: Inode[],
 	) { }
 
-	abstract action(path: string, dest: string): Promise<any>;
+	abstract action(path: string, dest: string): Promise<unknown>;
 
-	apply(dest: string): Promise<any>[] {
-		let promises: Promise<any>[] = [];
-		let promise: Promise<any>;
+	apply(dest: string): Promise<unknown>[] {
+		const promises: Promise<unknown>[] = [];
+		let promise: Promise<unknown>;
 		for (const file of this.files) {
 			promise = this.action(file.path, dest + file.basename)
 				.catch((e: Error) => {

@@ -12,7 +12,7 @@
 	import type { FileSystemProvider } from "../model/FileSystemProvider";
 
 	export let provider: FileSystemProvider;
-	export let onLoginSuccess: (fs: FileSystem) => any;
+	export let onLoginSuccess: (fs: FileSystem) => unknown;
 
 	let username: string;
 	let password: string;

@@ -2,8 +2,8 @@ import type { Core, Module } from "../main/Core";
 import type { InodeProperty } from "../model/Files";
 
 export class BaseModule implements Module {
-	init(core: Core) {
-		let baseProps: Record<string, InodeProperty<any>> = {
+	init(core: Core): void {
+		const baseProps: Record<string, InodeProperty<unknown>> = {
 			path: {
 				read: (i): string => i.path,
 			},

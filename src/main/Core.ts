@@ -16,14 +16,14 @@ export class Core {
 		return this.fileProps;
 	}
 
-	registerInodeProperty(key: string, prop: InodeProperty<any>) {
+	registerInodeProperty(key: string, prop: InodeProperty<unknown>): void {
 		Core.directoryProps.set(key, prop);
 		Core.fileProps.set(key, prop);
 
 	}
 
-	registerFileProperty(key: string, prop: FileProperty<any>) {
-		Core.fileProps.set(key, prop as InodeProperty<any>);
+	registerFileProperty(key: string, prop: FileProperty<unknown>): void {
+		Core.fileProps.set(key, prop as InodeProperty<unknown>);
 	}
 
 }

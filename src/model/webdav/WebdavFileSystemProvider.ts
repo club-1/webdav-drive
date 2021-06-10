@@ -11,12 +11,12 @@ export class WebdavFileSystemProvider implements FileSystemProvider {
 	) { }
 
 	async getFileSystem(username: string, password: string): Promise<FileSystem> {
-		let client = createClient(this.serverUrl, {
+		const client = createClient(this.serverUrl, {
 			authType: this.authType,
 			username: username,
 			password: password,
 		});
-		let root = this.root.replace('{username}', username);
+		const root = this.root.replace("{username}", username);
 		if (!await client.exists(root)) {
 			throw new Error("Could not access to filesystem.");
 		}

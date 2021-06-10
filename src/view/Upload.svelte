@@ -20,7 +20,7 @@
 	let ref: HTMLInputElement;
 	let uploads: FileUpload[] = [];
 	let files: FileList | null = null;
-	let disabled: boolean = true;
+	let disabled = true;
 
 	$: disabled = files === null || files.length === 0;
 

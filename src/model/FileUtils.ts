@@ -17,18 +17,18 @@ type EmptyHeader = {
 
 type Header<T> = NonEmptyHeader<T> | EmptyHeader;
 
-type Row = Object & {
+type Row = {
 	id: string,
 	inode: Inode,
 }
 
 export type FileTable = {
-	headers: Header<any>[],
+	headers: (Header<Inode> | Header<Date> | Header<number>)[],
 	rows: Row[],
 }
 
 export function files2table(files: Inode[]): FileTable {
-	let headers = [
+	const headers = [
 		{
 			key: "name",
 			value: "Name",
@@ -48,7 +48,7 @@ export function files2table(files: Inode[]): FileTable {
 		},
 
 	]
-	let rows: Row[] = files
+	const rows: Row[] = files
 		.filter((f) => !f.isHidden())
 		.map((f) => {
 			return {

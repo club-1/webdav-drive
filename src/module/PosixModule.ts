@@ -10,40 +10,40 @@ type PosixProperties = {
 }
 
 export class PosixModule implements Module {
-	init(core: Core) {
+	init(core: Core): void {
 		core.registerInodeProperty("mode", {
 			read: (i): string => {
-				let props = i.raw as PosixProperties;
+				const props = i.raw as PosixProperties;
 				return props.mode.toString(8);
 			},
 		});
 		core.registerInodeProperty("user", {
 			read: (i): string => {
-				let props = i.raw as PosixProperties;
+				const props = i.raw as PosixProperties;
 				return props.user;
 			},
 		});
 		core.registerInodeProperty("group", {
 			read: (i): string => {
-				let props = i.raw as PosixProperties;
+				const props = i.raw as PosixProperties;
 				return props.group;
 			},
 		});
 		core.registerInodeProperty("atime", {
 			read: (i): Date => {
-				let props = i.raw as PosixProperties;
+				const props = i.raw as PosixProperties;
 				return new Date(props.atime * 1000);
 			},
 		});
 		core.registerInodeProperty("ctime", {
 			read: (i): Date => {
-				let props = i.raw as PosixProperties;
+				const props = i.raw as PosixProperties;
 				return new Date(props.ctime * 1000);
 			},
 		});
 		core.registerInodeProperty("link", {
 			read: (i): string | false => {
-				let props = i.raw as PosixProperties;
+				const props = i.raw as PosixProperties;
 				return props.link || false;
 			},
 		});

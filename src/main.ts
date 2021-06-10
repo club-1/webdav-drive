@@ -6,16 +6,16 @@ import { WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvide
 import type { Config } from "./main/Config";
 import { Core } from "./main/Core";
 
-let config = configFile as Config;
-let provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password, config.root);
+const config = configFile as Config;
+const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password, config.root);
 
-let core = new Core();
+const core = new Core();
 
 for (const module of config.modules) {
 	module.init(core);
 }
 
-let app = new App({
+const app = new App({
 	target: document.body,
 	props: {
 		provider,
