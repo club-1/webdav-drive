@@ -142,6 +142,6 @@ ol.bx--breadcrumb {
 
 /* Notifications customizations */
 
-.bx--inline-notification {
+div.bx--inline-notification {
 	min-width: 10rem;
 }
