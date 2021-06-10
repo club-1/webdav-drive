@@ -11,10 +11,12 @@
 	import type { Progress } from "../model/Upload";
 	import { FileUpload } from "../model/Upload";
 	import Upload20 from "carbon-icons-svelte/lib/Upload20";
+	import { hrsize } from "../utils";
 
 	export let fs: FileSystem;
 	export let path: string;
 	export let onUploadSuccess: () => void;
+	export let maxFileSize = 0x100000;
 
 	let labelText = "Browse";
 	let ref: HTMLInputElement;
@@ -54,6 +56,9 @@
 				bind:labelText
 				bind:ref
 			/>
+			<div class="bx--form__helper-text">
+				Max file size: {hrsize(maxFileSize)}
+			</div>
 		</FormGroup>
 		<Button
 			type="submit"

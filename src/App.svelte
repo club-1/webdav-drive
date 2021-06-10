@@ -146,6 +146,7 @@
 						{fs}
 						bind:path
 						onUploadSuccess={fileListUpdateIncr}
+						maxFileSize={config.max_body_size}
 					/>
 				</Column>
 			</Row>
