@@ -4,6 +4,7 @@
 		FileUploaderButton,
 		Form,
 		FormGroup,
+		InlineNotification,
 		Tile,
 	} from "carbon-components-svelte";
 
@@ -25,6 +26,9 @@
 	let disabled = true;
 
 	$: disabled = files === null || files.length === 0;
+	$: tooLargeFiles = files
+		? Array.from(files).filter((f: File) => f.size > maxFileSize)
+		: [];
 
 	async function submitHandler() {
 		if (files == null) {
@@ -49,6 +53,14 @@
 
 <Tile>
 	<Form>
+		{#each tooLargeFiles as f}
+			<InlineNotification
+				kind="warning-alt"
+				title="Warning: "
+				subtitle="{f.name} is {hrsize(f.size)}"
+				hideCloseButton
+			/>
+		{/each}
 		<FormGroup legendText="Upload files">
 			<FileUploaderButton
 				on:change={() => (files = ref.files)}

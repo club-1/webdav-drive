@@ -138,10 +138,10 @@
 				</Tile>
 			</Row>
 			<Row>
-				<Column lg={12}>
+				<Column lg={11}>
 					<FileList {fs} {onFileClick} bind:path />
 				</Column>
-				<Column>
+				<Column lg={5}>
 					<Upload
 						{fs}
 						bind:path

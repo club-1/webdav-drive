@@ -139,3 +139,9 @@ ol.bx--breadcrumb {
 	/* Fix for icon only buttons in toolbar */
 	margin: 0;
 }
+
+/* Notifications customizations */
+
+.bx--inline-notification {
+	min-width: 10rem;
+}
