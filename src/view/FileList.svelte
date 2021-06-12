@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { afterUpdate } from "svelte";
 	import type { TableEvent } from "./types";
 	import type { FileSystem } from "../model/FileSystem";
 	import { Directory, Inode, File } from "../model/Files";
@@ -112,6 +113,23 @@
 			onFileClick(inode as File);
 		}
 	}
+
+	afterUpdate(() => {
+		// Make table rows keyboard navigable.
+		for (const e of document.querySelectorAll(".file-table tbody tr")) {
+			const row = e as HTMLTableRowElement;
+			// Make row selectable via tab.
+			row.setAttribute("tabindex", "0");
+			// Trigger click on the second cell of the row on Enter.
+			row.addEventListener("keyup", (e: KeyboardEvent) => {
+				if (e.key === "Enter") {
+					e.preventDefault();
+					const td = (e.target as Element).children[1] as HTMLElement;
+					td.click();
+				}
+			});
+		}
+	});
 </script>
 
 {#if !error}
@@ -122,7 +140,7 @@
 		{...tableData}
 		size="short"
 		class="file-table"
-		style="width: 100%"
+		style="width: 100%; margin-bottom: 1rem;"
 		on:click={(e) => onRowClick(e)}
 	>
 		<Toolbar>
