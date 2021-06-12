@@ -47,7 +47,7 @@ export function files2table(files: Inode[]): FileTable {
 			display: (v: number | string) => typeof v == "string" ? v : hrsize(v),
 		},
 
-	]
+	];
 	const rows: Row[] = files
 		.filter((f) => !f.isHidden())
 		.map((f) => {
@@ -57,7 +57,7 @@ export function files2table(files: Inode[]): FileTable {
 				lastmod: f.lastmod,
 				size: (f instanceof File) ? f.size : "-",
 				inode: f,
-			}
+			};
 		});
-	return { headers, rows }
+	return { headers, rows };
 }

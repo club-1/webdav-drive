@@ -2,23 +2,38 @@ env:
   browser: true
   es2021: true
 extends:
-  - 'eslint:recommended'
-  - 'plugin:@typescript-eslint/recommended'
-parser: '@typescript-eslint/parser'
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+parser: "@typescript-eslint/parser"
 parserOptions:
   ecmaVersion: 12
   sourceType: module
 plugins:
-  - 'svelte3'
-  - '@typescript-eslint'
+  - svelte3
+  - "@typescript-eslint"
 overrides:
-  - files: ['*.svelte']
-    processor: 'svelte3/svelte3'
+  - files: ["*.svelte"]
+    processor: svelte3/svelte3
 settings:
   svelte3/typescript: true
 rules:
+  linebreak-style:
+    - error
+    - unix
+  semi:
+    - error
+    - always
+  comma-dangle:
+    - error
+    - arrays: always-multiline
+      objects: always-multiline
+      imports: always-multiline
+      functions: only-multiline
+  indent:
+    - error
+    - tab
   quotes:
     - warn
-    - "double"
-  '@typescript-eslint/no-non-null-assertion': off
-  '@typescript-eslint/ban-ts-comment': off
+    - double
+  "@typescript-eslint/no-non-null-assertion": off
+  "@typescript-eslint/ban-ts-comment": off

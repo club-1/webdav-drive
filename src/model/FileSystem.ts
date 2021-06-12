@@ -81,24 +81,24 @@ export abstract class FileSystemBase {
 	protected fileProps: InodeProperties;
 
 	constructor() {
-		this.directoryProps = Core.getDirectoryProps()
+		this.directoryProps = Core.getDirectoryProps();
 		this.fileProps = Core.getFileProps();
 	}
 
 	sortFiles(files: Inode[], orderBy: Column, direction: Direction): Inode[] {
 		switch (orderBy) {
-			case "basename":
-				if (direction == "ASC") {
-					return files.sort((a, b) => { return compareStrings(a.basename, b.basename) });
-				} else {
-					return files.sort((a, b) => { return compareStrings(a.basename, b.basename) * -1 });
-				}
-			case "lastmod":
-				if (direction == "ASC") {
-					return files.sort((a, b) => { return (a.lastmod.getTime() - b.lastmod.getTime()) });
-				} else {
-					return files.sort((a, b) => { return (a.lastmod.getTime() - b.lastmod.getTime()) * -1 });
-				}
+		case "basename":
+			if (direction == "ASC") {
+				return files.sort((a, b) => { return compareStrings(a.basename, b.basename); });
+			} else {
+				return files.sort((a, b) => { return compareStrings(a.basename, b.basename) * -1; });
+			}
+		case "lastmod":
+			if (direction == "ASC") {
+				return files.sort((a, b) => { return (a.lastmod.getTime() - b.lastmod.getTime()); });
+			} else {
+				return files.sort((a, b) => { return (a.lastmod.getTime() - b.lastmod.getTime()) * -1; });
+			}
 		}
 	}
 }

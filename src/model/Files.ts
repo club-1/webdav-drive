@@ -54,12 +54,12 @@ export class File extends Inode {
 
 	getIconChar(): string {
 		switch (this.mime.split("/")[0]) {
-			case "image":
-				return "🖼️";
-			case "video":
-				return "🎞️";
-			default:
-				return "📄";
+		case "image":
+			return "🖼️";
+		case "video":
+			return "🎞️";
+		default:
+			return "📄";
 		}
 	}
 }

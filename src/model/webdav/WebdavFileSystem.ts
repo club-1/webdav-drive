@@ -97,7 +97,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		}
 	}
 
-	protected rootLength(): number { return this.root.length }
+	protected rootLength(): number { return this.root.length; }
 }
 
 /**

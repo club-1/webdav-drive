@@ -20,7 +20,7 @@ const app = new App({
 	props: {
 		provider,
 		config,
-	}
+	},
 });
 
 export default app;

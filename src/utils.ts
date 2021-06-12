@@ -13,7 +13,7 @@ export function hrsize(size: number): string {
 		size /= 1024;
 		i++;
 	}
-	return (i > 0 ? size.toFixed(1) : size) + " " + SIZE_SYMBOLS[i]
+	return (i > 0 ? size.toFixed(1) : size) + " " + SIZE_SYMBOLS[i];
 }
 
 
@@ -22,7 +22,7 @@ export function parent(path: string): string {
 }
 
 export function isAncestor(parent: string, child: string): boolean {
-	return child.startsWith(parent) && child.length > parent.length
+	return child.startsWith(parent) && child.length > parent.length;
 }
 
 export function basename(path: string): string {
@@ -59,13 +59,13 @@ export function url2path(url: string): string {
 export function error2kind(e: Error): Kind {
 	const name = e.name.toLowerCase();
 	switch (name) {
-		case "error":
-		case "warning":
-		case "warning-alt":
-		case "info":
-			return name
-		default:
-			return "error"
+	case "error":
+	case "warning":
+	case "warning-alt":
+	case "info":
+		return name;
+	default:
+		return "error";
 	}
 }
 
