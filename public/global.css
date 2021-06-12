@@ -30,10 +30,17 @@ div.file-table-cell {
 	white-space: nowrap;
 }
 
-div.file-table-cell *:not(span.file-icon) {
+div.file-table-cell *:not(span) {
 	text-overflow: ellipsis;
 	overflow: clip;
+}
+
+div.file-table-cell *:not(.file-icon) {
 	min-width: 0;
+}
+
+div.file-table-cell a {
+	display: block;
 }
 
 span.file-icon {
@@ -42,10 +49,6 @@ span.file-icon {
 
 .file-table td:not(.bx--table-column-checkbox) {
 	cursor: pointer;
-}
-
-td a {
-	display: block !important;
 }
 
 @media (pointer: coarse) {
