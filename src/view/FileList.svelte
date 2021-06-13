@@ -121,13 +121,13 @@
 			// Make row selectable via tab.
 			row.setAttribute("tabindex", "0");
 			// Trigger click on the second cell of the row on Enter.
-			row.addEventListener("keyup", (e: KeyboardEvent) => {
+			row.onkeyup = (e: KeyboardEvent) => {
 				if (e.key === "Enter") {
 					e.preventDefault();
 					const td = (e.target as Element).children[1] as HTMLElement;
-					td.click();
+					td && td.click();
 				}
-			});
+			};
 		}
 	});
 </script>
