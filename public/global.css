@@ -97,10 +97,7 @@ table.raw {
 table.raw td {
 	padding: 0.5rem;
 	border-top: solid 1px var(--cds-ui-03, #e0e0e0);
-	text-overflow: ellipsis;
-	overflow: clip;
-	white-space: nowrap;
-	max-width: 50vw;
+	word-break: break-all;
 }
 
 /* Breadcrumbs customizations */

@@ -52,7 +52,7 @@
 </script>
 
 <Tile>
-	<Form>
+	<Form style="margin-bottom: 1rem;">
 		{#each tooLargeFiles as f}
 			<InlineNotification
 				kind="warning-alt"
@@ -81,23 +81,39 @@
 			Upload
 		</Button>
 	</Form>
-	<table class="raw">
+	<div class="uploads">
 		{#each uploads as u}
-			<tr>
-				<td class="name">{u.file.name}</td>
-				<td>
-					{#if u.progress}
-						<progress
-							max={u.progress.total}
-							value={u.progress.loaded}
-						>
-							{(u.progress.loaded / u.progress.total) * 100}%
-						</progress>
-					{:else}
-						<progress />
-					{/if}
-				</td>
-			</tr>
+			<div class="flex">
+				<p class="name">{u.file.name}</p>
+				{#if u.progress}
+					<progress max={u.progress.total} value={u.progress.loaded}>
+						{(u.progress.loaded / u.progress.total) * 100}%
+					</progress>
+				{:else}
+					<progress />
+				{/if}
+			</div>
 		{/each}
-	</table>
+	</div>
 </Tile>
+
+<style>
+	.uploads {
+		max-width: 100%;
+		width: 500px;
+	}
+	.flex {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: nowrap;
+		padding: 0.5rem 0;
+		border-top: solid 1px var(--cds-ui-03, #e0e0e0);
+	}
+
+	.name {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+</style>

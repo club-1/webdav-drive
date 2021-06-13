@@ -150,11 +150,7 @@
 					/>
 				</Column>
 			</Row>
-			<Row>
-				<Column>
-					<Details {file} />
-				</Column>
-			</Row>
+			<Details {file} />
 			<Row>
 				<Tile light>
 					<Button on:click={logout}>Log out</Button>
