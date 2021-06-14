@@ -88,8 +88,8 @@
 	function applyTask(t: Task) {
 		let actions = t.apply(path);
 		task = null;
-		Promise.allSettled(actions).then(fileListUpdateIncr);
 		actions.forEach((a) => a.catch(pass));
+		Promise.allSettled(actions).then(fileListUpdateIncr);
 	}
 
 	function deleteSelected() {
@@ -100,6 +100,7 @@
 			deleted.push(fs.deleteFile(checked.pop()!.path));
 		}
 		selectedRowIds = [];
+		deleted.forEach((a) => a.catch(pass));
 		Promise.allSettled(deleted).then(fileListUpdateIncr);
 	}
 
