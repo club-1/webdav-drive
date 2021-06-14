@@ -8,7 +8,7 @@ WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV 
 
 For now, it has to be configured before compilation, [suckless](https://suckless.org/) style, so it is not possible to distribute a precompiled bundle.
 
-## Build
+## Build...
 
 1. Install the dependencies:
 
@@ -22,7 +22,7 @@ For now, it has to be configured before compilation, [suckless](https://suckless
     cp config.sample.ts config.ts
     ```
 
-### Production instructions
+### ...for production
 
 To create an optimised version of the app:
 
@@ -32,7 +32,7 @@ npm run build
 
 The `public` directory now contains the fully built production app.
 
-### Development instructions
+### ...for development
 
 Start the dev server using the following comand, then navigate to [localhost:5000](http://localhost:5000):
 

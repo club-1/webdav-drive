@@ -48,7 +48,7 @@
 	$: tableData = files2table(files);
 
 	function listFiles(path: string) {
-		loading.set("files");
+		loading.set("Loading files");
 		fs.listFiles(path)
 			.then((res) => {
 				files = res;
@@ -93,6 +93,7 @@
 	}
 
 	function deleteSelected() {
+		loading.set("Deleting files");
 		deleteSelectedModal = false;
 		let deleted: Promise<unknown>[] = [];
 		while (checked.length > 0) {

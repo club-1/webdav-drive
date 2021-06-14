@@ -95,7 +95,7 @@
 
 <Header platformName={config.branding.site_name}>
 	{#if $loading != ""}
-		<InlineLoading description="Loading {$loading}..." />
+		<InlineLoading description="{$loading}..." />
 	{/if}
 	<HeaderUtilities>
 		<HeaderGlobalAction
