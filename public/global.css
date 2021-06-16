@@ -22,6 +22,27 @@ h1, h2, h3, h4, h5, label.bx--btn {
 	stroke: #393939;
 }
 
+/* SideNav customizations */
+
+.bx--header__menu-trigger {
+	flex-shrink: 0;
+}
+
+.bx--side-nav__overlay {
+	/* Fix for https://github.com/IBM/carbon-components-svelte/issues/544#issuecomment-855351372 */
+	z-index: 6000;
+}
+
+.bx--side-nav ~ main.bx--content {
+	margin-left: 0;
+}
+
+@media(max-width:1056px) {
+	.bx--side-nav ~ main.bx--content {
+		margin-left: 0 !important;
+	}
+}
+
 /* DataTable customizations */
 
 div.file-table td {

@@ -10,7 +10,6 @@
 	import type { File } from "./model/Files";
 	import { error2kind, url2path } from "./utils";
 	import {
-		Button,
 		Column,
 		Content,
 		Grid,
@@ -20,17 +19,24 @@
 		InlineLoading,
 		InlineNotification,
 		Row,
+		SideNav,
+		SideNavDivider,
+		SideNavItems,
+		SideNavLink,
 		Tile,
 	} from "carbon-components-svelte";
 	import Moon20 from "carbon-icons-svelte/lib/Moon20";
 	import Sun20 from "carbon-icons-svelte/lib/Sun20";
+	import LogoGithub16 from "carbon-icons-svelte/lib/LogoGithub16";
+	import User16 from "carbon-icons-svelte/lib/User16";
 	import { fileListUpdateIncr, loading } from "./stores";
 
 	export let provider: FileSystemProvider;
 	export let config: Config;
 
+	let isSideNavOpen = false;
 	let dark: boolean = localStorage.getItem("dark") == "true" ? true : false;
-	let fs: FileSystem | null;
+	let fs: FileSystem | null = null;
 	let file: File;
 	let path: string = url2path(document.location.href) || "/";
 	let errors: Error[] = [];
@@ -93,7 +99,11 @@
 	<title>{config.branding.site_name}</title>
 </svelte:head>
 
-<Header platformName={config.branding.site_name}>
+<Header
+	platformName={config.branding.site_name}
+	persistentHamburgerMenu
+	bind:isSideNavOpen
+>
 	{#if $loading != ""}
 		<InlineLoading description="{$loading}..." />
 	{/if}
@@ -105,6 +115,22 @@
 		/>
 	</HeaderUtilities>
 </Header>
+
+<SideNav bind:isOpen={isSideNavOpen}>
+	<SideNavItems>
+		{#if fs}
+			<SideNavLink text="Log out" icon={User16} on:click={logout} />
+		{:else}
+			<SideNavLink text="Log in" icon={User16} />
+		{/if}
+		<SideNavDivider />
+		<SideNavLink
+			text="Help improving"
+			icon={LogoGithub16}
+			href="https://github.com/club-1/webdav-drive/"
+		/>
+	</SideNavItems>
+</SideNav>
 
 <Content style="padding: 0px 2% 2rem">
 	<Grid>
@@ -151,11 +177,6 @@
 				</Column>
 			</Row>
 			<Details {file} />
-			<Row>
-				<Tile light>
-					<Button on:click={logout}>Log out</Button>
-				</Tile>
-			</Row>
 		{/if}
 	</Grid>
 </Content>
