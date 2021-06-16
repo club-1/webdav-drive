@@ -34,13 +34,15 @@ h1, h2, h3, h4, h5, label.bx--btn {
 }
 
 .bx--side-nav ~ main.bx--content {
-	margin-left: 0;
+	margin-left: 0 !important;
 }
 
-@media(max-width:1056px) {
-	.bx--side-nav ~ main.bx--content {
-		margin-left: 0 !important;
-	}
+div.bx--side-nav__overlay-active {
+	width: 100vw;
+	height: 100vh;
+	background-color: var(--cds-overlay-01, rgba(22, 22, 22, 0.5));
+	opacity: 1;
+	transition: none;
 }
 
 /* DataTable customizations */
