@@ -51,51 +51,49 @@
 	}
 </script>
 
-<Tile>
-	<Form style="margin-bottom: 1rem;">
-		{#each tooLargeFiles as f}
-			<InlineNotification
-				kind="warning-alt"
-				title="Warning: "
-				subtitle="{f.name} is {hrsize(f.size)}"
-				hideCloseButton
-			/>
-		{/each}
-		<FormGroup legendText="Upload files">
-			<FileUploaderButton
-				on:change={() => (files = ref.files)}
-				multiple
-				bind:labelText
-				bind:ref
-			/>
-			<div class="bx--form__helper-text">
-				Max file size: {hrsize(maxFileSize)}
-			</div>
-		</FormGroup>
-		<Button
-			type="submit"
-			bind:disabled
-			on:click={submitHandler}
-			icon={Upload20}
-		>
-			Upload
-		</Button>
-	</Form>
-	<div class="uploads">
-		{#each uploads as u}
-			<div class="flex">
-				<p class="name">{u.file.name}</p>
-				{#if u.progress}
-					<progress max={u.progress.total} value={u.progress.loaded}>
-						{(u.progress.loaded / u.progress.total) * 100}%
-					</progress>
-				{:else}
-					<progress />
-				{/if}
-			</div>
-		{/each}
-	</div>
-</Tile>
+<Form style="margin-bottom: 1rem;">
+	{#each tooLargeFiles as f}
+		<InlineNotification
+			kind="warning-alt"
+			title="Warning: "
+			subtitle="{f.name} is {hrsize(f.size)}"
+			hideCloseButton
+		/>
+	{/each}
+	<FormGroup legendText="Upload files">
+		<FileUploaderButton
+			on:change={() => (files = ref.files)}
+			multiple
+			bind:labelText
+			bind:ref
+		/>
+		<div class="bx--form__helper-text">
+			Max file size: {hrsize(maxFileSize)}
+		</div>
+	</FormGroup>
+	<Button
+		type="submit"
+		bind:disabled
+		on:click={submitHandler}
+		icon={Upload20}
+	>
+		Upload
+	</Button>
+</Form>
+<div class="uploads">
+	{#each uploads as u}
+		<div class="flex">
+			<p class="name">{u.file.name}</p>
+			{#if u.progress}
+				<progress max={u.progress.total} value={u.progress.loaded}>
+					{(u.progress.loaded / u.progress.total) * 100}%
+				</progress>
+			{:else}
+				<progress />
+			{/if}
+		</div>
+	{/each}
+</div>
 
 <style>
 	.uploads {

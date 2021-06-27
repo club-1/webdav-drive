@@ -162,7 +162,7 @@
 			{/if}
 		{:else}
 			<Row>
-				<Tile light style="min-height: auto">
+				<Tile style="min-height: auto">
 					{#key path}
 						<Breadcrumbs bind:path />
 					{/key}
@@ -173,12 +173,14 @@
 					<FileList {fs} {onFileClick} bind:path />
 				</Column>
 				<Column lg={5}>
-					<Upload
-						{fs}
-						bind:path
-						onUploadSuccess={fileListUpdateIncr}
-						maxFileSize={config.max_body_size}
-					/>
+					<Tile light>
+						<Upload
+							{fs}
+							bind:path
+							onUploadSuccess={fileListUpdateIncr}
+							maxFileSize={config.max_body_size}
+						/>
+					</Tile>
 				</Column>
 			</Row>
 			<Details {file} />
