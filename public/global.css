@@ -145,7 +145,7 @@ ol.bx--breadcrumb {
 
 /* Grid customizations */
 
-@media(max-width: 38rem) {
+@media(max-width: 610px) {
 	div.bx--grid {
 		padding-right:0;
 		padding-left:0

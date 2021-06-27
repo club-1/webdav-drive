@@ -29,11 +29,12 @@
 	import Sun20 from "carbon-icons-svelte/lib/Sun20";
 	import LogoGithub16 from "carbon-icons-svelte/lib/LogoGithub16";
 	import User16 from "carbon-icons-svelte/lib/User16";
-	import { fileListUpdateIncr, loading } from "./stores";
+	import { fileListUpdateIncr, isSmallScreen, loading } from "./stores";
 
 	export let provider: FileSystemProvider;
 	export let config: Config;
 
+	let width = window.innerWidth;
 	let isSideNavOpen = false;
 	let dark: boolean = localStorage.getItem("dark") == "true" ? true : false;
 	let fs: FileSystem | null = null;
@@ -44,6 +45,8 @@
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
 	$: window.location.href = `#${escape(path)}`;
+	$: isSmallScreen.set(width <= 610);
+	$: console.log(width);
 
 	let username = localStorage.getItem("username");
 	let password = localStorage.getItem("password");
@@ -95,6 +98,8 @@
 	}
 </script>
 
+<svelte:window bind:innerWidth={width}/>
+
 <svelte:head>
 	<title>{config.branding.site_name}</title>
 </svelte:head>
@@ -105,7 +110,7 @@
 	bind:isSideNavOpen
 >
 	{#if $loading != ""}
-		<InlineLoading description="{$loading}..." />
+		<InlineLoading description="{$isSmallScreen ? "" : $loading + "..."}" />
 	{/if}
 	<HeaderUtilities>
 		<HeaderGlobalAction
