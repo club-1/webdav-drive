@@ -162,7 +162,7 @@
 			{/if}
 		{:else}
 			<Row>
-				<Tile style="min-height: auto">
+				<Tile light style="min-height: auto">
 					{#key path}
 						<Breadcrumbs bind:path />
 					{/key}
@@ -173,7 +173,7 @@
 					<FileList {fs} {onFileClick} bind:path />
 				</Column>
 				<Column lg={5}>
-					<Tile light>
+					<Tile>
 						<Upload
 							{fs}
 							bind:path
