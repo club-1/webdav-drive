@@ -58,8 +58,9 @@
 			.catch(logout);
 	}
 
-	window.addEventListener("hashchange", (e: HashChangeEvent) => {
-		let newPath = url2path(e.newURL);
+	window.addEventListener("hashchange", (e: Event) => {
+		let hce = e as HashChangeEvent;
+		let newPath = url2path(hce.newURL);
 		if (path != newPath) path = newPath;
 	});
 

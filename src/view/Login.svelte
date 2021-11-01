@@ -26,7 +26,9 @@
 			localStorage.setItem("password", password);
 			onLoginSuccess(fs);
 		} catch (err) {
-			error = err;
+			if (err instanceof Error) {
+				error = err;
+			}
 		}
 	}
 </script>

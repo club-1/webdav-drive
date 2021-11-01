@@ -5,7 +5,6 @@
 		Form,
 		FormGroup,
 		InlineNotification,
-		Tile,
 	} from "carbon-components-svelte";
 
 	import type { FileSystem } from "../model/FileSystem";

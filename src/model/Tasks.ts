@@ -30,12 +30,12 @@ export class CopyTask extends Task {
 	constructor(fs: FileSystem, files: Inode[]) {
 		super(fs, "copy", files);
 	}
-	action = this.fs.copyFile.bind(this.fs)
+	action = this.fs.copyFile.bind(this.fs);
 }
 
 export class MoveTask extends Task {
 	constructor(fs: FileSystem, files: Inode[]) {
 		super(fs, "move", files);
 	}
-	action = this.fs.moveFile.bind(this.fs)
+	action = this.fs.moveFile.bind(this.fs);
 }
