@@ -108,21 +108,6 @@ section.bx--table-toolbar {
 	transition: none !important;
 }
 
-/* Raw table display */
-
-table.raw {
-	margin-top: 1rem;
-	color: var(--cds-text-02, #525252);
-	overflow-x: auto;
-	display: block;
-}
-
-table.raw td {
-	padding: 0.5rem;
-	border-top: solid 1px var(--cds-ui-03, #e0e0e0);
-	word-break: break-all;
-}
-
 /* Breadcrumbs customizations */
 
 nav[aria-label="Breadcrumb"] {

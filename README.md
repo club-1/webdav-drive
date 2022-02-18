@@ -48,6 +48,6 @@ npm run dev
 [buildurl]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml?query=branch%3Amain
 [typescript]: https://github.com/microsoft/TypeScript
 [svelte]: https://svelte.dev
-[carbon]: https://github.com/IBM/carbon-components-svelte
+[carbon]: https://github.com/carbon-design-system/carbon-components-svelte
 [webdav]: https://github.com/perry-mitchell/webdav-client
 [suckless]: https://suckless.org/
