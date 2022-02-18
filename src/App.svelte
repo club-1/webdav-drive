@@ -25,10 +25,10 @@
 		SideNavLink,
 		Tile,
 	} from "carbon-components-svelte";
-	import Moon20 from "carbon-icons-svelte/lib/Moon20";
-	import Sun20 from "carbon-icons-svelte/lib/Sun20";
-	import LogoGithub16 from "carbon-icons-svelte/lib/LogoGithub16";
-	import User16 from "carbon-icons-svelte/lib/User16";
+	import { Moon20 } from "carbon-icons-svelte";
+	import { Sun20 } from "carbon-icons-svelte";
+	import { LogoGithub16 } from "carbon-icons-svelte";
+	import { User16 } from "carbon-icons-svelte";
 	import { fileListUpdateIncr, isSmallScreen, loading } from "./stores";
 
 	export let provider: FileSystemProvider;

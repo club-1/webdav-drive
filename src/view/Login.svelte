@@ -7,7 +7,7 @@
 		PasswordInput,
 		TextInput,
 	} from "carbon-components-svelte";
-	import ArrowRight20 from "carbon-icons-svelte/lib/ArrowRight20";
+	import { ArrowRight20 } from "carbon-icons-svelte";
 	import type { FileSystem } from "../model/FileSystem";
 	import type { FileSystemProvider } from "../model/FileSystemProvider";
 

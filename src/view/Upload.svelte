@@ -10,7 +10,7 @@
 	import type { FileSystem } from "../model/FileSystem";
 	import type { Progress } from "../model/Upload";
 	import { FileUpload } from "../model/Upload";
-	import Upload20 from "carbon-icons-svelte/lib/Upload20";
+	import { Upload20 } from "carbon-icons-svelte";
 	import { hrsize } from "../utils";
 
 	export let fs: FileSystem;

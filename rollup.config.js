@@ -23,7 +23,8 @@ export default {
 			preprocess: [
 				// preprocess typescript in svelte files
 				ts(),
-				// optimize carbon components imports
+				// optimize carbon components imports,
+				// very important for production builds
 				carbon()
 			],
 			compilerOptions: {

@@ -21,11 +21,11 @@
 		ToolbarMenu,
 		ToolbarMenuItem,
 	} from "carbon-components-svelte";
-	import Add16 from "carbon-icons-svelte/lib/Add16";
-	import Delete16 from "carbon-icons-svelte/lib/Delete16";
-	import Copy16 from "carbon-icons-svelte/lib/Copy16";
-	import Cut16 from "carbon-icons-svelte/lib/Cut16";
-	import Paste16 from "carbon-icons-svelte/lib/Paste16";
+	import { Add16 } from "carbon-icons-svelte";
+	import { Delete16 } from "carbon-icons-svelte";
+	import { Copy16 } from "carbon-icons-svelte";
+	import { Cut16 } from "carbon-icons-svelte";
+	import { Paste16 } from "carbon-icons-svelte";
 
 	export let fs: FileSystem;
 	export let onFileClick: (f: File) => unknown;
