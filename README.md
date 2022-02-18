@@ -2,11 +2,14 @@
 
 [![build status][buildimg]][buildurl]
 
-WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV share, written in [TypeScript](https://github.com/microsoft/TypeScript) with [Svelte](https://svelte.dev), [Carbon](https://github.com/IBM/carbon-components-svelte) and [perry-mitchell/webdav-client](https://github.com/perry-mitchell/webdav-client).
+WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV
+share, written in [TypeScript][typescript] with [Svelte][svelte],
+[Carbon][carbon] and [perry-mitchell/webdav-client][webdav].
 
 ![screenshot](./docs/screenshot.png)
 
-For now, it has to be configured before compilation, [suckless](https://suckless.org/) style, so it is not possible to distribute a precompiled bundle.
+For now, it has to be configured before compilation, [suckless][suckless] style,
+so it is not possible to distribute a precompiled bundle.
 
 ## Build...
 
@@ -34,7 +37,8 @@ The `public` directory now contains the fully built production app.
 
 ### ...for development
 
-Start the dev server using the following comand, then navigate to [localhost:5000](http://localhost:5000):
+Start the dev server using the following comand, then navigate to
+[localhost:5000](http://localhost:5000):
 
 ```bash
 npm run dev
@@ -42,3 +46,8 @@ npm run dev
 
 [buildimg]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml/badge.svg
 [buildurl]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml?query=branch%3Amain
+[typescript]: https://github.com/microsoft/TypeScript
+[svelte]: https://svelte.dev
+[carbon]: https://github.com/IBM/carbon-components-svelte
+[webdav]: https://github.com/perry-mitchell/webdav-client
+[suckless]: https://suckless.org/
