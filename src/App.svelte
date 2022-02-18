@@ -91,6 +91,7 @@
 		hasSession = false;
 		localStorage.removeItem("username");
 		localStorage.removeItem("password");
+		isSideNavOpen = false;
 	}
 
 	function toggleTheme() {
