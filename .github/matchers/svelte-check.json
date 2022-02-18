@@ -1,0 +1,17 @@
+{
+  "problemMatcher": [
+    {
+      "owner": "svelte-check",
+      "pattern": [
+        {
+          "regexp": "^(\\d+)\\s(ERROR|WARNING)\\s\"(.+)\"\\s(\\d+):(\\d+)\\s\"(.+)\"$",
+          "severity": 2,
+          "file": 3,
+          "line": 4,
+          "column": 5,
+          "message": 6
+        }
+      ]
+    }
+  ]
+}

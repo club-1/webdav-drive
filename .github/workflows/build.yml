@@ -70,4 +70,7 @@ jobs:
       run: cp config.sample.ts config.ts
 
     - name: Run checks
-      run: npm run check
+      run: |
+        echo "::add-matcher::.github/matchers/svelte-check.json"
+        npm run check
+        echo "::remove-matcher owner=svelte-check::"
