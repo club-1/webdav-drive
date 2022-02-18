@@ -42,6 +42,7 @@
 
 	$: listFiles(path);
 	$: $fileListUpdate && listFiles(path);
+	$: resetSelection(path);
 	$: checked = files.filter((inode) =>
 		selectedRowIds.includes(inode.basename)
 	);
@@ -61,9 +62,8 @@
 			.finally(() => loading.set(""));
 	}
 
-	function changeDir(dir: string) {
+	function resetSelection(path?: string) {
 		selectedRowIds = [];
-		path = dir;
 	}
 
 	async function newDir() {
@@ -110,7 +110,7 @@
 		}
 		let inode = e.detail.row!.inode as Inode;
 		if (inode instanceof Directory) {
-			changeDir(inode.path + "/");
+			path = inode.path + "/";
 		} else {
 			onFileClick(inode as File);
 		}
