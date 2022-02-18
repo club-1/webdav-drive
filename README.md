@@ -38,7 +38,7 @@ The `public` directory now contains the fully built production app.
 ### ...for development
 
 Start the dev server using the following comand, then navigate to
-[localhost:5000](http://localhost:5000):
+[localhost:8080](http://localhost:8080):
 
 ```bash
 npm run dev
