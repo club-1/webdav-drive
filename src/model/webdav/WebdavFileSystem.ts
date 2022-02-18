@@ -1,6 +1,7 @@
 import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav/web";
 import { ab2str } from "../../utils";
-import { Column, Direction, FileSystem, FileSystemBase } from "../FileSystem";
+import type { Column, Direction, FileSystem } from "../FileSystem";
+import { FileSystemBase } from "../FileSystem";
 import { Inode, File, Directory } from "../Files";
 import type { Progress } from "../Upload";
 

@@ -44,7 +44,7 @@
 
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
-	$: window.location.href = `#${escape(path)}`;
+	$: window.location.href = `#${encodeURI(path)}`;
 	$: isSmallScreen.set(width <= 610);
 	$: console.log(width);
 

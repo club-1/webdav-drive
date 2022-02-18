@@ -51,7 +51,7 @@ export function url2path(url: string): string {
 	let path = "";
 	const matches = url.match(/#(.*)$/);
 	if (matches != null) {
-		path = unescape(matches[1]);
+		path = decodeURI(matches[1]);
 	}
 	return path;
 }

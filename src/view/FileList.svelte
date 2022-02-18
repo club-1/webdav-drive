@@ -40,9 +40,11 @@
 	let newFolder = "";
 	let deleteSelectedModal = false;
 
-	$: listFiles(path);
+	$: {
+		listFiles(path);
+		selectedRowIds = [];
+	}
 	$: $fileListUpdate && listFiles(path);
-	$: resetSelection(path);
 	$: checked = files.filter((inode) =>
 		selectedRowIds.includes(inode.basename)
 	);
@@ -60,10 +62,6 @@
 				error = err;
 			})
 			.finally(() => loading.set(""));
-	}
-
-	function resetSelection(path?: string) {
-		selectedRowIds = [];
 	}
 
 	async function newDir() {
