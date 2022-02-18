@@ -9,7 +9,10 @@
     "start": "sirv public --no-clear",
     "dev": "npm run --silent start -- --dev & npm run --silent watch",
     "analyse": "npx ts_dependency_graph --start src/main.ts | dot -T svg > modules.svg && open modules.svg",
-    "check": "tsc --noEmit; svelte-check; eslint src",
+    "check": "npm run check-typescript; npm run check-svelte; npm run check-eslint;",
+    "check-eslint": "eslint src",
+    "check-svelte": "svelte-check `[ -n \"$CI\" ] && echo --output=machine`",
+    "check-typescript": "tsc --noEmit",
     "fix": "eslint src --fix"
   },
   "devDependencies": {
