@@ -46,6 +46,10 @@ export function files2table(files: Inode[]): FileTable {
 			value: "Size",
 			display: (v: number | string) => typeof v == "string" ? v : hrsize(v),
 		},
+		{
+			key: "menu",
+			empty: true,
+		},
 
 	];
 	const rows: Row[] = files

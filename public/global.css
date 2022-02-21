@@ -52,6 +52,18 @@ div.file-table td {
 	padding-right: 2px;
 }
 
+div.file-table td:last-child {
+	width: 0;
+}
+
+div.file-table td .bx--overflow-menu {
+	width: 1rem;
+}
+
+.bx--data-table--md .bx--overflow-menu {
+	height: 1.5rem;
+}
+
 div.file-table-cell {
 	display: flex;
 	white-space: nowrap;
@@ -91,6 +103,22 @@ section.bx--table-toolbar {
 	overflow: clip;
 	/* Hack to fix https://github.com/IBM/carbon-components-svelte/issues/426 */
 	z-index: 1;
+}
+
+/* Hide some rows on small screens */
+@media(max-width: 610px) {
+	div.file-table td:nth-child(2) {
+		max-width: 50vw;
+	}
+
+	div.file-table td:nth-child(3), div.file-table th:nth-child(3) {
+		display: none;
+	}
+}
+@media(max-width: 380px) {
+	div.file-table td:nth-child(4), div.file-table th:nth-child(4) {
+		display: none;
+	}
 }
 
 /* Disable slow and useless transition */

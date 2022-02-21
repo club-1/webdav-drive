@@ -6,7 +6,8 @@
 	import { CopyTask, MoveTask, Task } from "../model/Tasks";
 	import { fileListUpdate, fileListUpdateIncr, loading } from "../stores";
 	import { files2table } from "../model/FileUtils";
-	import { pass } from "../utils";
+	import { parent, pass } from "../utils";
+	import FileListCell from "./FileListCell.svelte";
 	import {
 		DataTable,
 		Toolbar,
@@ -14,12 +15,15 @@
 		ToolbarBatchActions,
 		Button,
 		InlineNotification,
-		Link,
 		TextInput,
 		Modal,
 		Form,
 		ToolbarMenu,
 		ToolbarMenuItem,
+		ComposedModal,
+		ModalHeader,
+		ModalBody,
+		ModalFooter,
 	} from "carbon-components-svelte";
 	import { Add16 } from "carbon-icons-svelte";
 	import { Delete16 } from "carbon-icons-svelte";
@@ -43,6 +47,9 @@
 	let newFolderModal = false;
 	let newFolder = "";
 	let deleteSelectedModal = false;
+	let renameModal = false;
+	let renameValue = "";
+	let renameInode: Inode;
 
 	$: {
 		listFiles(path);
@@ -179,32 +186,13 @@
 				</Button>
 			</ToolbarContent>
 		</Toolbar>
-		<div slot="cell" class="file-table-cell" let:cell>
-			{#if cell.key === "name"}
-				<span class="file-icon">
-					{cell.value.getIconChar()}
-				</span>
-				{#if cell.value instanceof File}
-					<span on:click|stopPropagation>
-						<Link
-							inline
-							href={fs.getFileDownloadLink(cell.value.path)}
-							target="_blank"
-						>
-							{cell.value.basename}
-						</Link>
-					</span>
-				{:else}
-					<div>
-						{cell.value.basename}
-					</div>
-				{/if}
-			{:else}
-				<div>
-					{cell.display ? cell.display(cell.value) : cell.value}
-				</div>
-			{/if}
-		</div>
+		<svelte:fragment slot="cell" let:cell let:row>
+			<FileListCell {fs} {cell} on:click-rename={() => {
+				renameInode = row.inode;
+				renameValue = renameInode.basename;
+				renameModal = true;
+			}} />
+		</svelte:fragment>
 	</DataTable>
 {:else}
 	<InlineNotification
@@ -248,3 +236,26 @@
 >
 	<p>Are you sure you want to delete {checked.length} files?</p>
 </Modal>
+
+<ComposedModal
+	bind:open={renameModal}
+	on:submit={() => {
+		fs.moveFile(renameInode.path, parent(renameInode.path) + renameValue).then(
+			fileListUpdateIncr
+		);
+		renameModal = false;
+	}}
+>
+	<ModalHeader title="Rename file" />
+	<ModalBody hasForm>
+		<TextInput bind:value={renameValue} />
+	</ModalBody>
+	<ModalFooter
+		primaryButtonText="Rename"
+		primaryButtonDisabled={renameValue.length <= 0}
+		secondaryButtonText="Cancel"
+		on:click:button--secondary={() => {
+			renameModal = false;
+		}}
+	/>
+</ComposedModal>
