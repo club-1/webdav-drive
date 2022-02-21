@@ -84,6 +84,15 @@
 		newFolder = "";
 	}
 
+	async function renameFile() {
+		renameModal = false;
+		await fs.moveFile(
+			renameInode.path,
+			parent(renameInode.path) + renameValue
+		);
+		fileListUpdateIncr();
+	}
+
 	function copySelected() {
 		task = new CopyTask(fs, checked);
 		selectedRowIds = [];
@@ -205,8 +214,9 @@
 
 <Modal
 	bind:open={newFolderModal}
-	size="xs"
+	size="sm"
 	modalHeading="Create new folder"
+	hasForm
 	primaryButtonText="Create"
 	primaryButtonDisabled={!newFolder}
 	secondaryButtonText="Cancel"
@@ -215,13 +225,11 @@
 	on:close={() => (newFolder = "")}
 >
 	<p>Enter a name for the new folder.</p>
-	<Form on:submit={newDir}>
-		<TextInput
-			labelText="Name"
-			bind:value={newFolder}
-			data-modal-primary-focus
-		/>
-	</Form>
+	<TextInput
+		labelText="Name"
+		bind:value={newFolder}
+		data-modal-primary-focus
+	/>
 </Modal>
 
 <Modal
@@ -231,28 +239,27 @@
 	modalHeading="Delete selected files"
 	primaryButtonText="Delete"
 	secondaryButtonText="Cancel"
+	shouldSubmitOnEnter={false}
 	on:click:button--secondary={() => (deleteSelectedModal = false)}
 	on:submit={deleteSelected}
 >
 	<p>Are you sure you want to delete {checked.length} files?</p>
 </Modal>
 
-<ComposedModal
-	bind:open={renameModal}
-	on:submit={() => {
-		fs.moveFile(renameInode.path, parent(renameInode.path) + renameValue).then(
-			fileListUpdateIncr
-		);
-		renameModal = false;
-	}}
->
+<ComposedModal size="sm" bind:open={renameModal} on:submit={renameFile}>
 	<ModalHeader title="Rename file" />
 	<ModalBody hasForm>
-		<TextInput bind:value={renameValue} />
+		<Form on:submit={renameFile}>
+			<TextInput
+				labelText="New name"
+				bind:value={renameValue}
+				data-modal-primary-focus
+			/>
+		</Form>
 	</ModalBody>
 	<ModalFooter
 		primaryButtonText="Rename"
-		primaryButtonDisabled={renameValue.length <= 0}
+		primaryButtonDisabled={!renameValue}
 		secondaryButtonText="Cancel"
 		on:click:button--secondary={() => {
 			renameModal = false;
