@@ -78,16 +78,6 @@ span.file-icon {
 	cursor: pointer;
 }
 
-@media (pointer: coarse) {
-	.bx--data-table--short thead tr, .bx--data-table--short tbody tr, .bx--data-table--short tbody tr th {
-		height: 2.5rem !important;
-	}
-
-	.bx--data-table--short.bx--data-table--sort th {
-		height: 2.5rem !important;
-	}
-}
-
 .bx--toolbar-action[disabled] svg.bx--overflow-menu__icon {
 	fill: var(--cds-disabled-03, #8d8d8d);
 }

@@ -27,10 +27,14 @@
 	import { Cut16 } from "carbon-icons-svelte";
 	import { Paste16 } from "carbon-icons-svelte";
 
+	type Size = "short" | "medium";
+
 	export let fs: FileSystem;
 	export let onFileClick: (f: File) => unknown;
 	export let path = "/";
 
+	const isTactile = window.matchMedia("(pointer: coarse)").matches;
+	const size: Size = isTactile ? "medium" : "short";
 	let files: Inode[] = [];
 	let error: Error | null = null;
 	let checked: Inode[] = [];
@@ -138,7 +142,7 @@
 		sortable
 		bind:selectedRowIds
 		{...tableData}
-		size="short"
+		{size}
 		class="file-table"
 		style="width: 100%; margin-bottom: 1rem;"
 		on:click={(e) => onRowClick(e)}
