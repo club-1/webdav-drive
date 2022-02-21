@@ -15,10 +15,15 @@
 </script>
 
 {#if cell.key === "menu"}
-	<OverflowMenu flipped>
+	<OverflowMenu flipped on:click={() => dispatch("click-menu")}>
 		<OverflowMenuItem
 			text="Rename"
 			on:click={() => dispatch("click-rename")}
+		/>
+		<OverflowMenuItem
+			text="Delete"
+			danger
+			on:click={() => dispatch("click-delete")}
 		/>
 	</OverflowMenu>
 {:else}

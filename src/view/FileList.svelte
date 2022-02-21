@@ -47,9 +47,10 @@
 	let newFolderModal = false;
 	let newFolder = "";
 	let deleteSelectedModal = false;
+	let deleteModal = false;
 	let renameModal = false;
 	let renameValue = "";
-	let renameInode: Inode;
+	let menuInode: Inode;
 
 	$: {
 		listFiles(path);
@@ -86,10 +87,13 @@
 
 	async function renameFile() {
 		renameModal = false;
-		await fs.moveFile(
-			renameInode.path,
-			parent(renameInode.path) + renameValue
-		);
+		await fs.moveFile(menuInode.path, parent(menuInode.path) + renameValue);
+		fileListUpdateIncr();
+	}
+
+	async function deleteFile() {
+		deleteModal = false;
+		await fs.deleteFile(menuInode.path);
 		fileListUpdateIncr();
 	}
 
@@ -196,11 +200,18 @@
 			</ToolbarContent>
 		</Toolbar>
 		<svelte:fragment slot="cell" let:cell let:row>
-			<FileListCell {fs} {cell} on:click-rename={() => {
-				renameInode = row.inode;
-				renameValue = renameInode.basename;
-				renameModal = true;
-			}} />
+			<FileListCell
+				{fs}
+				{cell}
+				on:click-menu={() => (menuInode = row.inode)}
+				on:click-rename={() => {
+					renameValue = menuInode.basename;
+					renameModal = true;
+				}}
+				on:click-delete={() => {
+					deleteModal = true;
+				}}
+			/>
 		</svelte:fragment>
 	</DataTable>
 {:else}
@@ -244,6 +255,20 @@
 	on:submit={deleteSelected}
 >
 	<p>Are you sure you want to delete {checked.length} files?</p>
+</Modal>
+
+<Modal
+	bind:open={deleteModal}
+	size="xs"
+	danger
+	modalHeading="Delete this file"
+	primaryButtonText="Delete"
+	secondaryButtonText="Cancel"
+	shouldSubmitOnEnter={false}
+	on:click:button--secondary={() => (deleteModal = false)}
+	on:submit={deleteFile}
+>
+	<p>Are you sure you want to delete the file <code>{menuInode?.basename}</code>?</p>
 </Modal>
 
 <ComposedModal size="sm" bind:open={renameModal} on:submit={renameFile}>
