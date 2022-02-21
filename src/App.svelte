@@ -36,7 +36,7 @@
 
 	let width = window.innerWidth;
 	let isSideNavOpen = false;
-	let dark: boolean = localStorage.getItem("dark") == "true" ? true : false;
+	let dark: boolean = isDark();
 	let fs: FileSystem | null = null;
 	let file: File;
 	let path: string = url2path(document.location.href) || "/";
@@ -92,6 +92,16 @@
 		localStorage.removeItem("username");
 		localStorage.removeItem("password");
 		isSideNavOpen = false;
+	}
+
+	function isDark(): boolean {
+		if (localStorage.getItem("dark") == "true") {
+			return true;
+		}
+		if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+			return true;
+		}
+		return false;
 	}
 
 	function toggleTheme() {
