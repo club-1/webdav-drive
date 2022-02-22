@@ -20,6 +20,7 @@
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^2.0.0 || ^3.0.0",
+    "@types/utf8": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "carbon-icons-svelte": "^10.44.4",
@@ -39,6 +40,7 @@
   },
   "dependencies": {
     "carbon-components-svelte": ">=0.42.2 <1",
+    "utf8": "^3.0.0",
     "webdav": "^4.5.0"
   },
   "repository": {
