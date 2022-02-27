@@ -1,29 +1,22 @@
-import type { FileProperty, InodeProperty, InodeProperties } from "../model/Files";
+import { Inode, type InodeOperation } from "../model/Files";
+
+export type InodeOperations = {
+	/** Display a map of properties */
+	list?: InodeOperation<Map<string, unknown>>,
+	isHidden?: InodeOperation<boolean>,
+	getIconChar?: InodeOperation<string>,
+}
 
 export interface Module {
 	init(core: Core): void;
 }
 
 export class Core {
-	protected static directoryProps: InodeProperties = new Map();
-	protected static fileProps: InodeProperties = new Map();
 
-	public static getDirectoryProps(): InodeProperties {
-		return this.directoryProps;
-	}
-
-	public static getFileProps(): InodeProperties {
-		return this.fileProps;
-	}
-
-	registerInodeProperty(key: string, prop: InodeProperty<unknown>): void {
-		Core.directoryProps.set(key, prop);
-		Core.fileProps.set(key, prop);
-
-	}
-
-	registerFileProperty(key: string, prop: FileProperty<unknown>): void {
-		Core.fileProps.set(key, prop as InodeProperty<unknown>);
+	addInodeOperations(operations: InodeOperations): void {
+		operations.list && Inode.operations.list.push(operations.list);
+		operations.isHidden && Inode.operations.isHidden.push(operations.isHidden);
+		operations.getIconChar && Inode.operations.getIconChar.push(operations.getIconChar);
 	}
 
 }

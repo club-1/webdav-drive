@@ -77,7 +77,6 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	createInode(stat: FileStat): Inode {
 		if (stat.type == "directory") {
 			return new Directory(
-				this.directoryProps,
 				stat.props || {},
 				stat.filename.substring(this.rootLength()),
 				stat.basename,
@@ -86,7 +85,6 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 			);
 		} else {
 			return new File(
-				this.fileProps,
 				stat.props || {},
 				stat.filename.substring(this.rootLength()),
 				stat.basename,

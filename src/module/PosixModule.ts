@@ -1,4 +1,5 @@
 import type { Core, Module } from "../main/Core";
+import type { InodeOperation } from "../model/Files";
 
 type PosixProperties = {
 	mode: number,
@@ -9,43 +10,21 @@ type PosixProperties = {
 	link?: string,
 }
 
+const list: InodeOperation<Map<string,unknown>> = (i, map) => {
+	const props = i.raw as PosixProperties;
+	map.set("mode", props.mode.toString(8));
+	map.set("user", props.user);
+	map.set("group", props.group);
+	map.set("atime", new Date(props.atime * 1000));
+	map.set("ctime", new Date(props.ctime * 1000));
+	map.set("link", props.link || false);
+	return map;
+}
+
 export class PosixModule implements Module {
 	init(core: Core): void {
-		core.registerInodeProperty("mode", {
-			read: (i): string => {
-				const props = i.raw as PosixProperties;
-				return props.mode.toString(8);
-			},
-		});
-		core.registerInodeProperty("user", {
-			read: (i): string => {
-				const props = i.raw as PosixProperties;
-				return props.user;
-			},
-		});
-		core.registerInodeProperty("group", {
-			read: (i): string => {
-				const props = i.raw as PosixProperties;
-				return props.group;
-			},
-		});
-		core.registerInodeProperty("atime", {
-			read: (i): Date => {
-				const props = i.raw as PosixProperties;
-				return new Date(props.atime * 1000);
-			},
-		});
-		core.registerInodeProperty("ctime", {
-			read: (i): Date => {
-				const props = i.raw as PosixProperties;
-				return new Date(props.ctime * 1000);
-			},
-		});
-		core.registerInodeProperty("link", {
-			read: (i): string | false => {
-				const props = i.raw as PosixProperties;
-				return props.link || false;
-			},
+		core.addInodeOperations({
+			list,
 		});
 	}
 }

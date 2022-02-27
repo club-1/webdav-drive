@@ -1,6 +1,6 @@
 import { Core } from "../main/Core";
 import { compareStrings } from "../utils";
-import type { Inode, InodeProperties } from "./Files";
+import type { Inode } from "./Files";
 import type { Progress } from "./Upload";
 
 export type Column = "basename" | "lastmod";
@@ -77,13 +77,6 @@ export interface FileSystem {
 }
 
 export abstract class FileSystemBase {
-	protected directoryProps: InodeProperties;
-	protected fileProps: InodeProperties;
-
-	constructor() {
-		this.directoryProps = Core.getDirectoryProps();
-		this.fileProps = Core.getFileProps();
-	}
 
 	sortFiles(files: Inode[], orderBy: Column, direction: Direction): Inode[] {
 		switch (orderBy) {

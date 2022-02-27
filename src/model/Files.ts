@@ -1,13 +1,20 @@
-import type { Listable, Property } from "../main/Generics";
+import type { Listable } from "../main/Generics";
 
-export type InodeProperty<T> = Property<Inode, T>;
-export type FileProperty<T> = Property<File, T>;
-
-export type InodeProperties = Map<string, InodeProperty<unknown>>;
+export type InodeOperation<T> = (i: Inode, prev: T) => T;
 
 export abstract class Inode implements Listable {
+
+	public static operations: {
+		list: InodeOperation<Map<string, unknown>>[],
+		isHidden: InodeOperation<boolean>[],
+		getIconChar: InodeOperation<string>[],
+	} = {
+		list: [],
+		isHidden: [],
+		getIconChar: []
+	}
+
 	constructor(
-		protected properties: InodeProperties,
 		public raw: object,  // eslint-disable-line @typescript-eslint/ban-types
 		public path: string,
 		public basename: string,
@@ -15,12 +22,15 @@ export abstract class Inode implements Listable {
 		public etag: string | null,
 	) { }
 
-	list(): Map<string, unknown> {
-		const map = new Map<string, unknown>();
-		for (const [key, prop] of this.properties.entries()) {
-			map.set(key, prop.read(this));
+	protected callOperations<T>(operations: InodeOperation<T>[], value: T) {
+		for (const func of operations) {
+			value = func(this, value);
 		}
-		return map;
+		return value;
+	}
+
+	list(): Map<string, unknown> {
+		return this.callOperations(Inode.operations.list, new Map());
 	}
 
 	/**
@@ -28,19 +38,20 @@ export abstract class Inode implements Listable {
 	 * @returns true if the inode is hidden.
 	 */
 	isHidden(): boolean {
-		return this.basename.startsWith(".");
+		return this.callOperations(Inode.operations.isHidden, false);
 	}
 
 	/**
 	 * Get the icon's emoji of an inode.
 	 * @returns the icon's emoji of this inode.
 	 */
-	abstract getIconChar(): string;
+	getIconChar(): string {
+		return this.callOperations(Inode.operations.getIconChar, "📄");
+	}
 }
 
 export class File extends Inode {
 	constructor(
-		properties: InodeProperties,
 		raw: object, // eslint-disable-line @typescript-eslint/ban-types
 		path: string,
 		basename: string,
@@ -49,23 +60,8 @@ export class File extends Inode {
 		public size: number,
 		public mime: string,
 	) {
-		super(properties, raw, path, basename, lastmod, etag);
-	}
-
-	getIconChar(): string {
-		switch (this.mime.split("/")[0]) {
-		case "image":
-			return "🖼️";
-		case "video":
-			return "🎞️";
-		default:
-			return "📄";
-		}
+		super(raw, path, basename, lastmod, etag);
 	}
 }
 
-export class Directory extends Inode {
-	getIconChar(): string {
-		return "📁";
-	}
-}
+export class Directory extends Inode {}
