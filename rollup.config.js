@@ -18,6 +18,7 @@ export default {
 		format: 'es',
 		name: 'app',
 		dir: 'public/build/',
+		chunkFileNames: '[name].js',
 	},
 	plugins: [
 		svelte({
