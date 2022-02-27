@@ -9,10 +9,10 @@ export abstract class Inode implements Listable {
 		isHidden: InodeOperation<boolean>[],
 		getIconChar: InodeOperation<string>[],
 	} = {
-		list: [],
-		isHidden: [],
-		getIconChar: []
-	}
+			list: [],
+			isHidden: [],
+			getIconChar: [],
+		};
 
 	constructor(
 		public raw: object,  // eslint-disable-line @typescript-eslint/ban-types

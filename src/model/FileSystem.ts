@@ -1,4 +1,3 @@
-import { Core } from "../main/Core";
 import { compareStrings } from "../utils";
 import type { Inode } from "./Files";
 import type { Progress } from "./Upload";

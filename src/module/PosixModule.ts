@@ -19,15 +19,15 @@ const list: InodeOperation<Map<string,unknown>> = (i, map) => {
 	map.set("ctime", new Date(props.ctime * 1000));
 	map.set("link", props.link || false);
 	return map;
-}
+};
 
 const getIconChar: InodeOperation<string> = (i, prev) => {
 	const props = i.raw as PosixProperties;
 	if (props.link) {
 		return "↪";
 	}
-	return prev
-}
+	return prev;
+};
 
 export class PosixModule implements Module {
 	init(core: Core): void {

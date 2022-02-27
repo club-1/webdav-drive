@@ -12,11 +12,11 @@ const list: InodeOperation<Map<string,unknown>> = (i, map) => {
 		map.set("mime", i.mime);
 	}
 	return map;
-}
+};
 
 const isHidden: InodeOperation<boolean> = (i) => {
 	return i.basename.startsWith(".");
-}
+};
 
 const getIconChar: InodeOperation<string> = (i, prev) => {
 	if (i instanceof File) {
@@ -30,7 +30,7 @@ const getIconChar: InodeOperation<string> = (i, prev) => {
 		}
 	}
 	return "📁";
-}
+};
 
 export class BaseModule implements Module {
 	init(core: Core): void {
