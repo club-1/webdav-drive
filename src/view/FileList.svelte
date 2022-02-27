@@ -16,6 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
+	import { _ } from "svelte-i18n";
 	import { afterUpdate } from "svelte";
 	import type { TableEvent } from "./types";
 	import type { FileSystem } from "../model/FileSystem";
@@ -185,7 +186,10 @@
 		on:click={(e) => onRowClick(e)}
 	>
 		<Toolbar>
-			<ToolbarBatchActions>
+			<ToolbarBatchActions
+				formatTotalSelected={(i) =>
+					$_("{count} files selected", { values: { count: i } })}
+			>
 				<Button icon={Copy16} on:click={copySelected} />
 				<Button icon={Cut16} on:click={cutSelected} />
 				<Button
@@ -193,29 +197,33 @@
 					icon={Delete16}
 					kind="danger-ghost"
 				>
-					Delete
+					{$_("Delete")}
 				</Button>
+				<svelte:fragment slot="cancel">{$_("Cancel")}</svelte:fragment>
 			</ToolbarBatchActions>
 			<ToolbarContent>
 				<ToolbarMenu
 					icon={Paste16}
-					title="Paste"
+					title={$_("Paste")}
 					disabled={task == null}
 				>
 					{#if task != null}
 						<ToolbarMenuItem
 							on:click={() => task && applyTask(task)}
 						>
-							{task.type}
-							{task.files.length} files
+							{$_(task.label())}
+							{$_("{count} files", {
+								values: { count: task.files.length },
+							})}
 						</ToolbarMenuItem>
 					{/if}
 				</ToolbarMenu>
 				<Button on:click={() => (newFolderModal = true)} icon={Add16}>
-					New folder
+					{$_("New folder")}
 				</Button>
 			</ToolbarContent>
 		</Toolbar>
+		<svelte:fragment slot="cell-header" let:header>{$_(header.value)}</svelte:fragment>
 		<svelte:fragment slot="cell" let:cell let:row>
 			<FileListCell
 				{fs}

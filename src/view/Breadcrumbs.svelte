@@ -16,6 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
+	import { _ } from "svelte-i18n";
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -37,7 +38,7 @@
 			class="clickable bordered crumb"
 			isCurrentPage={idx === elements.length - 1}
 		>
-			{element ? element : "Home"}
+			{element ? element : $_("Home")}
 		</BreadcrumbItem>
 	{/each}
 </Breadcrumb>

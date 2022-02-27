@@ -21,7 +21,7 @@ import { register, init, addMessages, getLocaleFromNavigator, locale } from "sve
 import App from "./App.svelte";
 import { AuthType } from "webdav/web";
 import configFile from "../config";
-import en from "../locales/translation-en.json";
+import en from "../locales/translation-en";
 import { WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
 import type { Config } from "./main/Config";
 import { Core } from "./main/Core";
@@ -38,7 +38,7 @@ for (const module of config.modules) {
 
 // Init translations
 addMessages("en", en);
-register("fr", () => import("../locales/translation-fr.json"));
+register("fr", () => import("../locales/translation-fr"));
 init({
 	fallbackLocale: "en",
 });

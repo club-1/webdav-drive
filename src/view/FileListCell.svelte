@@ -16,6 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
+	import { _ } from "svelte-i18n";
 	import { createEventDispatcher } from "svelte";
 	import { File } from "../model/Files";
 	import {
@@ -34,15 +35,15 @@
 {#if cell.key === "menu"}
 	<OverflowMenu flipped on:click={() => dispatch("click-menu")}>
 		<OverflowMenuItem
-			text="Rename"
+			text={$_("Rename")}
 			on:click={() => dispatch("click-rename")}
 		/>
 		<OverflowMenuItem
-			text="Details"
+			text={$_("Details")}
 			on:click={() => dispatch("click-details")}
 		/>
 		<OverflowMenuItem
-			text="Delete"
+			text={$_("Delete")}
 			danger
 			on:click={() => dispatch("click-delete")}
 		/>

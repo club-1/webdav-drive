@@ -16,6 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
+	import { _ } from "svelte-i18n";
 	import type { FileSystem } from "./model/FileSystem";
 	import FileList from "./view/FileList.svelte";
 	import Login from "./view/Login.svelte";
@@ -143,7 +144,7 @@
 	bind:isSideNavOpen
 >
 	{#if $loading != ""}
-		<InlineLoading description={$isSmallScreen ? "" : $loading + "..."} />
+		<InlineLoading description={$isSmallScreen ? "" : $_($loading) + "..."} />
 	{/if}
 	<HeaderUtilities>
 		<HeaderGlobalAction
@@ -157,13 +158,13 @@
 <SideNav bind:isOpen={isSideNavOpen}>
 	<SideNavItems>
 		{#if fs}
-			<SideNavLink text="Log out" icon={User16} on:click={logout} />
+			<SideNavLink text={$_("Log out")} icon={User16} on:click={logout} />
 		{:else}
-			<SideNavLink text="Log in" icon={User16} />
+			<SideNavLink text={$_("Log in")} icon={User16} />
 		{/if}
 		<SideNavDivider />
 		<SideNavLink
-			text="Help improving"
+			text={$_("Help improving")}
 			icon={LogoGithub16}
 			href="https://github.com/club-1/webdav-drive/"
 		/>
