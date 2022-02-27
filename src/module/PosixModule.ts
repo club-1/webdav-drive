@@ -21,6 +21,14 @@ const list: InodeOperation<Map<string,unknown>> = (i, map) => {
 	return map;
 };
 
+const getName: InodeOperation<string> = (i, prev) => {
+	const props = i.raw as PosixProperties;
+	if (props.link) {
+		return prev + " ⇢ " + props.link;
+	}
+	return prev;
+};
+
 const getIconChar: InodeOperation<string> = (i, prev) => {
 	const props = i.raw as PosixProperties;
 	if (props.link) {
@@ -33,6 +41,7 @@ export class PosixModule implements Module {
 	init(core: Core): void {
 		core.addInodeOperations({
 			list,
+			getName,
 			getIconChar,
 		});
 	}

@@ -39,12 +39,12 @@
 						href={fs.getFileDownloadLink(cell.value.path)}
 						target="_blank"
 					>
-						{cell.value.basename}
+						{cell.value.getName()}
 					</Link>
 				</span>
 			{:else}
 				<div>
-					{cell.value.basename}
+					{cell.value.getName()}
 				</div>
 			{/if}
 		{:else}

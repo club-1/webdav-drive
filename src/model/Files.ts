@@ -7,10 +7,12 @@ export abstract class Inode implements Listable {
 	public static operations: {
 		list: InodeOperation<Map<string, unknown>>[],
 		isHidden: InodeOperation<boolean>[],
+		getName: InodeOperation<string>[],
 		getIconChar: InodeOperation<string>[],
 	} = {
 			list: [],
 			isHidden: [],
+			getName: [],
 			getIconChar: [],
 		};
 
@@ -39,6 +41,14 @@ export abstract class Inode implements Listable {
 	 */
 	isHidden(): boolean {
 		return this.callOperations(Inode.operations.isHidden, false);
+	}
+
+	/**
+	 * Get the display name of an inode.
+	 * @returns the display name of this inode.
+	 */
+	getName(): string {
+		return this.callOperations(Inode.operations.getName, this.basename);
 	}
 
 	/**
