@@ -119,7 +119,7 @@
 		if (localStorage.getItem("dark") == "true") {
 			return true;
 		}
-		if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
 			return true;
 		}
 		return false;
@@ -131,7 +131,7 @@
 	}
 </script>
 
-<svelte:window bind:innerWidth={width}/>
+<svelte:window bind:innerWidth={width} />
 
 <svelte:head>
 	<title>{config.branding.site_name}</title>
@@ -143,7 +143,7 @@
 	bind:isSideNavOpen
 >
 	{#if $loading != ""}
-		<InlineLoading description="{$isSmallScreen ? "" : $loading + "..."}" />
+		<InlineLoading description={$isSmallScreen ? "" : $loading + "..."} />
 	{/if}
 	<HeaderUtilities>
 		<HeaderGlobalAction
@@ -170,7 +170,7 @@
 	</SideNavItems>
 </SideNav>
 
-<Content style="padding: 0px 2% 2rem">
+<Content style="padding: 1rem 2% 2rem">
 	<Grid>
 		<Row>
 			<Column>
@@ -195,7 +195,7 @@
 			{/if}
 		{:else}
 			<Row>
-				<Tile light style="min-height: auto">
+				<Tile light style="min-height: auto; padding-top: 0">
 					{#key path}
 						<Breadcrumbs bind:path />
 					{/key}
