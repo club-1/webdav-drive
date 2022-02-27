@@ -27,6 +27,7 @@
 	import { ArrowRight20 } from "carbon-icons-svelte";
 	import type { FileSystem } from "../model/FileSystem";
 	import type { FileSystemProvider } from "../model/FileSystemProvider";
+	import { loading } from "../stores";
 
 	export let provider: FileSystemProvider;
 	export let onLoginSuccess: (fs: FileSystem) => unknown;
@@ -37,12 +38,14 @@
 
 	async function login() {
 		error = null;
+		loading.set("Logging in");
 		try {
 			let fs = await provider.getFileSystem(username, password);
 			localStorage.setItem("username", username);
 			localStorage.setItem("password", password);
 			onLoginSuccess(fs);
 		} catch (err) {
+			loading.set("");
 			if (err instanceof Error) {
 				error = err;
 			}

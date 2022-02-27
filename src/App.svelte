@@ -69,10 +69,14 @@
 	let password = localStorage.getItem("password");
 	let hasSession = username != null && password != null;
 	if (username && password) {
+		loading.set("Logging in");
 		provider
 			.getFileSystem(username, password)
 			.then((res) => (fs = res))
-			.catch(logout);
+			.catch(() => {
+				loading.set("");
+				logout();
+			});
 	}
 
 	window.addEventListener("hashchange", (e: Event) => {
