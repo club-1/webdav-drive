@@ -17,22 +17,34 @@
 */
 
 import "carbon-components-svelte/css/all.css";
+import { register, init, addMessages, getLocaleFromNavigator, locale } from "svelte-i18n";
 import App from "./App.svelte";
 import { AuthType } from "webdav/web";
 import configFile from "../config";
+import en from "../locales/translation-en.json";
 import { WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
 import type { Config } from "./main/Config";
 import { Core } from "./main/Core";
 
+// Load config
 const config = configFile as Config;
 const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password, config.root);
 
+// Init modules
 const core = new Core();
-
 for (const module of config.modules) {
 	module.init(core);
 }
 
+// Init translations
+addMessages("en", en);
+register("fr", () => import("../locales/translation-fr.json"));
+init({
+	fallbackLocale: "en",
+});
+locale.set(getLocaleFromNavigator());
+
+// Init app
 const app = new App({
 	target: document.body,
 	props: {
