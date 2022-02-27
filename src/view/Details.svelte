@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { Modal } from "carbon-components-svelte";
-	import type { File } from "../model/Files";
+	import type { Inode } from "../model/Files";
 	import Properties from "./Properties.svelte";
 
-	export let file: File | null = null;
+	export let file: Inode | null = null;
 </script>
 
 <Modal

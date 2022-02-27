@@ -21,6 +21,10 @@
 			on:click={() => dispatch("click-rename")}
 		/>
 		<OverflowMenuItem
+			text="Details"
+			on:click={() => dispatch("click-details")}
+		/>
+		<OverflowMenuItem
 			text="Delete"
 			danger
 			on:click={() => dispatch("click-delete")}

@@ -34,7 +34,7 @@
 	type Size = "short" | "medium";
 
 	export let fs: FileSystem;
-	export let onFileClick: (f: File) => unknown;
+	export let onFileClick: (f: Inode) => unknown;
 	export let path = "/";
 
 	const isTactile = window.matchMedia("(pointer: coarse)").matches;
@@ -208,6 +208,7 @@
 					renameValue = menuInode.basename;
 					renameModal = true;
 				}}
+				on:click-details={() => onFileClick(menuInode)}
 				on:click-delete={() => {
 					deleteModal = true;
 				}}

@@ -7,7 +7,7 @@
 	import Upload from "./view/Upload.svelte";
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
 	import type { Config } from "./main/Config";
-	import type { File } from "./model/Files";
+	import type { Inode } from "./model/Files";
 	import { error2kind, url2path } from "./utils";
 	import {
 		Column,
@@ -38,7 +38,7 @@
 	let isSideNavOpen = false;
 	let dark: boolean = isDark();
 	let fs: FileSystem | null = null;
-	let file: File;
+	let file: Inode;
 	let path: string = url2path(document.location.href) || "/";
 	let errors: Error[] = [];
 
@@ -81,7 +81,7 @@
 		fs = res;
 	}
 
-	function onFileClick(f: File) {
+	function onFileClick(f: Inode) {
 		file = f;
 	}
 
