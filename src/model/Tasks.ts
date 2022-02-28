@@ -42,6 +42,10 @@ export abstract class Task {
 		}
 		return promises;
 	}
+
+	label(): string {
+		return this.type.charAt(0).toUpperCase() + this.type.slice(1);
+	}
 }
 
 export class CopyTask extends Task {

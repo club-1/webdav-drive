@@ -16,6 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
+	import { _ } from "svelte-i18n";
 	import {
 		Button,
 		Form,
@@ -57,20 +58,24 @@
 	{#if error}
 		<InlineNotification
 			kind="error"
-			title="Error: "
-			subtitle={error.message}
+			title="{$_('Error')}: "
+			subtitle={$_(error.message)}
 			hideCloseButton
 		/>
 	{/if}
 	<FormGroup>
 		<TextInput
 			bind:value={username}
-			labelText="Username"
+			labelText={$_("Username")}
 			type="text"
 			autofocus
 			required
 		/>
-		<PasswordInput bind:value={password} labelText="Password" required />
+		<PasswordInput
+			bind:value={password}
+			labelText={$_("Password")}
+			required
+		/>
 	</FormGroup>
-	<Button icon={ArrowRight20} type="submit">Log in</Button>
+	<Button icon={ArrowRight20} type="submit">{$_("Log in")}</Button>
 </Form>

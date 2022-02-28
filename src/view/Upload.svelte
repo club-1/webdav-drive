@@ -16,6 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
+	import { _ } from "svelte-i18n";
 	import {
 		Button,
 		FileUploaderButton,
@@ -76,7 +77,7 @@
 			hideCloseButton
 		/>
 	{/each}
-	<FormGroup legendText="Upload files">
+	<FormGroup legendText={$_("Upload files")}>
 		<FileUploaderButton
 			on:change={() => (files = ref.files)}
 			multiple
@@ -84,7 +85,7 @@
 			bind:ref
 		/>
 		<div class="bx--form__helper-text">
-			Max file size: {hrsize(maxFileSize)}
+			{$_("Max file size:")} {hrsize(maxFileSize)}
 		</div>
 	</FormGroup>
 	<Button
@@ -93,7 +94,7 @@
 		on:click={submitHandler}
 		icon={Upload20}
 	>
-		Upload
+		{$_("Upload")}
 	</Button>
 </Form>
 <div class="uploads">
