@@ -6,7 +6,6 @@ import { terser } from 'rollup-plugin-terser';
 import { typescript as ts } from 'svelte-preprocess';
 import { optimizeCarbonImports as carbon } from "carbon-components-svelte/preprocess";
 import typescript from '@rollup/plugin-typescript';
-import json from '@rollup/plugin-json'
 import css from 'rollup-plugin-css-only';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -34,9 +33,6 @@ export default {
 				dev: !production
 			}
 		}),
-		// Allow json imports for translations
-		json({namedExports: false}),
-
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
 		css({ output: 'bundle.css' }),
