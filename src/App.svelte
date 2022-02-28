@@ -61,7 +61,7 @@
 	let file: Inode;
 	let path: string = url2path(document.location.href) || "/";
 	let errors: Error[] = [];
-	let lang = getLocaleFromNavigator() || "en";
+	let lang = localStorage.getItem("lang") || getLocaleFromNavigator() || "en";
 
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
@@ -69,6 +69,7 @@
 	$: isSmallScreen.set(width <= 610);
 	$: console.log(width);
 	$: locale.set(lang);
+	$: localStorage.setItem("lang", lang);
 
 	let username = localStorage.getItem("username");
 	let password = localStorage.getItem("password");
