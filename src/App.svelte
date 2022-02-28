@@ -122,13 +122,10 @@
 	}
 
 	function isDark(): boolean {
-		if (localStorage.getItem("dark") == "true") {
-			return true;
+		if (!localStorage.getItem("dark")) {
+			return window.matchMedia("(prefers-color-scheme: dark)").matches;
 		}
-		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			return true;
-		}
-		return false;
+		return localStorage.getItem("dark") == "true";
 	}
 
 	function toggleTheme() {
