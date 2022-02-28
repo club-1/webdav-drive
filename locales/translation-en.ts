@@ -25,6 +25,7 @@ export default {
   "Error": "Error",
   "Help improving": "Help improving",
   "Home": "home",
+  "Language": "Language",
   "Last Modified": "Last Modified",
   "Loading files": "Loading files",
   "Log in": "Log in",

@@ -16,7 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
-	import { _ } from "svelte-i18n";
+	import { getLocaleFromNavigator, locale, locales, _ } from "svelte-i18n";
 	import type { FileSystem } from "./model/FileSystem";
 	import FileList from "./view/FileList.svelte";
 	import Login from "./view/Login.svelte";
@@ -37,6 +37,8 @@
 		InlineLoading,
 		InlineNotification,
 		Row,
+		Select,
+		SelectItem,
 		SideNav,
 		SideNavDivider,
 		SideNavItems,
@@ -59,12 +61,14 @@
 	let file: Inode;
 	let path: string = url2path(document.location.href) || "/";
 	let errors: Error[] = [];
+	let lang = getLocaleFromNavigator() || "en";
 
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
 	$: window.location.href = `#${encodeURI(path)}`;
 	$: isSmallScreen.set(width <= 610);
 	$: console.log(width);
+	$: locale.set(lang);
 
 	let username = localStorage.getItem("username");
 	let password = localStorage.getItem("password");
@@ -156,6 +160,13 @@
 </Header>
 
 <SideNav bind:isOpen={isSideNavOpen}>
+	<Tile light>
+		<Select labelText={$_("Language")} bind:selected={lang}>
+			{#each $locales as locale}
+				<SelectItem value={locale} text={locale} />
+			{/each}
+		</Select>
+	</Tile>
 	<SideNavItems>
 		{#if fs}
 			<SideNavLink text={$_("Log out")} icon={User16} on:click={logout} />

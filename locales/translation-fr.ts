@@ -25,6 +25,7 @@ export default {
   "Error": "Erreur",
   "Help improving": "Participer à l'amélioration",
   "Home": "Accueil",
+  "Language": "Langue",
   "Last Modified": "Modifié le",
   "Loading files": "Chargement des fichiers",
   "Log in": "Se connecter",

@@ -17,7 +17,7 @@
 */
 
 import "carbon-components-svelte/css/all.css";
-import { register, init, addMessages, getLocaleFromNavigator, locale } from "svelte-i18n";
+import { register, init, addMessages } from "svelte-i18n";
 import App from "./App.svelte";
 import { AuthType } from "webdav/web";
 import configFile from "../config";
@@ -42,7 +42,6 @@ register("fr", () => import("../locales/translation-fr"));
 init({
 	fallbackLocale: "en",
 });
-locale.set(getLocaleFromNavigator());
 
 // Init app
 const app = new App({
