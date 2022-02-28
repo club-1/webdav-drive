@@ -190,8 +190,18 @@
 				formatTotalSelected={(i) =>
 					$_("{count} files selected", { values: { count: i } })}
 			>
-				<Button icon={Copy16} on:click={copySelected} />
-				<Button icon={Cut16} on:click={cutSelected} />
+				<Button
+					icon={Copy16}
+					iconDescription={$_("Copy")}
+					title={$_("Copy")}
+					on:click={copySelected}
+				/>
+				<Button
+					icon={Cut16}
+					iconDescription={$_("Cut")}
+					title={$_("Cut")}
+					on:click={cutSelected}
+				/>
 				<Button
 					on:click={() => (deleteSelectedModal = true)}
 					icon={Delete16}
@@ -204,9 +214,13 @@
 			<ToolbarContent>
 				<ToolbarMenu
 					icon={Paste16}
+					iconDescription={$_("Paste")}
 					title={$_("Paste")}
 					disabled={task == null}
 				>
+					<div slot="menu" style="padding: 1rem; color: red;">
+						Custom trigger
+					</div>
 					{#if task != null}
 						<ToolbarMenuItem
 							on:click={() => task && applyTask(task)}
@@ -223,7 +237,9 @@
 				</Button>
 			</ToolbarContent>
 		</Toolbar>
-		<svelte:fragment slot="cell-header" let:header>{$_(header.value)}</svelte:fragment>
+		<svelte:fragment slot="cell-header" let:header>
+			{$_(header.value)}
+		</svelte:fragment>
 		<svelte:fragment slot="cell" let:cell let:row>
 			<FileListCell
 				{fs}
@@ -252,18 +268,18 @@
 <Modal
 	bind:open={newFolderModal}
 	size="sm"
-	modalHeading="Create new folder"
+	modalHeading={$_("Create new folder")}
 	hasForm
-	primaryButtonText="Create"
+	primaryButtonText={$_("Create")}
 	primaryButtonDisabled={!newFolder}
-	secondaryButtonText="Cancel"
+	secondaryButtonText={$_("Cancel")}
 	on:click:button--secondary={() => (newFolderModal = false)}
 	on:submit={newDir}
 	on:close={() => (newFolder = "")}
 >
-	<p>Enter a name for the new folder.</p>
+	<p>{$_("Enter a name for the new folder.")}</p>
 	<TextInput
-		labelText="Name"
+		labelText={$_("Name")}
 		bind:value={newFolder}
 		data-modal-primary-focus
 	/>
@@ -273,45 +289,50 @@
 	bind:open={deleteSelectedModal}
 	size="xs"
 	danger
-	modalHeading="Delete selected files"
-	primaryButtonText="Delete"
-	secondaryButtonText="Cancel"
+	modalHeading={$_("Delete selected files")}
+	primaryButtonText={$_("Delete")}
+	secondaryButtonText={$_("Cancel")}
 	shouldSubmitOnEnter={false}
 	on:click:button--secondary={() => (deleteSelectedModal = false)}
 	on:submit={deleteSelected}
 >
-	<p>Are you sure you want to delete {checked.length} files?</p>
+	<p>
+		{$_("Are you sure you want to delete {count} files?", {
+			values: { count: checked.length },
+		})}
+	</p>
 </Modal>
 
 <Modal
 	bind:open={deleteModal}
 	size="xs"
 	danger
-	modalHeading="Delete this file"
-	primaryButtonText="Delete"
-	secondaryButtonText="Cancel"
+	modalHeading={$_("Delete this file")}
+	primaryButtonText={$_("Delete")}
+	secondaryButtonText={$_("Cancel")}
 	shouldSubmitOnEnter={false}
 	on:click:button--secondary={() => (deleteModal = false)}
 	on:submit={deleteFile}
 >
-	<p>Are you sure you want to delete the file <code>{menuInode?.basename}</code>?</p>
+	<p>{$_("Are you sure you want to delete this file?")}</p>
+	<p><code>{menuInode?.basename}</code></p>
 </Modal>
 
 <ComposedModal size="sm" bind:open={renameModal} on:submit={renameFile}>
-	<ModalHeader title="Rename file" />
+	<ModalHeader title={$_("Rename file")} />
 	<ModalBody hasForm>
 		<Form on:submit={renameFile}>
 			<TextInput
-				labelText="New name"
+				labelText={$_("New name")}
 				bind:value={renameValue}
 				data-modal-primary-focus
 			/>
 		</Form>
 	</ModalBody>
 	<ModalFooter
-		primaryButtonText="Rename"
+		primaryButtonText={$_("Rename")}
 		primaryButtonDisabled={!renameValue}
-		secondaryButtonText="Cancel"
+		secondaryButtonText={$_("Cancel")}
 		on:click:button--secondary={() => {
 			renameModal = false;
 		}}
