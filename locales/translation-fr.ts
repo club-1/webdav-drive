@@ -30,7 +30,7 @@ export default {
   "Log in": "Se connecter",
   "Log out": "Se déconnecter",
   "Logging in": "Connexion",
-  "Max file size": "Taille maximale d'un fichier",
+  "Max file size:": "Taille maximale d'un fichier :",
   "Name": "Nom",
   "Network Error": "Erreur réseau",
   "New name": "Nouveau nom",

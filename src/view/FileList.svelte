@@ -218,9 +218,6 @@
 					title={$_("Paste")}
 					disabled={task == null}
 				>
-					<div slot="menu" style="padding: 1rem; color: red;">
-						Custom trigger
-					</div>
 					{#if task != null}
 						<ToolbarMenuItem
 							on:click={() => task && applyTask(task)}

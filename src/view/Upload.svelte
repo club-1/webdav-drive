@@ -85,7 +85,7 @@
 			bind:ref
 		/>
 		<div class="bx--form__helper-text">
-			{$_("Max file size")}: {hrsize(maxFileSize)}
+			{$_("Max file size:")} {hrsize(maxFileSize)}
 		</div>
 	</FormGroup>
 	<Button

@@ -30,7 +30,7 @@ export default {
   "Log in": "Log in",
   "Log out": "Log out",
   "Logging in": "Logging in",
-  "Max file size": "Max file size",
+  "Max file size:": "Max file size:",
   "Name": "Name",
   "Network Error": "Network Error",
   "New name": "New name",
