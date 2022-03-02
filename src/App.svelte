@@ -17,7 +17,7 @@
 -->
 <script lang="ts">
 	import { getLocaleFromNavigator, locale, locales, _ } from "svelte-i18n";
-	import type { FileSystem } from "./model/FileSystem";
+	import type { FileSystem, Quota } from "./model/FileSystem";
 	import FileList from "./view/FileList.svelte";
 	import Login from "./view/Login.svelte";
 	import Details from "./view/Details.svelte";
@@ -26,7 +26,7 @@
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
 	import type { Config } from "./main/Config";
 	import type { Inode } from "./model/Files";
-	import { error2kind, url2path } from "./utils";
+	import { error2kind, hrsize, url2path } from "./utils";
 	import {
 		Column,
 		Content,
@@ -36,6 +36,7 @@
 		HeaderUtilities,
 		InlineLoading,
 		InlineNotification,
+		ProgressBar,
 		Row,
 		Select,
 		SelectItem,
@@ -62,6 +63,7 @@
 	let path: string = url2path(document.location.href) || "/";
 	let errors: Error[] = [];
 	let lang = localStorage.getItem("lang") || getLocaleFromNavigator() || "en";
+	let quota: Quota | null;
 
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
@@ -70,6 +72,7 @@
 	$: console.log(width);
 	$: locale.set(lang);
 	$: localStorage.setItem("lang", lang);
+	$: fs?.getQuota().then((a) => (quota = a));
 
 	let username = localStorage.getItem("username");
 	let password = localStorage.getItem("password");
@@ -146,7 +149,9 @@
 	bind:isSideNavOpen
 >
 	{#if $loading != ""}
-		<InlineLoading description={$isSmallScreen ? "" : $_($loading) + "..."} />
+		<InlineLoading
+			description={$isSmallScreen ? "" : $_($loading) + "..."}
+		/>
 	{/if}
 	<HeaderUtilities>
 		<HeaderGlobalAction
@@ -178,6 +183,21 @@
 			href="https://github.com/club-1/webdav-drive/"
 		/>
 	</SideNavItems>
+	{#if quota && typeof quota.available == 'number'}
+		<Tile light>
+			<ProgressBar
+				value={quota.used}
+				max={quota.used + quota.available}
+				labelText={$_("Storage space")}
+				helperText={$_("{used} used of {total}", {
+					values: {
+						used: hrsize(quota.used),
+						total: hrsize(quota.used + quota.available),
+					},
+				})}
+			/>
+		</Tile>
+	{/if}
 </SideNav>
 
 <Content style="padding: 1rem 2% 2rem">

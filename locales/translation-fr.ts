@@ -43,7 +43,9 @@ export default {
   "Rename": "Renommer",
   "Rename file": "Renommer le fichier",
   "Size": "Taille",
+  "Storage space": "Espace de stockage",
   "Upload": "Téléverser",
   "Upload files": "Téléverser des fichiers",
+  "{used} used of {total}": "{used} utilisés sur {total}",
   "Username": "Nom d'utilisateur"
 }

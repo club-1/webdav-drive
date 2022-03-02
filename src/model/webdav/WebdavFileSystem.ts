@@ -18,7 +18,7 @@
 
 import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav/web";
 import { ab2str } from "../../utils";
-import type { Column, Direction, FileSystem } from "../FileSystem";
+import type { Column, Direction, FileSystem, Quota } from "../FileSystem";
 import { FileSystemBase } from "../FileSystem";
 import { Inode, File, Directory } from "../Files";
 import type { Progress } from "../Upload";
@@ -28,6 +28,11 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		protected client: WebDAVClient,
 	) {
 		super();
+	}
+
+	async getQuota(): Promise<Quota> {
+		let quota = await this.client.getQuota();
+		return extractData(quota) ?? {used: 0, available: "unknown"};
 	}
 
 	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Inode[]> {

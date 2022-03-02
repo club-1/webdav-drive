@@ -43,7 +43,9 @@ export default {
   "Rename": "Rename",
   "Rename file": "Rename file",
   "Size": "Size",
+  "Storage space": "Storage space",
   "Upload": "Upload",
   "Upload files": "Upload files",
+  "{used} used of {total}": "{used} used of {total}",
   "Username": "Username"
 }

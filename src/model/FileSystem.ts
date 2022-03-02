@@ -22,8 +22,17 @@ import type { Progress } from "./Upload";
 
 export type Column = "basename" | "lastmod";
 export type Direction = "ASC" | "DESC";
+export type Quota = {
+	used: number,
+	available: number | "unlimited" | "unknown",
+};
 
 export interface FileSystem {
+	/**
+	 * Get quota usage in bytes.
+	 */
+	getQuota(): Promise<Quota>;
+
 	/**
 	 * List entries of a directory.
 	 * @param path the path of the directory.
