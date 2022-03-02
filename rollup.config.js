@@ -18,6 +18,9 @@ export default {
 		name: 'app',
 		dir: 'public/build/',
 		chunkFileNames: '[name].js',
+		manualChunks: {
+			webdav: ['webdav/web'],
+		},
 	},
 	plugins: [
 		svelte({

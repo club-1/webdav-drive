@@ -19,10 +19,9 @@
 import "carbon-components-svelte/css/all.css";
 import { register, init, addMessages } from "svelte-i18n";
 import App from "./App.svelte";
-import { AuthType } from "webdav/web";
 import configFile from "../config";
 import en from "../locales/translation-en";
-import { WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
+import { AuthType, WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
 import type { Config } from "./main/Config";
 import { Core } from "./main/Core";
 

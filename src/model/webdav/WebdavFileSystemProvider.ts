@@ -16,21 +16,27 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { AuthType, createClient } from "webdav/web";
 import type { FileSystem } from "../FileSystem";
 import type { FileSystemProvider } from "../FileSystemProvider";
 import { WebdavFileSystem } from "./WebdavFileSystem";
 import { encode } from "utf8";
+
+export enum AuthType {
+	Digest = "digest",
+	Password = "password",
+}
 
 export class WebdavFileSystemProvider implements FileSystemProvider {
 	constructor(
 		protected serverUrl: string,
 		protected authType: AuthType,
 		protected root: string = "",
+		protected webdav = import("webdav/web"),
 	) { }
 
 	async getFileSystem(username: string, password: string): Promise<FileSystem> {
-		const client = createClient(this.serverUrl, {
+		const webdav = await this.webdav;
+		const client = webdav.createClient(this.serverUrl, {
 			authType: this.authType,
 			username: encode(username),
 			password: encode(password),
