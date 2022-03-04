@@ -31,7 +31,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	}
 
 	async getQuota(): Promise<Quota> {
-		let quota = await this.client.getQuota();
+		const quota = await this.client.getQuota();
 		return extractData(quota) ?? {used: 0, available: "unknown"};
 	}
 

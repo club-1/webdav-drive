@@ -72,7 +72,7 @@
 	$: console.log(width);
 	$: locale.set(lang);
 	$: localStorage.setItem("lang", lang);
-	$: fs?.getQuota().then((a) => (quota = a));
+	$: fs?.getQuota().then((a) => (quota = a)) ?? (quota = null);
 
 	let username = localStorage.getItem("username");
 	let password = localStorage.getItem("password");
@@ -183,7 +183,7 @@
 			href="https://github.com/club-1/webdav-drive/"
 		/>
 	</SideNavItems>
-	{#if quota && typeof quota.available == 'number'}
+	{#if quota && typeof quota.available == "number"}
 		<Tile light>
 			<ProgressBar
 				value={quota.used}
