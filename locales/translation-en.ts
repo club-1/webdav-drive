@@ -46,6 +46,8 @@ export default {
   "Storage space": "Storage space",
   "Upload": "Upload",
   "Upload files": "Upload files",
+  "Use dark theme": "Use dark theme",
+  "Use light theme": "Use light theme",
   "{used} used of {total}": "{used} used of {total}",
   "Username": "Username"
 }

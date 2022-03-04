@@ -156,6 +156,7 @@
 		<HeaderGlobalAction
 			aria-label="Theme"
 			icon={dark ? Sun20 : Moon20}
+			title={$_(dark ? "Use light theme" : "Use dark theme")}
 			on:click={toggleTheme}
 		/>
 	</HeaderUtilities>

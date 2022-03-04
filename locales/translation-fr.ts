@@ -46,6 +46,8 @@ export default {
   "Storage space": "Espace de stockage",
   "Upload": "Téléverser",
   "Upload files": "Téléverser des fichiers",
+  "Use dark theme": "Utiliser le thème sombre",
+  "Use light theme": "Utiliser le thème clair",
   "{used} used of {total}": "{used} utilisés sur {total}",
   "Username": "Nom d'utilisateur"
 }
