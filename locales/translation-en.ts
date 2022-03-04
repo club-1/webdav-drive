@@ -34,6 +34,7 @@ export default {
   "Log out": "Log out",
   "Logging in": "Logging in",
   "Max file size:": "Max file size:",
+  "Menu": "Menu",
   "Name": "Name",
   "Network Error": "Network Error",
   "New name": "New name",

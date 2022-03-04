@@ -34,6 +34,7 @@ export default {
   "Log out": "Se déconnecter",
   "Logging in": "Connexion",
   "Max file size:": "Taille maximale d'un fichier :",
+  "Menu": "Menu",
   "Name": "Nom",
   "Network Error": "Erreur réseau",
   "New name": "Nouveau nom",

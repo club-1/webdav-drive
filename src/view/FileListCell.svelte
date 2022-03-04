@@ -33,7 +33,11 @@
 </script>
 
 {#if cell.key === "menu"}
-	<OverflowMenu flipped on:click={() => dispatch("click-menu")}>
+	<OverflowMenu
+		flipped
+		iconDescription={$_("Menu")}
+		on:click={() => dispatch("click-menu")}
+	>
 		<OverflowMenuItem
 			text={$_("Rename")}
 			on:click={() => dispatch("click-rename")}
