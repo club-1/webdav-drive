@@ -26,30 +26,25 @@ import type { Progress } from "../Upload";
 export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	constructor(
 		protected client: WebDAVClient,
-		protected root: string = "",
 	) {
 		super();
-	}
-
-	getRoot(): string {
-		return this.root;
 	}
 
 	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Inode[]> {
 		if (path.charAt(path.length - 1) != "/") {
 			throw new Error("Not a directory.");
 		}
-		const res = await this.client.getDirectoryContents(this.root + path, { details: true });
+		const res = await this.client.getDirectoryContents(path, { details: true });
 		const files = extractData(res).map((stat) => this.createInode(stat));
 		return this.sortFiles(files, orderBy, direction);
 	}
 
 	getFileDownloadLink(path: string): string {
-		return this.client.getFileDownloadLink(this.root + path);
+		return this.client.getFileDownloadLink(path);
 	}
 
 	async getFileContent(path: string): Promise<string> {
-		const res = await this.client.getFileContents(this.root + path);
+		const res = await this.client.getFileContents(path);
 		const buf = extractData(res);
 		if (typeof buf == "string") {
 			return buf;
@@ -61,14 +56,14 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	}
 
 	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => unknown): Promise<boolean> {
-		return this.client.putFileContents(this.root + path, data, {
+		return this.client.putFileContents(path, data, {
 			onUploadProgress: progressHandler,
 			contentLength: false,
 		});
 	}
 
 	createDirectory(path: string): Promise<void> {
-		return this.client.createDirectory(this.root + path);
+		return this.client.createDirectory(path);
 	}
 
 	async createFile(path: string): Promise<boolean> {
@@ -76,15 +71,15 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	}
 
 	deleteFile(path: string): Promise<void> {
-		return this.client.deleteFile(this.root + path);
+		return this.client.deleteFile(path);
 	}
 
 	moveFile(path: string, dest: string): Promise<void> {
-		return this.client.moveFile(this.root + path, this.root + dest);
+		return this.client.moveFile(path, dest);
 	}
 
 	copyFile(path: string, dest: string): Promise<void> {
-		return this.client.copyFile(this.root + path, this.root + dest);
+		return this.client.copyFile(path, dest);
 	}
 
 	/**
@@ -96,7 +91,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		if (stat.type == "directory") {
 			return new Directory(
 				stat.props || {},
-				stat.filename.substring(this.rootLength()),
+				stat.filename,
 				stat.basename,
 				new Date(stat.lastmod),
 				stat.etag,
@@ -104,7 +99,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		} else {
 			return new File(
 				stat.props || {},
-				stat.filename.substring(this.rootLength()),
+				stat.filename,
 				stat.basename,
 				new Date(stat.lastmod),
 				stat.etag,
@@ -113,8 +108,6 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 			);
 		}
 	}
-
-	protected rootLength(): number { return this.root.length; }
 }
 
 /**

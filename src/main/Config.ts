@@ -19,10 +19,8 @@
 import type { Module } from "./Core";
 
 export type Config = {
-	/** URL of the WebDAV server. */
+	/** URL of the WebDAV server. {username} will be replaced with the current username. */
 	server_url: string;
-	/** Root of the file explorer. {username} will be replaced with the current username. */
-	root: string;
 	/** Request's max body size accepted by the server. */
 	max_body_size: number;
 	/** Branding configuration. */

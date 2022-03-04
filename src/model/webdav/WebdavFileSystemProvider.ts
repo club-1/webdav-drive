@@ -30,21 +30,20 @@ export class WebdavFileSystemProvider implements FileSystemProvider {
 	constructor(
 		protected serverUrl: string,
 		protected authType: AuthType,
-		protected root: string = "",
 		protected webdav = import("webdav/web"),
 	) { }
 
 	async getFileSystem(username: string, password: string): Promise<FileSystem> {
 		const webdav = await this.webdav;
-		const client = webdav.createClient(this.serverUrl, {
+		const serverUrl = this.serverUrl.replace("{username}", username);
+		const client = webdav.createClient(serverUrl, {
 			authType: this.authType,
 			username: encode(username),
 			password: encode(password),
 		});
-		const root = this.root.replace("{username}", username);
-		if (!await client.exists(root)) {
-			throw new Error("Could not access to filesystem.");
+		if (!await client.exists("/")) {
+			throw new Error("Could not access filesystem.");
 		}
-		return new WebdavFileSystem(client, root);
+		return new WebdavFileSystem(client);
 	}
 }

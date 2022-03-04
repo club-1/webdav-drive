@@ -27,7 +27,7 @@ import { Core } from "./main/Core";
 
 // Load config
 const config = configFile as Config;
-const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password, config.root);
+const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
 
 // Init modules
 const core = new Core();
