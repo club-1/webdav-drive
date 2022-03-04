@@ -69,7 +69,6 @@
 	$: document.title = path;
 	$: window.location.href = `#${encodeURI(path)}`;
 	$: isSmallScreen.set(width <= 610);
-	$: console.log(width);
 	$: locale.set(lang);
 	$: localStorage.setItem("lang", lang);
 	$: fs?.getQuota().then((a) => (quota = a)) ?? (quota = null);
