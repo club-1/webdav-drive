@@ -6,6 +6,7 @@ export default {
   } ?`,
   "Cancel": "Annuler",
   "Copy": "Copier",
+  "Could not access filesystem.": "Impossible d'accéder au système de fichiers.",
   "{count} files": `{count, plural,
     =1 {1 fichier}
     other {{count} fichiers}
@@ -20,6 +21,7 @@ export default {
   "Delete": "Supprimer",
   "Delete selected files": "Supprimer les fichiers séléctionnés",
   "Delete this file": "Supprimer ce fichier",
+  "Deleting files": "Suppression des fichiers",
   "Details": "Détails",
   "Enter a name for the new folder.": "Fournir un nom pour le nouveau dossier.",
   "Error": "Erreur",

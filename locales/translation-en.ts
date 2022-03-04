@@ -6,6 +6,7 @@ export default {
   }?`,
   "Cancel": "Cancel",
   "Copy": "Copy",
+  "Could not access filesystem.": "Could not access filesystem.",
   "{count} files": `{count, plural,
     =1 {1 file}
     other {{count} files}
@@ -20,6 +21,7 @@ export default {
   "Delete": "Delete",
   "Delete selected files": "Delete selected files",
   "Delete this file": "Delete this file",
+  "Deleting files": "Deleting files",
   "Details": "Details",
   "Enter a name for the new folder.": "Enter a name for the new folder.",
   "Error": "Error",
