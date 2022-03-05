@@ -3,17 +3,7 @@
   "version": "1.0.0-alpha.0",
   "description": "WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV share.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c",
-    "watch": "rollup -c -w",
-    "start": "sirv public --no-clear",
-    "dev": "npm run --silent start -- --dev & npm run --silent watch",
-    "analyse": "npx ts_dependency_graph --start src/main.ts | dot -T svg > modules.svg && open modules.svg",
-    "check": "npm run check-typescript && npm run check-svelte && npm run check-eslint",
-    "check-eslint": "eslint src",
-    "check-svelte": "svelte-check --fail-on-warnings `[ -n \"$CI\" ] && echo --output=machine`",
-    "check-typescript": "tsc --noEmit",
-    "fix": "eslint src --fix"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.0",

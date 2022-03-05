@@ -16,13 +16,13 @@ so it is not possible to distribute a precompiled bundle.
 1. Install the dependencies:
 
     ```bash
-    npm install
+    make node_modules
     ```
 
 2. Copy the sample config file into `config.ts` then edit it:
 
     ```bash
-    cp config.sample.ts config.ts
+    make config.ts
     ```
 
 ### ...for production
@@ -30,7 +30,7 @@ so it is not possible to distribute a precompiled bundle.
 To create an optimised version of the app:
 
 ```bash
-npm run build
+make
 ```
 
 The `public` directory now contains the fully built production app.
@@ -41,7 +41,7 @@ Start the dev server using the following comand, then navigate to
 [localhost:8080](http://localhost:8080):
 
 ```bash
-npm run dev
+make dev
 ```
 
 [buildimg]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml/badge.svg
