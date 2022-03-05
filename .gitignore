@@ -1,6 +1,6 @@
 # App files
 /node_modules/
-/public/build/
+/public/app/
 config.ts
 
 # IDE files

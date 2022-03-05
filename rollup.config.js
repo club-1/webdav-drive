@@ -20,7 +20,7 @@ export default {
 		sourcemap: true,
 		format: 'es',
 		name: 'app',
-		dir: 'public/build/',
+		dir: 'public/app/',
 		chunkFileNames: '[name].js',
 		manualChunks: {
 			webdav: ['webdav/web'],
