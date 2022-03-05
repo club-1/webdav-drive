@@ -25,7 +25,7 @@ async function main(): Promise<unknown> {
 
 	// Load base app
 	const configMod = fetch("app/config.json");
-	const webdavMod = import("./model/webdav/WebdavFileSystemProvider")
+	const webdavMod = import("./model/webdav/WebdavFileSystemProvider");
 	const appMod = import("./App.svelte");
 
 	// Load modules
