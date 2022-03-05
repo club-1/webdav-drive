@@ -19,36 +19,38 @@
 import "carbon-components-svelte/css/all.css";
 import { register, init, addMessages } from "svelte-i18n";
 import App from "./App.svelte";
-import configFile from "../config";
 import en from "../locales/translation-en";
 import { AuthType, WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
 import type { Config } from "./main/Config";
 import { Core } from "./main/Core";
 
-// Load config
-const config = configFile as Config;
-const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
+async function main(): Promise<App> {
 
-// Init modules
-const core = new Core();
-for (const module of config.modules) {
-	module.init(core);
+	// Load config
+	const config = (await import("../config")).default as Config;
+	const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
+
+	// Init modules
+	const core = new Core();
+	for (const module of config.modules) {
+		module.init(core);
+	}
+
+	// Init translations
+	addMessages("en", en);
+	register("fr", () => import("../locales/translation-fr"));
+	init({
+		fallbackLocale: "en",
+	});
+
+	// Init app
+	return new App({
+		target: document.body,
+		props: {
+			provider,
+			config,
+		},
+	});
 }
 
-// Init translations
-addMessages("en", en);
-register("fr", () => import("../locales/translation-fr"));
-init({
-	fallbackLocale: "en",
-});
-
-// Init app
-const app = new App({
-	target: document.body,
-	props: {
-		provider,
-		config,
-	},
-});
-
-export default app;
+export default main();
