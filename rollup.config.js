@@ -11,7 +11,11 @@ import css from 'rollup-plugin-css-only';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/main.ts',
+	input: [
+		'src/main.ts',
+		'src/module/BaseModule.ts',
+		'src/module/PosixModule.ts',
+	],
 	output: {
 		sourcemap: true,
 		format: 'es',

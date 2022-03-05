@@ -55,7 +55,7 @@ const getIconChar: InodeOperation<string> = (i, prev) => {
 	return prev;
 };
 
-export class PosixModule implements Module {
+export default class PosixModule implements Module {
 	init(core: Core): void {
 		core.addInodeOperations({
 			list,

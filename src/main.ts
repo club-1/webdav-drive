@@ -22,18 +22,25 @@ import App from "./App.svelte";
 import en from "../locales/translation-en";
 import { AuthType, WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
 import type { Config } from "./main/Config";
-import { Core } from "./main/Core";
+import { Core, type Module } from "./main/Core";
 
 async function main(): Promise<App> {
+	const errors: Error[] = [];
 
 	// Load config
 	const config = (await import("../config")).default as Config;
 	const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
 
-	// Init modules
+	// Load modules
 	const core = new Core();
-	for (const module of config.modules) {
-		module.init(core);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const modules: Promise<{ module: any, file: string }>[] = [];
+	for (const name of config.modules) {
+		const file = "./" + name + ".js";
+		modules.push(import(file)
+			.then(module => { return { module: module.default, file }; })
+			.catch((err) => { throw new Error(`${err} "${file}"`); })
+		);
 	}
 
 	// Init translations
@@ -43,12 +50,27 @@ async function main(): Promise<App> {
 		fallbackLocale: "en",
 	});
 
+	// Init modules
+	for (const response of await Promise.allSettled(modules)) {
+		if (response.status != "fulfilled") {
+			errors.push(response.reason);
+			continue;
+		}
+		try {
+			const module = new response.value.module() as Module;
+			module.init(core);
+		} catch (err) {
+			errors.push(new Error(`Unable to init module "${response.value.file}"`));
+		}
+	}
+
 	// Init app
 	return new App({
 		target: document.body,
 		props: {
 			provider,
 			config,
+			errors,
 		},
 	});
 }

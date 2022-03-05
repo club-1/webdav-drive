@@ -49,7 +49,7 @@ const getIconChar: InodeOperation<string> = (i, prev) => {
 	return "📁";
 };
 
-export class BaseModule implements Module {
+export default class BaseModule implements Module {
 	init(core: Core): void {
 		core.addInodeOperations({
 			list,
