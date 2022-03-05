@@ -7,16 +7,25 @@ import { typescript as ts } from 'svelte-preprocess';
 import { optimizeCarbonImports as carbon } from "carbon-components-svelte/preprocess";
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import { copy } from "@web/rollup-plugin-copy";
+import * as path from "path";
 
 const production = !process.env.ROLLUP_WATCH;
+const srcdir = path.join(__dirname, 'src');
 
 export default {
-	input: 'src/main.ts',
+	input: [
+		'src/main.ts',
+		'src/module/BaseModule.ts',
+		'src/module/PosixModule.ts',
+	],
 	output: {
 		sourcemap: true,
 		format: 'es',
 		name: 'app',
-		dir: 'public/build/',
+		dir: 'public/app/',
+		entryFileNames: (chunkInfo) =>
+			path.join(path.dirname(path.relative(srcdir, chunkInfo.facadeModuleId)), '[name].js'),
 		chunkFileNames: '[name].js',
 		manualChunks: {
 			webdav: ['webdav/web'],
@@ -53,6 +62,7 @@ export default {
 		typescript({
 			inlineSources: !production
 		}),
+		copy({patterns: 'config.json'}),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production

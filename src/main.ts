@@ -19,36 +19,60 @@
 import "carbon-components-svelte/css/all.css";
 import { register, init, addMessages } from "svelte-i18n";
 import App from "./App.svelte";
-import configFile from "../config";
 import en from "../locales/translation-en";
 import { AuthType, WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
 import type { Config } from "./main/Config";
-import { Core } from "./main/Core";
+import { Core, type Module } from "./main/Core";
 
-// Load config
-const config = configFile as Config;
-const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
+async function main(): Promise<App> {
+	const errors: Error[] = [];
 
-// Init modules
-const core = new Core();
-for (const module of config.modules) {
-	module.init(core);
+	// Load config
+	const config = await (await fetch("app/config.json")).json() as Config;
+	const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
+
+	// Load modules
+	const core = new Core();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const modules: Promise<{ module: any, file: string }>[] = [];
+	for (const name of config.modules) {
+		const file = "./module/" + name + ".js";
+		modules.push(import(file)
+			.then(module => { return { module: module.default, file }; })
+			.catch((err) => { throw new Error(`${err} "${file}"`); })
+		);
+	}
+
+	// Init translations
+	addMessages("en", en);
+	register("fr", () => import("../locales/translation-fr"));
+	init({
+		fallbackLocale: "en",
+	});
+
+	// Init modules
+	for (const response of await Promise.allSettled(modules)) {
+		if (response.status != "fulfilled") {
+			errors.push(response.reason);
+			continue;
+		}
+		try {
+			const module = new response.value.module() as Module;
+			module.init(core);
+		} catch (err) {
+			errors.push(new Error(`Unable to init module "${response.value.file}"`));
+		}
+	}
+
+	// Init app
+	return new App({
+		target: document.body,
+		props: {
+			provider,
+			config,
+			errors,
+		},
+	});
 }
 
-// Init translations
-addMessages("en", en);
-register("fr", () => import("../locales/translation-fr"));
-init({
-	fallbackLocale: "en",
-});
-
-// Init app
-const app = new App({
-	target: document.body,
-	props: {
-		provider,
-		config,
-	},
-});
-
-export default app;
+export default main();

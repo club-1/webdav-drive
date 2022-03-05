@@ -1,0 +1,10 @@
+{
+	"server_url": "https://webdav.example.fr/files/{username}",
+	"max_body_size": 1048576,
+	"branding": {
+		"site_name": "WebDAV Drive"
+	},
+	"modules": [
+		"BaseModule"
+	]
+}

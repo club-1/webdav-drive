@@ -1,7 +1,7 @@
 # App files
 /node_modules/
-/public/build/
-config.ts
+/public/app/
+config.json
 
 # IDE files
 /.vscode/*
@@ -9,4 +9,5 @@ config.ts
 
 # Other generated files
 *.log
-modules.svg
+src/**/*.svg
+src/**/*.dot

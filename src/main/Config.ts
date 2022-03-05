@@ -16,8 +16,6 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import type { Module } from "./Core";
-
 export type Config = {
 	/** URL of the WebDAV server. {username} will be replaced with the current username. */
 	server_url: string;
@@ -29,5 +27,5 @@ export type Config = {
 		site_name: string;
 	};
 	/** List of modules to load. */
-	modules: Module[];
+	modules: string[];
 }

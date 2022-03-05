@@ -54,6 +54,7 @@
 
 	export let provider: FileSystemProvider;
 	export let config: Config;
+	export let errors: Error[] = [];
 
 	let width = window.innerWidth;
 	let isSideNavOpen = false;
@@ -61,7 +62,6 @@
 	let fs: FileSystem | null = null;
 	let file: Inode;
 	let path: string = url2path(document.location.href) || "/";
-	let errors: Error[] = [];
 	let lang = localStorage.getItem("lang") || getLocaleFromNavigator() || "en";
 	let quota: Quota | null;
 
