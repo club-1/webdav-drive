@@ -25,14 +25,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-
-    - name: Get npm cache directory
-      uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+        cache: npm
 
     - name: Install dependencies
       run: make node_modules
@@ -52,16 +45,10 @@ jobs:
     - name: Checkout to head
       uses: actions/checkout@v2
 
-    - name: Get npm cache directory
-      uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
     - name: Setup Node.js
       uses: actions/setup-node@v2
+      with:
+        cache: npm
 
     - name: Install dependencies
       run: make node_modules
