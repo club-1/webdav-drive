@@ -7,6 +7,7 @@ import { typescript as ts } from 'svelte-preprocess';
 import { optimizeCarbonImports as carbon } from "carbon-components-svelte/preprocess";
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import { copy } from "@web/rollup-plugin-copy";
 import * as path from "path";
 
 const production = !process.env.ROLLUP_WATCH;
@@ -61,6 +62,7 @@ export default {
 		typescript({
 			inlineSources: !production
 		}),
+		copy({patterns: 'config.json'}),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production

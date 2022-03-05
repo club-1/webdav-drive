@@ -8,8 +8,8 @@ share, written in [TypeScript][typescript] with [Svelte][svelte],
 
 ![screenshot](./docs/screenshot.png)
 
-For now, it has to be configured before compilation, [suckless][suckless] style,
-so it is not possible to distribute a precompiled bundle.
+It can be configured at runtime, not [suckless][suckless] style, with a
+`config.json` file in `public/app`.
 
 ## Build...
 
@@ -22,7 +22,7 @@ so it is not possible to distribute a precompiled bundle.
 2. Copy the sample config file into `config.ts` then edit it:
 
     ```bash
-    make config.ts
+    make config.json
     ```
 
 ### ...for production

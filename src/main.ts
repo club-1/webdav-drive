@@ -28,7 +28,7 @@ async function main(): Promise<App> {
 	const errors: Error[] = [];
 
 	// Load config
-	const config = (await import("../config")).default as Config;
+	const config = await (await fetch("app/config.json")).json() as Config;
 	const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
 
 	// Load modules

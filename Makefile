@@ -1,4 +1,7 @@
 BIN := node_modules/.bin
+SRCS := $(shell find src -name *.ts -or -name *.svelte)
+INPUTS := src/main.ts $(wildcard src/module/*Module.ts)
+OUTPUTS := $(patsubst src/%.ts,public/app/%.js,$(INPUTS))
 SCFLAGS := --fail-on-warnings
 
 ifdef $(CI)
@@ -6,10 +9,10 @@ SCFLAGS += --output=machine
 endif
 
 .PHONY: all
-all: config.ts node_modules public/app/main.js;
+all: public/app/config.json node_modules $(OUTPUTS);
 
 .PHONY: watch
-watch: node_modules
+watch: public/app/config.json node_modules
 	$(BIN)/rollup -c -w
 
 .PHONY: start
@@ -54,15 +57,18 @@ check-eslint: node_modules
 fix: node_modules
 	$(BIN)/eslint src --fix
 
-public/app/main.js: src/main.ts node_modules
+$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) node_modules
 	$(BIN)/rollup -c
 
 node_modules: package-lock.json
 	npm i
 	touch $@
 
-config.ts:
-	cp config.sample.ts $@
+public/app/config.json: config.json
+	cp $< $@
+
+config.json:
+	cp config.sample.json $@
 
 %.svg: %.dot
 	dot -T svg $< > $@
