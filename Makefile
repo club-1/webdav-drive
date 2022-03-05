@@ -3,6 +3,7 @@ GROUPED_TARGET := On
 endif
 
 BIN := node_modules/.bin
+DIRS := public/app
 SRCS := $(shell find src -name *.ts -or -name *.svelte)
 INPUTS := src/main.ts $(wildcard src/module/*Module.ts)
 OUTPUTS := $(patsubst src/%.ts,public/app/%.js,$(INPUTS))
@@ -66,10 +67,13 @@ check-eslint: node_modules
 fix: node_modules
 	$(BIN)/eslint src --fix
 
+$(DIRS):
+	mkdir -p $@
+
 ifdef GROUPED_TARGET
-$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) node_modules
+$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) node_modules | public/app
 else
-$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) node_modules
+$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) node_modules | public/app
 endif
 	$(BIN)/rollup -c
 
@@ -77,7 +81,7 @@ node_modules: package-lock.json
 	npm install
 	touch $@
 
-public/app/config.json: config.json
+public/app/config.json: config.json | public/app
 	cp $< $@
 
 config.json:
