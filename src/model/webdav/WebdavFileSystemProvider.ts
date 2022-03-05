@@ -20,6 +20,7 @@ import type { FileSystem } from "../FileSystem";
 import type { FileSystemProvider } from "../FileSystemProvider";
 import { WebdavFileSystem } from "./WebdavFileSystem";
 import { encode } from "utf8";
+import { createClient } from "webdav/web";
 
 export enum AuthType {
 	Digest = "digest",
@@ -30,13 +31,11 @@ export class WebdavFileSystemProvider implements FileSystemProvider {
 	constructor(
 		protected serverUrl: string,
 		protected authType: AuthType,
-		protected webdav = import("webdav/web"),
 	) { }
 
 	async getFileSystem(username: string, password: string): Promise<FileSystem> {
-		const webdav = await this.webdav;
 		const serverUrl = this.serverUrl.replace("{username}", username);
-		const client = webdav.createClient(serverUrl, {
+		const client = createClient(serverUrl, {
 			authType: this.authType,
 			username: encode(username),
 			password: encode(password),

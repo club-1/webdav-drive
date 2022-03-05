@@ -27,9 +27,6 @@ export default {
 		entryFileNames: (chunkInfo) =>
 			path.join(path.dirname(path.relative(srcdir, chunkInfo.facadeModuleId)), '[name].js'),
 		chunkFileNames: '[name].js',
-		manualChunks: {
-			webdav: ['webdav/web'],
-		},
 	},
 	plugins: [
 		svelte({

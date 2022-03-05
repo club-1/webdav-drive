@@ -17,24 +17,22 @@
 */
 
 import "carbon-components-svelte/css/all.css";
-import { register, init, addMessages } from "svelte-i18n";
-import App from "./App.svelte";
-import en from "../locales/translation-en";
-import { AuthType, WebdavFileSystemProvider } from "./model/webdav/WebdavFileSystemProvider";
 import type { Config } from "./main/Config";
 import { Core, type Module } from "./main/Core";
 
-async function main(): Promise<App> {
-	const errors: Error[] = [];
+const errors: Error[] = [];
+async function main(): Promise<unknown> {
 
-	// Load config
-	const config = await (await fetch("app/config.json")).json() as Config;
-	const provider = new WebdavFileSystemProvider(config.server_url, AuthType.Password);
+	// Load base app
+	const configMod = fetch("app/config.json");
+	const webdavMod = import("./model/webdav/WebdavFileSystemProvider")
+	const appMod = import("./App.svelte");
 
 	// Load modules
 	const core = new Core();
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const modules: Promise<{ module: any, file: string }>[] = [];
+	const config = await (await configMod).json() as Config;
 	for (const name of config.modules) {
 		const file = "./module/" + name + ".js";
 		modules.push(import(file)
@@ -42,13 +40,6 @@ async function main(): Promise<App> {
 			.catch((err) => { throw new Error(`${err} "${file}"`); })
 		);
 	}
-
-	// Init translations
-	addMessages("en", en);
-	register("fr", () => import("../locales/translation-fr"));
-	init({
-		fallbackLocale: "en",
-	});
 
 	// Init modules
 	for (const response of await Promise.allSettled(modules)) {
@@ -65,10 +56,11 @@ async function main(): Promise<App> {
 	}
 
 	// Init app
-	return new App({
+	const webdav = await webdavMod;
+	return new (await appMod).default({
 		target: document.body,
 		props: {
-			provider,
+			provider: new webdav.WebdavFileSystemProvider(config.server_url, webdav.AuthType.Password),
 			config,
 			errors,
 		},
