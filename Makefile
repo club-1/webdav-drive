@@ -1,11 +1,20 @@
+ifneq (,$(filter grouped-target,$(.FEATURES)))
+GROUPED_TARGET := On
+endif
+
 BIN := node_modules/.bin
 SRCS := $(shell find src -name *.ts -or -name *.svelte)
 INPUTS := src/main.ts $(wildcard src/module/*Module.ts)
 OUTPUTS := $(patsubst src/%.ts,public/app/%.js,$(INPUTS))
 SCFLAGS := --fail-on-warnings
 
-ifdef $(CI)
+ifdef CI
 SCFLAGS += --output=machine
+endif
+
+ifndef GROUPED_TARGET
+$(warning WARNING: This version of make does not support grouped-target, disabling parallel jobs.)
+.NOTPARALLEL:
 endif
 
 .PHONY: all
@@ -57,11 +66,15 @@ check-eslint: node_modules
 fix: node_modules
 	$(BIN)/eslint src --fix
 
+ifdef GROUPED_TARGET
 $(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) node_modules
+else
+$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) node_modules
+endif
 	$(BIN)/rollup -c
 
 node_modules: package-lock.json
-	npm i
+	npm install
 	touch $@
 
 public/app/config.json: config.json
