@@ -7,8 +7,10 @@ import { typescript as ts } from 'svelte-preprocess';
 import { optimizeCarbonImports as carbon } from "carbon-components-svelte/preprocess";
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import * as path from "path";
 
 const production = !process.env.ROLLUP_WATCH;
+const srcdir = path.join(__dirname, 'src');
 
 export default {
 	input: [
@@ -21,6 +23,8 @@ export default {
 		format: 'es',
 		name: 'app',
 		dir: 'public/app/',
+		entryFileNames: (chunkInfo) =>
+			path.join(path.dirname(path.relative(srcdir, chunkInfo.facadeModuleId)), '[name].js'),
 		chunkFileNames: '[name].js',
 		manualChunks: {
 			webdav: ['webdav/web'],

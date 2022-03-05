@@ -36,7 +36,7 @@ async function main(): Promise<App> {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const modules: Promise<{ module: any, file: string }>[] = [];
 	for (const name of config.modules) {
-		const file = "./" + name + ".js";
+		const file = "./module/" + name + ".js";
 		modules.push(import(file)
 			.then(module => { return { module: module.default, file }; })
 			.catch((err) => { throw new Error(`${err} "${file}"`); })
