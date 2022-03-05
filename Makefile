@@ -42,10 +42,13 @@ test:
 analyse: src/main.svg
 	open $< &
 
-.PHONY: clean
-clean:
+.PHONY: mostlyclean
+mostlyclean:
 	rm -f src/main.svg src/main.dot
 	rm -rf public/app
+
+.PHONY: clean
+clean: mostlyclean
 	rm -rf node_modules
 
 .PHONY: check
