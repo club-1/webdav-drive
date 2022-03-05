@@ -19,11 +19,13 @@ $(warning WARNING: This version of make does not support grouped-target, disabli
 endif
 
 .PHONY: all
+all: export BUILD ?= production
 all: public/app/config.json node_modules $(OUTPUTS);
 
 .PHONY: watch
+watch: BUILD ?= development
 watch: public/app/config.json node_modules
-	$(BIN)/rollup -c -w
+	$(BIN)/rollup --config --watch
 
 .PHONY: start
 start: node_modules
@@ -74,11 +76,11 @@ $(DIRS):
 	mkdir -p $@
 
 ifdef GROUPED_TARGET
-$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) node_modules | public/app
+$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) rollup.config.js node_modules | public/app
 else
-$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) node_modules | public/app
+$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) rollup.config.js node_modules | public/app
 endif
-	$(BIN)/rollup -c
+	$(BIN)/rollup --config
 
 node_modules: package-lock.json
 	npm install --also=dev

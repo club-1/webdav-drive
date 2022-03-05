@@ -10,7 +10,7 @@ import css from 'rollup-plugin-css-only';
 import { copy } from "@web/rollup-plugin-copy";
 import * as path from "path";
 
-const production = !process.env.ROLLUP_WATCH;
+const production = process.env.BUILD == 'production';
 const srcdir = path.join(__dirname, 'src');
 
 export default {
