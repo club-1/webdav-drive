@@ -25,6 +25,7 @@
 		addMessages,
 		_,
 	} from "svelte-i18n";
+	import { labels } from "../locales/labels";
 	import en from "../locales/translation-en";
 	import type { FileSystem, Quota } from "./model/FileSystem";
 	import FileList from "./view/FileList.svelte";
@@ -182,7 +183,7 @@
 	<Tile light>
 		<Select labelText={$_("Language")} bind:selected={lang}>
 			{#each $locales as locale}
-				<SelectItem value={locale} text={locale} />
+				<SelectItem value={locale} text={labels[locale]} />
 			{/each}
 		</Select>
 	</Tile>
