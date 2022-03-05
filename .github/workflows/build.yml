@@ -35,13 +35,13 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Install dependencies
-      run: npm ci
+      run: make node_modules
 
     - name: Copy config file
-      run: cp config.sample.ts config.ts
+      run: make config.json
 
     - name: Build
-      run: npm run build
+      run: make
 
   #   - name: Run tests
   #     run: npm test
@@ -64,13 +64,10 @@ jobs:
       uses: actions/setup-node@v2
 
     - name: Install dependencies
-      run: npm ci
-
-    - name: Copy config file
-      run: cp config.sample.ts config.ts
+      run: make node_modules
 
     - name: Run checks
       run: |
         echo "::add-matcher::.github/matchers/svelte-check.json"
-        npm run check
+        make check -k
         echo "::remove-matcher owner=svelte-check::"
