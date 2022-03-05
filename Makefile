@@ -81,7 +81,7 @@ endif
 	$(BIN)/rollup -c
 
 node_modules: package-lock.json
-	npm install
+	npm install --also=dev
 	touch $@
 
 public/app/config.json: config.json | public/app
