@@ -16,17 +16,8 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
-	import {
-		getLocaleFromNavigator,
-		locale,
-		locales,
-		register,
-		init,
-		addMessages,
-		_,
-	} from "svelte-i18n";
-	import { labels } from "../locales/labels";
-	import en from "../locales/translation-en";
+	import { getLocaleFromNavigator, locale, locales, _ } from "svelte-i18n";
+	import { labels } from "./locales";
 	import type { FileSystem, Quota } from "./model/FileSystem";
 	import FileList from "./view/FileList.svelte";
 	import Login from "./view/Login.svelte";
@@ -65,13 +56,6 @@
 	export let provider: FileSystemProvider;
 	export let config: Config;
 	export let errors: Error[] = [];
-
-	// Init translations
-	addMessages("en", en);
-	register("fr", () => import("../locales/translation-fr"));
-	init({
-		fallbackLocale: "en",
-	});
 
 	let width = window.innerWidth;
 	let isSideNavOpen = false;
