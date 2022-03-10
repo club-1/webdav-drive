@@ -242,14 +242,14 @@
 			{/if}
 		{:else}
 			<Row>
-				<Tile light style="min-height: auto; padding-top: 0">
+				<Column style="min-height: auto;">
 					{#key path}
 						<Breadcrumbs bind:path />
 					{/key}
-				</Tile>
+				</Column>
 			</Row>
 			<Row>
-				<Column lg={11}>
+				<Column lg={11} padding>
 					<FileList {fs} {onFileClick} bind:path />
 				</Column>
 				<Column lg={5}>

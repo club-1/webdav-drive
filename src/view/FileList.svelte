@@ -42,6 +42,7 @@
 		ModalHeader,
 		ModalBody,
 		ModalFooter,
+		Pagination,
 	} from "carbon-components-svelte";
 	import { Add16 } from "carbon-icons-svelte";
 	import { Delete16 } from "carbon-icons-svelte";
@@ -69,10 +70,12 @@
 	let renameModal = false;
 	let renameValue = "";
 	let menuInode: Inode;
+	let pagination = { pageSize: 100, page: 1 };
 
 	$: {
 		listFiles(path);
 		selectedRowIds = [];
+		pagination.page = 1;
 	}
 	$: $fileListUpdate && listFiles(path);
 	$: checked = files.filter((inode) =>
@@ -178,11 +181,13 @@
 	<DataTable
 		batchSelection
 		sortable
+		pageSize={pagination.pageSize}
+		page={pagination.page}
 		bind:selectedRowIds
 		{...tableData}
 		{size}
 		class="file-table"
-		style="width: 100%; margin-bottom: 1rem;"
+		style="width: 100%;"
 		on:click={(e) => onRowClick(e)}
 	>
 		<Toolbar>
@@ -253,6 +258,14 @@
 			/>
 		</svelte:fragment>
 	</DataTable>
+	{#if tableData.rows.length > pagination.pageSize}
+		<Pagination
+			bind:pageSize={pagination.pageSize}
+			bind:page={pagination.page}
+			totalItems={tableData.rows.length}
+			pageSizeInputDisabled
+		/>
+	{/if}
 {:else}
 	<InlineNotification
 		kind="error"
