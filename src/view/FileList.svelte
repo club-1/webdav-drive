@@ -246,13 +246,13 @@
 			<FileListCell
 				{fs}
 				{cell}
-				on:click-menu={() => (menuInode = row.inode)}
-				on:click-rename={() => {
+				onClickMenu={() => (menuInode = row.inode)}
+				onClickRename={() => {
 					renameValue = menuInode.basename;
 					renameModal = true;
 				}}
-				on:click-details={() => onFileClick(menuInode)}
-				on:click-delete={() => {
+				onClickDetails={() => onFileClick(menuInode)}
+				onClickDelete={() => {
 					deleteModal = true;
 				}}
 			/>

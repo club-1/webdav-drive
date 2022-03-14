@@ -17,7 +17,6 @@
 -->
 <script lang="ts">
 	import { _ } from "svelte-i18n";
-	import { createEventDispatcher } from "svelte";
 	import { File } from "../model/Files";
 	import {
 		Link,
@@ -27,29 +26,32 @@
 	import type { DataTableCell } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
 	import type { FileSystem } from "../model/FileSystem";
 
-	const dispatch = createEventDispatcher();
 	export let fs: FileSystem;
 	export let cell: DataTableCell;
+	export let onClickMenu: (e?: Event) => void;
+	export let onClickRename: (e?: Event) => void;
+	export let onClickDetails: (e?: Event) => void;
+	export let onClickDelete: (e?: Event) => void;
 </script>
 
 {#if cell.key === "menu"}
 	<OverflowMenu
 		flipped
 		iconDescription={$_("Menu")}
-		on:click={() => dispatch("click-menu")}
+		on:click={onClickMenu}
 	>
 		<OverflowMenuItem
 			text={$_("Rename")}
-			on:click={() => dispatch("click-rename")}
+			on:click={onClickRename}
 		/>
 		<OverflowMenuItem
 			text={$_("Details")}
-			on:click={() => dispatch("click-details")}
+			on:click={onClickDetails}
 		/>
 		<OverflowMenuItem
 			text={$_("Delete")}
 			danger
-			on:click={() => dispatch("click-delete")}
+			on:click={onClickDelete}
 		/>
 	</OverflowMenu>
 {:else}
