@@ -35,6 +35,7 @@ export default {
   "Logging in": "Connexion",
   "Max file size:": "Taille maximale d'un fichier :",
   "Menu": "Menu",
+  "Move": "Déplacer",
   "Name": "Nom",
   "Network Error": "Erreur réseau",
   "New name": "Nouveau nom",
