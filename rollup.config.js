@@ -3,13 +3,13 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import { typescript as ts } from 'svelte-preprocess';
-import { optimizeCarbonImports as carbon } from "carbon-components-svelte/preprocess";
 import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 import css from 'rollup-plugin-css-only';
 import { copy } from "@web/rollup-plugin-copy";
 import * as path from "path";
 
+const preprocess = require('./svelte.config').preprocess;
 const production = process.env.BUILD == 'production';
 const srcdir = path.join(__dirname, 'src');
 
@@ -30,18 +30,16 @@ export default {
 	},
 	plugins: [
 		svelte({
-			preprocess: [
-				// preprocess typescript in svelte files
-				ts(),
-				// optimize carbon components imports,
-				// very important for production builds
-				carbon()
-			],
+			preprocess,
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production
 			}
 		}),
+
+		// JSON plugin to convert translation files to modules.
+		json({ namedExports: false }),
+
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
 		css({ output: 'bundle.css' }),
@@ -59,7 +57,7 @@ export default {
 		typescript({
 			inlineSources: !production
 		}),
-		copy({patterns: 'config.json'}),
+		copy({ patterns: 'config.json' }),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production

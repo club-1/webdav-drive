@@ -17,11 +17,11 @@
 */
 
 import { register, init, addMessages } from "svelte-i18n";
-import en from "../locales/translation-en";
+import en from "../locales/translation-en.json";
 
 // Init localization
 addMessages("en", en);
-register("fr", () => import("../locales/translation-fr"));
+register("fr", () => import("../locales/translation-fr.json"));
 init({
 	fallbackLocale: "en",
 });

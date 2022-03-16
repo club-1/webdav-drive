@@ -1,25 +1,16 @@
-export default {
+{
+  "Are you sure you want to delete {count} files?": "Voulez-vous vraiment supprimer {count, plural, =1 {# fichier} other {# fichiers}} ?",
   "Are you sure you want to delete this file?": "Voulez-vous vraiment supprimer ce fichier ?",
-  "Are you sure you want to delete {count} files?": `Voulez-vous vraiment supprimer {count, plural,
-    =1 {1 fichier}
-    other {{count} fichiers}
-  } ?`,
   "Cancel": "Annuler",
   "Copy": "Copier",
   "Could not access filesystem.": "Impossible d'accéder au système de fichiers.",
-  "{count} files": `{count, plural,
-    =1 {1 fichier}
-    other {{count} fichiers}
-  }`,
-  "{count} files selected": `{count, plural,
-    =1 {1 fichier séléctionné}
-    other {{count} fichiers séléctionnés}
-  }`,
+  "{count} files": "{count, plural, =1 {# fichier} other {# fichiers}}",
+  "{count} files selected": "{count, plural, =1 {# fichier séléctionné} other {# fichiers séléctionnés}}",
   "Create": "Créer",
   "Create new folder": "Créer un nouveau dossier",
   "Cut": "Couper",
-  "Delete": "Supprimer",
   "Delete selected files": "Supprimer les fichiers séléctionnés",
+  "Delete": "Supprimer",
   "Delete this file": "Supprimer ce fichier",
   "Deleting files": "Suppression des fichiers",
   "Details": "Détails",
@@ -38,17 +29,17 @@ export default {
   "Move": "Déplacer",
   "Name": "Nom",
   "Network Error": "Erreur réseau",
-  "New name": "Nouveau nom",
   "New folder": "Nouveau dossier",
+  "New name": "Nouveau nom",
   "Password": "Mot de passe",
   "Paste": "Coller",
-  "Rename": "Renommer",
   "Rename file": "Renommer le fichier",
+  "Rename": "Renommer",
   "Select files": "Séléctionner les fichiers",
   "Size": "Taille",
   "Storage space": "Espace de stockage",
-  "Upload": "Téléverser",
   "Upload files": "Téléverser des fichiers",
+  "Upload": "Téléverser",
   "Use dark theme": "Utiliser le thème sombre",
   "Use light theme": "Utiliser le thème clair",
   "{used} used of {total}": "{used} utilisés sur {total}",

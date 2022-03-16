@@ -1,20 +1,11 @@
-export default {
+{
+  "Are you sure you want to delete {count} files?": "Are you sure you want to delete {count, plural, =1 {# file} other {# files}}?",
   "Are you sure you want to delete this file?": "Are you sure you want to delete this file?",
-  "Are you sure you want to delete {count} files?": `Are you sure you want to delete {count, plural,
-    =1 {1 file}
-    other {{count} files}
-  }?`,
   "Cancel": "Cancel",
   "Copy": "Copy",
   "Could not access filesystem.": "Could not access filesystem.",
-  "{count} files": `{count, plural,
-    =1 {1 file}
-    other {{count} files}
-  }`,
-  "{count} files selected": `{count, plural,
-    =1 {1 file selected}
-    other {{count} files selected}
-  }`,
+  "{count} files": "{count, plural, =1 {# file} other {# files}}",
+  "{count} files selected": "{count, plural, =1 {# file selected} other {# files selected}}",
   "Create": "Create",
   "Create new folder": "Create new folder",
   "Cut": "Cut",
@@ -38,17 +29,17 @@ export default {
   "Move": "Move",
   "Name": "Name",
   "Network Error": "Network Error",
-  "New name": "New name",
   "New folder": "New folder",
+  "New name": "New name",
   "Password": "Password",
   "Paste": "Paste",
-  "Rename": "Rename",
   "Rename file": "Rename file",
+  "Rename": "Rename",
   "Select files": "Select files",
   "Size": "Size",
   "Storage space": "Storage space",
-  "Upload": "Upload",
   "Upload files": "Upload files",
+  "Upload": "Upload",
   "Use dark theme": "Use dark theme",
   "Use light theme": "Use light theme",
   "{used} used of {total}": "{used} used of {total}",
