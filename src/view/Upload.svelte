@@ -36,19 +36,18 @@
 	export let onUploadSuccess: () => void;
 	export let maxFileSize = 0x100000;
 
-	let labelText = "Browse";
-	let ref: HTMLInputElement;
+	const labelEmpty = "Select files";
 	let uploads: FileUpload[] = [];
-	let files: FileList | null = null;
-	let disabled = true;
+	let files: File[] | undefined;
 
-	$: disabled = files === null || files.length === 0;
+	$: empty = !files || files.length == 0;
+	$: label = empty ? labelEmpty : "{count} files selected";
 	$: tooLargeFiles = files
 		? Array.from(files).filter((f: File) => f.size > maxFileSize)
 		: [];
 
 	async function submitHandler() {
-		if (files == null) {
+		if (!files) {
 			return;
 		}
 		for (const file of files) {
@@ -62,9 +61,7 @@
 				.then(onUploadSuccess)
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}
-		files = null;
-		labelText = "Browse";
-		ref.form!.reset();
+		files = undefined;
 	}
 </script>
 
@@ -79,10 +76,9 @@
 	{/each}
 	<FormGroup legendText={$_("Upload files")}>
 		<FileUploaderButton
-			on:change={() => (files = ref.files)}
+			bind:files
 			multiple
-			bind:labelText
-			bind:ref
+			labelText={$_(label, { values: { count: files?.length } })}
 		/>
 		<div class="bx--form__helper-text">
 			{$_("Max file size:")} {hrsize(maxFileSize)}
@@ -90,7 +86,7 @@
 	</FormGroup>
 	<Button
 		type="submit"
-		bind:disabled
+		disabled={empty}
 		on:click={submitHandler}
 		icon={Upload20}
 	>

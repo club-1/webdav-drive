@@ -44,6 +44,7 @@ export default {
   "Paste": "Coller",
   "Rename": "Renommer",
   "Rename file": "Renommer le fichier",
+  "Select files": "Séléctionner les fichiers",
   "Size": "Taille",
   "Storage space": "Espace de stockage",
   "Upload": "Téléverser",

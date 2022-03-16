@@ -44,6 +44,7 @@ export default {
   "Paste": "Paste",
   "Rename": "Rename",
   "Rename file": "Rename file",
+  "Select files": "Select files",
   "Size": "Size",
   "Storage space": "Storage space",
   "Upload": "Upload",
