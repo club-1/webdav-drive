@@ -96,7 +96,10 @@ check-translations:
 	done
 
 .PHONY: fix
-fix: node_modules
+fix: fix-eslint translations-sort;
+
+.PHONY: fix-eslint
+fix-eslint: node_modules
 	$(BIN)/eslint src --fix
 
 .PHONY: translations-extract
