@@ -264,6 +264,14 @@
 			bind:page={pagination.page}
 			totalItems={tableData.rows.length}
 			pageSizeInputDisabled
+			forwardText={$_("Next page")}
+			backwardText={$_("Previous page")}
+			itemRangeText={(first, last, total) =>
+				$_("{first}-{last} of {total} elements", {
+					values: { first, last, total },
+				})}
+			pageRangeText={(_cur, total) =>
+				$_("of {total} pages", { values: { total } })}
 		/>
 	{/if}
 {:else}
