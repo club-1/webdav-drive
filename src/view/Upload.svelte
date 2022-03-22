@@ -38,7 +38,7 @@
 
 	const labelEmpty = "Select files";
 	let uploads: FileUpload[] = [];
-	let files: File[] | undefined;
+	let files: File[] = [];
 
 	$: empty = !files || files.length == 0;
 	$: label = empty ? labelEmpty : "{count} files selected";
@@ -61,7 +61,7 @@
 				.then(onUploadSuccess)
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}
-		files = undefined;
+		files = [];
 	}
 </script>
 
