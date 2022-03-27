@@ -1,5 +1,5 @@
 ts = require('svelte-preprocess').typescript;
-carbon = require("carbon-components-svelte/preprocess").optimizeCarbonImports;
+carbon = require("carbon-preprocess-svelte").optimizeCarbonImports;
 
 module.exports = {
     preprocess: [
