@@ -16,18 +16,10 @@ INPUTS := src/main.ts $(wildcard src/module/*Module.ts)
 OUTPUTS := $(patsubst src/%.ts,public/app/%.js,$(INPUTS))
 SCFLAGS := --fail-on-warnings
 
-SORTCMD := LC_ALL=C sort -df -t: -k1
-
 define sortjson
-# sort $1
+# sorting $1
 @tmp=$(dir $1).$(notdir $1); \
-{ \
-	echo '{'; \
-	sed '1d;$$d;s/[^,]$$/\0,/' $1 \
-	| $(SORTCMD) \
-	| sed '$$s/,$$//'; \
-	echo '}'; \
-} > $$tmp && mv $$tmp $1
+jq -S . $1 > $$tmp && mv $$tmp $1
 endef
 
 ifdef CI
@@ -91,8 +83,9 @@ check-eslint: node_modules
 
 .PHONY: check-translations
 check-translations:
-	for f in $(TRANSGLOB); do \
-		sed '1d;$$d' $$f | $(SORTCMD) --check || exit 1; \
+	@for f in $(TRANSGLOB); do \
+		echo "# checking $$f"; \
+		jq -S . $$f | diff -q /dev/stdin $$f > /dev/null || (echo "incorrectly formatted" && exit 1); \
 	done
 
 .PHONY: fix
