@@ -22,7 +22,7 @@ import en from "../locales/translation-en.json";
 // Init localization
 addMessages("en", en);
 register("fr", () => import("../locales/translation-fr.json"));
-register("nb_NO", () => import("../locales/translation-nb_NO.json"));
+register("nb", () => import("../locales/translation-nb.json"));
 init({
 	fallbackLocale: "en",
 });
@@ -30,5 +30,5 @@ init({
 export const labels: Record<string, string> = {
 	"en": "English",
 	"fr": "Français",
-	"nb_NO": "Norsk Bokmål",
+	"nb": "Norsk Bokmål",
 };
