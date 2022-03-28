@@ -22,7 +22,7 @@ import en from "../locales/translation-en.json";
 // Init localization
 addMessages("en", en);
 register("fr", () => import("../locales/translation-fr.json"));
-register("nb", () => import("../locales/translation-nb.json"));
+register("nb", () => import("../locales/translation-nb_NO.json"));
 init({
 	fallbackLocale: "en",
 });
