@@ -37,7 +37,8 @@
 	let password: string;
 	let error: Error | null = null;
 
-	async function login() {
+	async function login(e: Event) {
+		e.preventDefault();
 		error = null;
 		loading.set("Logging in");
 		try {
