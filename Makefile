@@ -1,3 +1,5 @@
+include .env
+
 ifneq (,$(filter grouped-target,$(.FEATURES)))
 GROUPED_TARGET := On
 endif
@@ -110,6 +112,10 @@ translations-sort: $(TRANS:locales/%.json=%-sort)
 translation-%-sort:
 	$(call sortjson,locales/translation-$*.json)
 
+.PHONY: deploy
+deploy:
+	rsync -av --del --exclude='.*' public $(TARGET)
+
 $(DIRS):
 	mkdir -p $@
 
@@ -135,3 +141,6 @@ config.json:
 
 %.dot: %.ts
 	npx ts_dependency_graph --start $< > $@
+
+.env:
+	touch $@
