@@ -46,7 +46,8 @@
 		? Array.from(files).filter((f: File) => f.size > maxFileSize)
 		: [];
 
-	async function submitHandler() {
+	async function submitHandler(e: Event) {
+		e.preventDefault();
 		if (!files) {
 			return;
 		}

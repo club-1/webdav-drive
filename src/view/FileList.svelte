@@ -106,7 +106,8 @@
 		newFolder = "";
 	}
 
-	async function renameFile() {
+	async function renameFile(e: Event) {
+		e.preventDefault();
 		renameModal = false;
 		await fs.moveFile(menuInode.path, parent(menuInode.path) + renameValue);
 		fileListUpdateIncr();
