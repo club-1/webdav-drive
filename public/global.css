@@ -116,12 +116,6 @@ span.file-icon {
 	overflow: hidden;
 }
 
-section.bx--table-toolbar {
-	/* Hack to fix https://github.com/IBM/carbon-components-svelte/issues/668 */
-	overflow: clip;
-	/* Hack to fix https://github.com/IBM/carbon-components-svelte/issues/426 */
-	z-index: 1;
-}
 
 /* Hide some rows on small screens */
 @media(max-width: 610px) {
