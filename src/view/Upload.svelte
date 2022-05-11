@@ -28,7 +28,7 @@
 	import type { FileSystem } from "../model/FileSystem";
 	import type { Progress } from "../model/Upload";
 	import { FileUpload } from "../model/Upload";
-	import { Upload20 } from "carbon-icons-svelte";
+	import { Upload } from "carbon-icons-svelte";
 	import { hrsize } from "../utils";
 
 	export let fs: FileSystem;
@@ -89,7 +89,7 @@
 		type="submit"
 		disabled={empty}
 		on:click={submitHandler}
-		icon={Upload20}
+		icon={Upload}
 	>
 		{$_("Upload")}
 	</Button>

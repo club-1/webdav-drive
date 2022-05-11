@@ -25,7 +25,7 @@
 		PasswordInput,
 		TextInput,
 	} from "carbon-components-svelte";
-	import { ArrowRight20 } from "carbon-icons-svelte";
+	import { ArrowRight } from "carbon-icons-svelte";
 	import type { FileSystem } from "../model/FileSystem";
 	import type { FileSystemProvider } from "../model/FileSystemProvider";
 	import { loading } from "../stores";
@@ -78,5 +78,5 @@
 			required
 		/>
 	</FormGroup>
-	<Button icon={ArrowRight20} type="submit">{$_("Log in")}</Button>
+	<Button icon={ArrowRight} type="submit">{$_("Log in")}</Button>
 </Form>

@@ -47,10 +47,10 @@
 		SideNavLink,
 		Tile,
 	} from "carbon-components-svelte";
-	import { Moon20 } from "carbon-icons-svelte";
-	import { Sun20 } from "carbon-icons-svelte";
-	import { LogoGithub16 } from "carbon-icons-svelte";
-	import { User16 } from "carbon-icons-svelte";
+	import { Moon } from "carbon-icons-svelte";
+	import { Sun } from "carbon-icons-svelte";
+	import { LogoGithub } from "carbon-icons-svelte";
+	import { User } from "carbon-icons-svelte";
 	import { fileListUpdateIncr, isSmallScreen, loading } from "./stores";
 
 	export let provider: FileSystemProvider;
@@ -156,7 +156,7 @@
 	<HeaderUtilities>
 		<HeaderGlobalAction
 			aria-label="Theme"
-			icon={dark ? Sun20 : Moon20}
+			icon={dark ? Sun : Moon}
 			title={$_(dark ? "Use light theme" : "Use dark theme")}
 			on:click={toggleTheme}
 		/>
@@ -173,14 +173,14 @@
 	</Tile>
 	<SideNavItems>
 		{#if fs}
-			<SideNavLink text={$_("Log out")} icon={User16} on:click={logout} />
+			<SideNavLink text={$_("Log out")} icon={User} on:click={logout} />
 		{:else}
-			<SideNavLink text={$_("Log in")} icon={User16} />
+			<SideNavLink text={$_("Log in")} icon={User} />
 		{/if}
 		<SideNavDivider />
 		<SideNavLink
 			text={$_("Help improving")}
-			icon={LogoGithub16}
+			icon={LogoGithub}
 			href="https://github.com/club-1/webdav-drive/"
 		/>
 	</SideNavItems>

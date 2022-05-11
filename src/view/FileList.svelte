@@ -44,11 +44,7 @@
 		ModalFooter,
 		Pagination,
 	} from "carbon-components-svelte";
-	import { Add16 } from "carbon-icons-svelte";
-	import { Delete16 } from "carbon-icons-svelte";
-	import { Copy16 } from "carbon-icons-svelte";
-	import { Cut16 } from "carbon-icons-svelte";
-	import { Paste16 } from "carbon-icons-svelte";
+	import { Add, TrashCan, Copy, Cut, Paste } from "carbon-icons-svelte";
 
 	type Size = "short" | "medium";
 
@@ -197,20 +193,20 @@
 					$_("{count} files selected", { values: { count: i } })}
 			>
 				<Button
-					icon={Copy16}
+					icon={Copy}
 					iconDescription={$_("Copy")}
 					title={$_("Copy")}
 					on:click={copySelected}
 				/>
 				<Button
-					icon={Cut16}
+					icon={Cut}
 					iconDescription={$_("Cut")}
 					title={$_("Cut")}
 					on:click={cutSelected}
 				/>
 				<Button
 					on:click={() => (deleteSelectedModal = true)}
-					icon={Delete16}
+					icon={TrashCan}
 					kind="danger-ghost"
 				>
 					{$_("Delete")}
@@ -219,7 +215,7 @@
 			</ToolbarBatchActions>
 			<ToolbarContent>
 				<ToolbarMenu
-					icon={Paste16}
+					icon={Paste}
 					iconDescription={$_("Paste")}
 					title={$_("Paste")}
 					disabled={task == null}
@@ -235,7 +231,7 @@
 						</ToolbarMenuItem>
 					{/if}
 				</ToolbarMenu>
-				<Button on:click={() => (newFolderModal = true)} icon={Add16}>
+				<Button on:click={() => (newFolderModal = true)} icon={Add}>
 					{$_("New folder")}
 				</Button>
 			</ToolbarContent>
