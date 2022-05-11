@@ -33,7 +33,13 @@ export default {
 	plugins: [
 		replace({
 			values: {
-				'$VERSION': execSync('git describe --tags'),
+				'__VERSION': () => {
+					try {
+						return execSync('git describe --tags').toString().slice(0, -1);
+					} catch (_) {
+						return 'unknown';
+					}
+				},
 			},
 			preventAssignment: true,
 		}),

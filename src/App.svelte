@@ -47,14 +47,12 @@
 		SideNavLink,
 		Tile,
 	} from "carbon-components-svelte";
-	import { Moon } from "carbon-icons-svelte";
-	import { Sun } from "carbon-icons-svelte";
-	import { LogoGithub } from "carbon-icons-svelte";
-	import { User } from "carbon-icons-svelte";
+	import { Moon, Version, Sun, LogoGithub, User } from "carbon-icons-svelte";
 	import { fileListUpdateIncr, isSmallScreen, loading } from "./stores";
 
 	export let provider: FileSystemProvider;
 	export let config: Config;
+	export let version: string;
 	export let errors: Error[] = [];
 
 	let width = window.innerWidth;
@@ -182,6 +180,11 @@
 			text={$_("Help improving")}
 			icon={LogoGithub}
 			href="https://github.com/club-1/webdav-drive/"
+		/>
+		<SideNavLink
+			text={$_("Version: {version}", {values: {version}})}
+			icon={Version}
+			href="https://github.com/club-1/webdav-drive/tree/{version}"
 		/>
 	</SideNavItems>
 	{#if quota && typeof quota.available == "number"}

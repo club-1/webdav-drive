@@ -43,6 +43,7 @@
   "Use dark theme": "Use dark theme",
   "Use light theme": "Use light theme",
   "Username": "Username",
+  "Version: {version}": "Version: {version}",
   "of {total} pages": "of {total} pages",
   "{count} files": "{count, plural, =1 {# file} other {# files}}",
   "{count} files selected": "{count, plural, =1 {# file selected} other {# files selected}}",
