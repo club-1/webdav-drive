@@ -49,7 +49,7 @@ start: node_modules
 .PHONY: dev
 dev: MAKEFLAGS += --no-print-directory
 dev: node_modules
-	$(MAKE) start & $(MAKE) watch
+	$(MAKE) watch & $(MAKE) start
 
 .PHONY: test
 test:

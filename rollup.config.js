@@ -1,4 +1,5 @@
 import svelte from 'rollup-plugin-svelte';
+import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
@@ -6,8 +7,9 @@ import { terser } from 'rollup-plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import css from 'rollup-plugin-css-only';
-import { copy } from "@web/rollup-plugin-copy";
-import * as path from "path";
+import { copy } from '@web/rollup-plugin-copy';
+import { execSync } from 'child_process';
+import * as path from 'path';
 
 const preprocess = require('./svelte.config').preprocess;
 const production = process.env.BUILD == 'production';
@@ -29,6 +31,12 @@ export default {
 		chunkFileNames: '[name].js',
 	},
 	plugins: [
+		replace({
+			values: {
+				'$VERSION': execSync('git describe --tags'),
+			},
+			preventAssignment: true,
+		}),
 		svelte({
 			preprocess,
 			compilerOptions: {

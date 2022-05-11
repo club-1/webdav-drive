@@ -20,8 +20,10 @@ import "carbon-components-svelte/css/all.css";
 import type { Config } from "./main/Config";
 import { Core, type Module } from "./main/Core";
 
+export const VERSION = '$VERSION';
 const errors: Error[] = [];
 async function main(): Promise<unknown> {
+	console.log(VERSION);
 
 	// Load base app
 	const configMod = fetch("app/config.json");
