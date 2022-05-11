@@ -114,7 +114,7 @@ translation-%-sort:
 
 .PHONY: deploy
 deploy:
-	rsync -av --del --exclude='.*' public $(TARGET)
+	rsync -av --del --exclude='.*' --exclude='config.json' public $(TARGET)
 
 $(DIRS):
 	mkdir -p $@
