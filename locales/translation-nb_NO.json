@@ -43,6 +43,7 @@
   "Use dark theme": "Ifør mørk drakt",
   "Use light theme": "Ifør lys drakt",
   "Username": "Brukernavn",
+  "Version: {version}": "Versjon: {version}",
   "of {total} pages": "av {total} sider",
   "{count} files": "{count, plural, =1 {# fil} other {# filer}}",
   "{count} files selected": "{count, plural, =1 {# fil valgt} other {# filer valgt}}",
