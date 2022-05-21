@@ -48,7 +48,7 @@ make dev
 [buildimg]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml/badge.svg
 [buildurl]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml?query=branch%3Amain
 [transimg]: https://hosted.weblate.org/widgets/club-1/-/webdav-drive/svg-badge.svg
-[transurl]: https://hosted.weblate.org/translate/club-1/webdav-drive/
+[transurl]: https://hosted.weblate.org/projects/club-1/webdav-drive/
 [typescript]: https://github.com/microsoft/TypeScript
 [svelte]: https://svelte.dev
 [carbon]: https://github.com/carbon-design-system/carbon-components-svelte
