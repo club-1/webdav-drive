@@ -21,7 +21,7 @@ import { File, Inode } from "./Files";
 
 type Diff = 0 | 1 | -1;
 
-type NonEmptyHeader<T> = {
+type Header<T> = {
 	key: string,
 	value: string,
 	display?: (v: T) => string,
@@ -33,53 +33,51 @@ type EmptyHeader = {
 	empty: boolean,
 }
 
-type Header<T> = NonEmptyHeader<T> | EmptyHeader;
-
 type Row = {
 	id: string,
 	inode: Inode,
 }
 
 export type FileTable = {
-	headers: (Header<Inode> | Header<Date> | Header<number>)[],
+	headers: [Header<Inode>, Header<Date>, Header<number|string>, EmptyHeader],
 	rows: Row[],
 }
 
 export function files2table(files: Inode[]): FileTable {
-	const headers = [
-		{
-			key: "name",
-			value: "Name",
-			display: (f: Inode) => f.getIconChar() + " " + f.basename,
-			sort: (a: Inode, b: Inode) => compareStrings(a.basename, b.basename),
-		},
-		{
-			key: "lastmod",
-			value: "Last Modified",
-			display: (v: Date) => v.toLocaleString(),
-			sort: (a: Date, b: Date) => a.getTime() - b.getTime() as Diff,
-		},
-		{
-			key: "size",
-			value: "Size",
-			display: (v: number | string) => typeof v == "string" ? v : hrsize(v),
-		},
-		{
-			key: "menu",
-			empty: true,
-		},
-
-	];
-	const rows: Row[] = files
-		.filter((f) => !f.isHidden())
-		.map((f) => {
-			return {
-				id: f.basename,
-				name: f,
-				lastmod: f.lastmod,
-				size: (f instanceof File) ? f.size : "-",
-				inode: f,
-			};
-		});
-	return { headers, rows };
+	return {
+		headers: [
+			{
+				key: "name",
+				value: "Name",
+				display: (f: Inode) => f.getIconChar() + " " + f.basename,
+				sort: (a: Inode, b: Inode) => compareStrings(a.basename, b.basename),
+			},
+			{
+				key: "lastmod",
+				value: "Last Modified",
+				display: (d: Date) => d.toLocaleString(),
+				sort: (a: Date, b: Date) => a.getTime() - b.getTime() as Diff,
+			},
+			{
+				key: "size",
+				value: "Size",
+				display: (v: number | string) => typeof v == "string" ? v : hrsize(v),
+			},
+			{
+				key: "menu",
+				empty: true,
+			},
+		],
+		rows: files
+			.filter((f) => !f.isHidden())
+			.map((f) => {
+				return {
+					id: f.basename,
+					name: f,
+					lastmod: f.lastmod,
+					size: (f instanceof File) ? f.size : "-",
+					inode: f,
+				};
+			}),
+	};
 }
