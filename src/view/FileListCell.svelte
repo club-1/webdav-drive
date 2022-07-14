@@ -16,7 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
-	import { _ } from "svelte-i18n";
+	import { locale, _ } from "svelte-i18n";
 	import { File } from "../model/Files";
 	import {
 		Link,
@@ -77,7 +77,9 @@
 			{/if}
 		{:else}
 			<div>
-				{cell.display ? cell.display(cell.value) : cell.value}
+				{#key $locale}
+					{cell.display ? cell.display(cell.value) : cell.value}
+				{/key}
 			</div>
 		{/if}
 	</div>

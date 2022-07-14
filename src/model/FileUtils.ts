@@ -16,6 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { getDateFormatter } from "svelte-i18n";
 import { compareStrings, hrsize } from "../utils";
 import { File, Inode } from "./Files";
 
@@ -43,6 +44,16 @@ export type FileTable = {
 	rows: Row[],
 }
 
+/**
+ * Format date based on the current locale.
+ * Using a date-tame numeric only style.
+ * @param d the date to format
+ */
+const formatDate = (d: Date) => getDateFormatter({
+	year: "numeric", month: "numeric", day: "numeric",
+	hour: "numeric", minute: "numeric", second: "numeric",
+}).format(d);
+
 export function files2table(files: Inode[]): FileTable {
 	return {
 		headers: [
@@ -55,7 +66,7 @@ export function files2table(files: Inode[]): FileTable {
 			{
 				key: "lastmod",
 				value: "Last Modified",
-				display: (d: Date) => d.toLocaleString(),
+				display: formatDate,
 				sort: (a: Date, b: Date) => a.getTime() - b.getTime() as Diff,
 			},
 			{
