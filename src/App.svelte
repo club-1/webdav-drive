@@ -105,6 +105,11 @@
 		}
 	);
 
+	window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
+		"change",
+		(e) => dark = e.matches
+	);
+
 	function onLoginSuccess(res: FileSystem) {
 		fs = res;
 	}
