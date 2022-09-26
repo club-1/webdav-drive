@@ -102,8 +102,8 @@ export enum Theme {
 	Light,
 	Dark,
 }
-export const THEME_COUNT = 3
-export const THEME_KEY = "theme"
+export const THEME_COUNT = 3;
+export const THEME_KEY = "theme";
 
 /**
  * Check if a given theme is dark, based on its value and the browser's theme.
@@ -111,12 +111,12 @@ export const THEME_KEY = "theme"
  */
 export function isDark(theme: Theme): boolean {
 	switch (theme) {
-		case Theme.Dark:
-			return true;
-		case Theme.Light:
-			return false;
-		case Theme.Auto:
-			return window.matchMedia("(prefers-color-scheme: dark)").matches;
+	case Theme.Dark:
+		return true;
+	case Theme.Light:
+		return false;
+	case Theme.Auto:
+		return window.matchMedia("(prefers-color-scheme: dark)").matches;
 	}
 }
 
@@ -125,18 +125,18 @@ export function isDark(theme: Theme): boolean {
  * before returning it.
  */
 export function currentTheme(): Theme {
-	let themeStr = localStorage.getItem(THEME_KEY);
+	const themeStr = localStorage.getItem(THEME_KEY);
 	let theme: Theme;
 	if (themeStr == null) {
 		theme = Theme.Auto;
 	} else {
-		let themeInt = parseInt(themeStr);
+		const themeInt = parseInt(themeStr);
 		if (isNaN(themeInt)) {
 			theme = Theme.Auto;
 		} else {
 			theme = themeInt % THEME_COUNT;
 		}
 	}
-	localStorage.setItem(THEME_KEY, theme.toString())
+	localStorage.setItem(THEME_KEY, theme.toString());
 	return theme;
 }

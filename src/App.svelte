@@ -108,7 +108,7 @@
 
 	window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
 		"change",
-		(e) => { if (theme == Theme.Auto) dark = e.matches }
+		(e) => { if (theme == Theme.Auto) dark = e.matches; }
 	);
 
 	function onLoginSuccess(res: FileSystem) {
