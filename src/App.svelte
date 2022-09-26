@@ -27,7 +27,7 @@
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
 	import type { Config } from "./main/Config";
 	import type { Inode } from "./model/Files";
-	import { error2kind, hrsize, url2path } from "./utils";
+	import { currentTheme, error2kind, hrsize, isDark, Theme, THEME_COUNT, THEME_KEY, url2path } from "./utils";
 	import {
 		Column,
 		Content,
@@ -47,7 +47,7 @@
 		SideNavLink,
 		Tile,
 	} from "carbon-components-svelte";
-	import { Moon, Version, Sun, LogoGithub, User } from "carbon-icons-svelte";
+	import { Moon, Version, Sun, LogoGithub, User, Contrast } from "carbon-icons-svelte";
 	import { fileListUpdateIncr, isSmallScreen, loading } from "./stores";
 
 	export let provider: FileSystemProvider;
@@ -57,13 +57,14 @@
 
 	let width = window.innerWidth;
 	let isSideNavOpen = false;
-	let dark: boolean = isDark();
+	let theme: Theme = currentTheme();
 	let fs: FileSystem | null = null;
 	let file: Inode;
 	let path: string = url2path(document.location.href) || "/";
 	let lang = localStorage.getItem("lang") || getLocaleFromNavigator() || "en";
 	let quota: Quota | null;
 
+	$: dark = isDark(theme);
 	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
 	$: document.title = path;
 	$: window.location.href = `#${encodeURI(path)}`;
@@ -107,7 +108,7 @@
 
 	window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
 		"change",
-		(e) => dark = e.matches
+		(e) => { if (theme == Theme.Auto) dark = e.matches }
 	);
 
 	function onLoginSuccess(res: FileSystem) {
@@ -127,16 +128,9 @@
 		isSideNavOpen = false;
 	}
 
-	function isDark(): boolean {
-		if (!localStorage.getItem("dark")) {
-			return window.matchMedia("(prefers-color-scheme: dark)").matches;
-		}
-		return localStorage.getItem("dark") == "true";
-	}
-
-	function toggleTheme() {
-		dark = !dark;
-		localStorage.setItem("dark", dark ? "true" : "false");
+	function switchTheme() {
+		theme = (theme + 1) % THEME_COUNT;
+		localStorage.setItem(THEME_KEY, theme.toString());
 	}
 </script>
 
@@ -159,9 +153,13 @@
 	<HeaderUtilities>
 		<HeaderGlobalAction
 			aria-label="Theme"
-			icon={dark ? Sun : Moon}
-			title={$_(dark ? "Use light theme" : "Use dark theme")}
-			on:click={toggleTheme}
+			icon={theme == Theme.Auto ? Contrast
+				: theme == Theme.Dark ? Moon : Sun
+			}
+			title={$_(theme == Theme.Auto ? "Automatic theme"
+				: theme == Theme.Dark ? "Dark theme" : "Light theme"
+			)}
+			on:click={switchTheme}
 		/>
 	</HeaderUtilities>
 </Header>

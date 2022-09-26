@@ -94,3 +94,49 @@ export function error2kind(e: Error): Kind {
 export function pass(e:Error): void {
 	throw e;
 }
+
+// Theme Utils
+
+export enum Theme {
+	Auto,
+	Light,
+	Dark,
+}
+export const THEME_COUNT = 3
+export const THEME_KEY = "theme"
+
+/**
+ * Check if a given theme is dark, based on its value and the browser's theme.
+ * @param theme the theme to check.
+ */
+export function isDark(theme: Theme): boolean {
+	switch (theme) {
+		case Theme.Dark:
+			return true;
+		case Theme.Light:
+			return false;
+		case Theme.Auto:
+			return window.matchMedia("(prefers-color-scheme: dark)").matches;
+	}
+}
+
+/**
+ * Get current theme from LocalStorage. Clean it and save it back,
+ * before returning it.
+ */
+export function currentTheme(): Theme {
+	let themeStr = localStorage.getItem(THEME_KEY);
+	let theme: Theme;
+	if (themeStr == null) {
+		theme = Theme.Auto;
+	} else {
+		let themeInt = parseInt(themeStr);
+		if (isNaN(themeInt)) {
+			theme = Theme.Auto;
+		} else {
+			theme = themeInt % THEME_COUNT;
+		}
+	}
+	localStorage.setItem(THEME_KEY, theme.toString())
+	return theme;
+}
