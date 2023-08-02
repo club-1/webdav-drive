@@ -35,7 +35,7 @@
   "dependencies": {
     "carbon-components-svelte": ">=0.63.8 <1",
     "utf8": "^3.0.0",
-    "webdav": "^4.5.0"
+    "webdav": "^5.2.3"
   },
   "repository": {
     "type": "git",
