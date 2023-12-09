@@ -243,6 +243,7 @@
 			<FileListCell
 				{fs}
 				{cell}
+				{row}
 				onClickMenu={() => (menuInode = row.inode)}
 				onClickRename={() => {
 					renameValue = menuInode.basename;

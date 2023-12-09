@@ -23,11 +23,12 @@
 		OverflowMenu,
 		OverflowMenuItem,
 	} from "carbon-components-svelte";
-	import type { DataTableCell } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
+	import type { DataTableCell, DataTableRow } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
 	import type { FileSystem } from "../model/FileSystem";
 
 	export let fs: FileSystem;
 	export let cell: DataTableCell;
+	export let row: DataTableRow;
 	export let onClickMenu: (e?: Event) => void;
 	export let onClickRename: (e?: Event) => void;
 	export let onClickDetails: (e?: Event) => void;
@@ -61,7 +62,7 @@
 				{cell.value.getIconChar()}
 			</span>
 			{#if cell.value instanceof File}
-				<span on:click|stopPropagation>
+				<span on:click|stopPropagation on:keypress|stopPropagation>
 					<Link
 						inline
 						href={fs.getFileDownloadLink(cell.value.path)}
@@ -78,7 +79,7 @@
 		{:else}
 			<div>
 				{#key $locale}
-					{cell.display ? cell.display(cell.value) : cell.value}
+					{cell.display ? cell.display(cell.value, row) : cell.value}
 				{/key}
 			</div>
 		{/if}
