@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import css from 'rollup-plugin-css-only';
 import { copy } from '@web/rollup-plugin-copy';
+import bundleFonts from 'rollup-plugin-bundle-fonts';
 import sveltePreprocess from 'svelte-preprocess';
 import { optimizeCarbonImports as carbon } from "carbon-preprocess-svelte";
 import { execSync } from 'child_process';
@@ -63,6 +64,12 @@ export default {
 
 		// JSON plugin to convert translation files to modules.
 		json({ namedExports: false }),
+
+		// Download and package fonts localy
+		bundleFonts({
+			fontTargetDir: 'public/fonts',
+			cssBundleDir: 'public/app',
+		}),
 
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
