@@ -8,12 +8,14 @@ import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import css from 'rollup-plugin-css-only';
 import { copy } from '@web/rollup-plugin-copy';
+import sveltePreprocess from 'svelte-preprocess';
+import { optimizeCarbonImports as carbon } from "carbon-preprocess-svelte";
 import { execSync } from 'child_process';
 import * as path from 'path';
+import { URL } from 'url';
 
-const preprocess = require('./svelte.config').preprocess;
 const production = process.env.BUILD == 'production';
-const srcdir = path.join(__dirname, 'src');
+const srcdir = new URL('./src', import.meta.url).pathname;;
 
 export default {
 	input: [
@@ -26,6 +28,7 @@ export default {
 		format: 'es',
 		name: 'app',
 		dir: 'public/app/',
+		// Keep directory structure of emmited files relative to src dir
 		entryFileNames: (chunkInfo) =>
 			path.join(path.dirname(path.relative(srcdir, chunkInfo.facadeModuleId)), '[name].js'),
 		chunkFileNames: '[name].js',
@@ -44,7 +47,14 @@ export default {
 			preventAssignment: true,
 		}),
 		svelte({
-			preprocess,
+			preprocess: [
+				// preprocess typescript in svelte files
+				sveltePreprocess.typescript(),
+				// optimize carbon components imports,
+				// very important for production builds
+				carbon(),
+			],
+
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production

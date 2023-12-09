@@ -120,9 +120,9 @@ $(DIRS):
 	mkdir -p $@
 
 ifdef GROUPED_TARGET
-$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) rollup.config.js node_modules | public/app
+$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) rollup.config.mjs node_modules | public/app
 else
-$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) rollup.config.js node_modules | public/app
+$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) rollup.config.mjs node_modules | public/app
 endif
 	$(BIN)/rollup --config
 
