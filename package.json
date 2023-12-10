@@ -16,7 +16,7 @@
     "@types/utf8": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
-    "@web/rollup-plugin-copy": "^0.3.0",
+    "@web/rollup-plugin-copy": "^0.5.1",
     "carbon-icons-svelte": "^11.0.1",
     "carbon-preprocess-svelte": "^0.10.0",
     "eslint": "^8.0.0",
@@ -44,7 +44,7 @@
     "url": "git+https://github.com/club-1/webdav-drive.git"
   },
   "engines": {
-    "node": ">=12.0.0",
+    "node": ">=14.0.0",
     "npm": ">=7.0.0"
   },
   "keywords": [
