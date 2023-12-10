@@ -62,7 +62,7 @@ analyse: src/main.svg
 .PHONY: mostlyclean
 mostlyclean:
 	rm -f src/main.svg src/main.dot
-	rm -rf public/app
+	rm -rf public/app public/fonts
 
 .PHONY: clean
 clean: mostlyclean
