@@ -53,6 +53,7 @@ export default {
 				sveltePreprocess.typescript(),
 				// optimize carbon components imports,
 				// very important for production builds
+				// and for build speeds.
 				carbon(),
 			],
 
@@ -85,9 +86,7 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-		typescript({
-			inlineSources: !production
-		}),
+		typescript(),
 		copy({ patterns: 'config.json' }),
 
 		// Watch the `public` directory and refresh the
@@ -95,8 +94,12 @@ export default {
 		!production && livereload('public'),
 
 		// If we're building for production (make
-		// instead of make dev), minify
-		production && terser()
+		// instead of make dev), minify, but keep correct
+		// function names in stacktraces.
+		production && terser({
+			compress: {reduce_funcs: false},
+			mangle: {keep_fnames: true},
+		}),
 	],
 	watch: {
 		clearScreen: false
