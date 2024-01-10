@@ -32,7 +32,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 
 	async getQuota(): Promise<Quota> {
 		const quota = await this.client.getQuota();
-		return extractData(quota) ?? {used: 0, available: "unknown"};
+		return extractData(quota);
 	}
 
 	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Inode[]> {
@@ -120,12 +120,12 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
  * @param res the response from WebDAVClient.
  * @returns the data.
  */
-function extractData<T>(res: T | ResponseDataDetailed<T>): T {
+function extractData<T>(res: T | ResponseDataDetailed<T>): NonNullable<T> {
 	if (res === null || res === undefined) {
 		throw new Error("response is empty");
 	}
 	if (isDetailedData(res)) {
-		return res.data;
+		return res.data!;
 	} else {
 		return res;
 	}
