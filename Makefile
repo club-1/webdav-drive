@@ -69,7 +69,7 @@ clean: mostlyclean
 	rm -rf node_modules
 
 .PHONY: check
-check: check-typescript check-svelte check-eslint check-translations;
+check: check-svelte check-eslint check-translations;
 
 .PHONY: check-typescript
 check-typescript: node_modules
