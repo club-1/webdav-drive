@@ -73,7 +73,10 @@
 	$: localStorage.setItem("lang", lang);
 	$: fs?.getQuota()
 		.then((a) => (quota = a))
-		.catch(() => (quota = null)) ?? (quota = null);
+		.catch((e) => {
+			quota = null;
+			console.log("Could not get quota: " + e.message);
+		}) ?? (quota = null);
 
 	let username = localStorage.getItem("username");
 	let password = localStorage.getItem("password");
