@@ -121,6 +121,9 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
  * @returns the data.
  */
 function extractData<T>(res: T | ResponseDataDetailed<T>): T {
+	if (res === null || res === undefined) {
+		throw new Error("No data.");
+	}
 	if (isDetailedData(res)) {
 		return res.data;
 	} else {
