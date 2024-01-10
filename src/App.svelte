@@ -71,7 +71,9 @@
 	$: isSmallScreen.set(width <= 610);
 	$: locale.set(lang);
 	$: localStorage.setItem("lang", lang);
-	$: fs?.getQuota().then((a) => (quota = a)) ?? (quota = null);
+	$: fs?.getQuota()
+		.then((a) => (quota = a))
+		.catch(() => (quota = null)) ?? (quota = null);
 
 	let username = localStorage.getItem("username");
 	let password = localStorage.getItem("password");
