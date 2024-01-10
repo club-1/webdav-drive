@@ -1,3 +1,4 @@
+import { preprocess } from './svelte.config.js';
 import svelte from 'rollup-plugin-svelte';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
@@ -9,8 +10,6 @@ import json from '@rollup/plugin-json';
 import css from 'rollup-plugin-css-only';
 import { copy } from '@web/rollup-plugin-copy';
 import bundleFonts from 'rollup-plugin-bundle-fonts';
-import sveltePreprocess from 'svelte-preprocess';
-import { optimizeCarbonImports as carbon } from "carbon-preprocess-svelte";
 import { execSync } from 'child_process';
 import * as path from 'path';
 import { URL } from 'url';
@@ -48,15 +47,7 @@ export default {
 			preventAssignment: true,
 		}),
 		svelte({
-			preprocess: [
-				// preprocess typescript in svelte files
-				sveltePreprocess.typescript(),
-				// optimize carbon components imports,
-				// very important for production builds
-				// and for build speeds.
-				carbon(),
-			],
-
+			preprocess,
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production

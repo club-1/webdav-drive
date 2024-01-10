@@ -1,6 +1,7 @@
 {
   "name": "webdav-drive",
   "description": "WebDAV front-end that adds a Google-Drive-like experience to an existing WebDAV share.",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
