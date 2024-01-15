@@ -45,6 +45,16 @@ Start the dev server using the following comand, then navigate to
 make dev
 ```
 
+## Translations
+
+It is easier to [manage the translations via Weblate](https://hosted.weblate.org/projects/club-1/webdav-drive/),
+but it is also possible to directly edit the files.
+Always run `make translations-sort` after manually editing the translation files.
+
+<a href="https://hosted.weblate.org/engage/club-1/">
+<img src="https://hosted.weblate.org/widget/club-1/webdav-drive/multi-auto.svg" alt="Translation status" />
+</a>
+
 [buildimg]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml/badge.svg
 [buildurl]: https://github.com/club-1/webdav-drive/actions/workflows/build.yml?query=branch%3Amain
 [transimg]: https://hosted.weblate.org/widgets/club-1/-/webdav-drive/svg-badge.svg
