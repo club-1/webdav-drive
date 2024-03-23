@@ -16,14 +16,14 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { register, init, addMessages } from "svelte-i18n";
-import en from "../locales/translation-en.json";
+import { init, addMessages } from "svelte-intl-precompile";
+import { registerAll } from "$locales";
+//@ts-ignore
+import en from "$locales/en";
 
 // Init localization
 addMessages("en", en);
-register("fr", () => import("../locales/translation-fr.json"));
-register("nb", () => import("../locales/translation-nb_NO.json"));
-register("zh-CN", () => import("../locales/translation-zh_CN.json"));
+registerAll();
 init({
 	fallbackLocale: "en",
 });
@@ -31,6 +31,6 @@ init({
 export const labels: Record<string, string> = {
 	"en": "English",
 	"fr": "Français",
-	"nb": "Norsk Bokmål",
+	"nb-NO": "Norsk Bokmål",
 	"zh-CN": "中文（简体）",
 };

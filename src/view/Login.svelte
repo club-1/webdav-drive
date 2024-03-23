@@ -16,7 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
-	import { _ } from "svelte-i18n";
+	import { _ } from "svelte-intl-precompile";
 	import {
 		Button,
 		Form,

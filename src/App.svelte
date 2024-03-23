@@ -16,7 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
-	import { getLocaleFromNavigator, locale, locales, _ } from "svelte-i18n";
+	import { getLocaleFromNavigator, locale, locales, _ } from "svelte-intl-precompile";
 	import { labels } from "./locales";
 	import type { FileSystem, Quota } from "./model/FileSystem";
 	import FileList from "./view/FileList.svelte";

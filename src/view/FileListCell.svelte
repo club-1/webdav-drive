@@ -16,7 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
-	import { locale, _ } from "svelte-i18n";
+	import { locale, getDateFormatter, _ } from "svelte-intl-precompile";
 	import { File } from "../model/Files";
 	import {
 		Link,
@@ -25,6 +25,7 @@
 	} from "carbon-components-svelte";
 	import type { DataTableCell, DataTableRow } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
 	import type { FileSystem } from "../model/FileSystem";
+	import { dateFormat } from "../model/FileUtils";
 
 	export let fs: FileSystem;
 	export let cell: DataTableCell;
@@ -33,6 +34,8 @@
 	export let onClickRename: (e?: Event) => void;
 	export let onClickDetails: (e?: Event) => void;
 	export let onClickDelete: (e?: Event) => void;
+	let dateFormatter: Intl.DateTimeFormat;
+	$: dateFormatter = getDateFormatter(Object.assign({locale: $locale}, dateFormat));
 </script>
 
 {#if cell.key === "menu"}
@@ -76,11 +79,11 @@
 					{cell.value.getName()}
 				</div>
 			{/if}
+		{:else if cell.value instanceof Date}
+			<div>{dateFormatter.format(cell.value)}</div>
 		{:else}
 			<div>
-				{#key $locale}
-					{cell.display ? cell.display(cell.value, row) : cell.value}
-				{/key}
+				{cell.display ? cell.display(cell.value, row) : cell.value}
 			</div>
 		{/if}
 	</div>

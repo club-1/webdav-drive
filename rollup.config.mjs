@@ -6,8 +6,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
-import json from '@rollup/plugin-json';
 import css from 'rollup-plugin-css-only';
+import precompileIntl from "svelte-intl-precompile/sveltekit-plugin";
 import { copy } from '@web/rollup-plugin-copy';
 import bundleFonts from 'rollup-plugin-bundle-fonts';
 import { execSync } from 'child_process';
@@ -54,9 +54,6 @@ export default {
 			}
 		}),
 
-		// JSON plugin to convert translation files to modules.
-		json({ namedExports: false }),
-
 		// Download and package fonts localy
 		bundleFonts({
 			fontTargetDir: 'public/fonts',
@@ -79,6 +76,9 @@ export default {
 		commonjs(),
 		typescript(),
 		copy({ patterns: 'config.json' }),
+
+		// Compile locales into machine readable.
+		precompileIntl('locales'),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
