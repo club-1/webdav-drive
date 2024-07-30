@@ -62,7 +62,7 @@
 				{cell.value.getIconChar()}
 			</span>
 			{#if cell.value instanceof File}
-				<span on:click|stopPropagation on:keypress|stopPropagation>
+				<span on:click|stopPropagation on:keypress|stopPropagation role= "none">
 					<Link
 						inline
 						href={fs.getFileDownloadLink(cell.value.path)}
