@@ -81,7 +81,7 @@ check-svelte: node_modules
 
 .PHONY: check-eslint
 check-eslint: node_modules
-	$(BIN)/eslint src
+	$(BIN)/eslint src eslint.config.mjs
 
 .PHONY: check-translations
 check-translations:
