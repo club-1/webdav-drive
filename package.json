@@ -13,7 +13,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.5",
     "@tsconfig/svelte": "^5.0.2",
-    "@types/node": "^20.10.4",
+    "@types/node": "^18.19.42",
     "@types/utf8": "^3.0.1",
     "@web/rollup-plugin-copy": "^0.3.0",
     "carbon-icons-svelte": "^12.4.0",
