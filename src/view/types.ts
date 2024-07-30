@@ -16,7 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import type { DataTableCell, DataTableHeader, DataTableRow } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
+import type { DataTableCell, DataTableHeader, DataTableRow } from "carbon-components-svelte/src/DataTable/DataTable.svelte";
 
 export type TableEvent = CustomEvent<{
 	header?: DataTableHeader;

@@ -23,7 +23,7 @@
 		OverflowMenu,
 		OverflowMenuItem,
 	} from "carbon-components-svelte";
-	import type { DataTableCell, DataTableRow } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
+	import type { DataTableCell, DataTableRow } from "carbon-components-svelte/src/DataTable/DataTable.svelte";
 	import type { FileSystem } from "../model/FileSystem";
 
 	export let fs: FileSystem;

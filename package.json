@@ -19,7 +19,7 @@
     "@typescript-eslint/parser": "^5.62.0",
     "@web/rollup-plugin-copy": "^0.3.0",
     "carbon-icons-svelte": "^12.4.0",
-    "carbon-preprocess-svelte": "^0.10.0",
+    "carbon-preprocess-svelte": "^0.11.0",
     "eslint": "^8.57.0",
     "eslint-plugin-svelte": "^2.43.0",
     "rollup": "^4.19.1",
@@ -36,7 +36,7 @@
     "typescript": "5.1"
   },
   "dependencies": {
-    "carbon-components-svelte": ">=0.63.8 <1",
+    "carbon-components-svelte": ">=0.85.0 <1",
     "utf8": "^3.0.0",
     "webdav": "^4.5.0"
   },

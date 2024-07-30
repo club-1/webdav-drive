@@ -1,5 +1,5 @@
 import sveltePreprocess from 'svelte-preprocess';
-import { optimizeCarbonImports } from "carbon-preprocess-svelte";
+import { optimizeImports as optimizeCarbonImports } from "carbon-preprocess-svelte";
 
 
 export const preprocess = [
