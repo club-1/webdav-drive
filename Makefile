@@ -126,7 +126,7 @@ $(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) rollup.config.mjs node_modules | p
 endif
 	$(BIN)/rollup --config
 
-node_modules: package-lock.json
+node_modules: package-lock.json package.json
 	npm install --include=dev
 	touch $@
 
