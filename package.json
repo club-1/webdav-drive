@@ -22,7 +22,7 @@
     "carbon-preprocess-svelte": "^0.10.0",
     "eslint": "^8.0.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "rollup": "^3.29.4",
+    "rollup": "^4.19.1",
     "rollup-plugin-bundle-fonts": "^1.0.0",
     "rollup-plugin-css-only": "^4.5.2",
     "rollup-plugin-livereload": "^2.0.0",
@@ -45,7 +45,7 @@
     "url": "git+https://github.com/club-1/webdav-drive.git"
   },
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=18.0.0",
     "npm": ">=7.0.0"
   },
   "keywords": [
