@@ -17,8 +17,6 @@ overrides:
     parser: svelte-eslint-parser
     parserOptions:
         parser: "@typescript-eslint/parser"
-settings:
-  svelte3/typescript: true
 rules:
   linebreak-style:
     - error
