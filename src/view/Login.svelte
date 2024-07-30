@@ -59,7 +59,7 @@
 	{#if error}
 		<InlineNotification
 			kind="error"
-			title="{$_('Error')}: "
+			title="{$_("Error")}: "
 			subtitle={$_(error.message)}
 			hideCloseButton
 		/>
