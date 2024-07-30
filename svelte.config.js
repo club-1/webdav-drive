@@ -1,4 +1,4 @@
-import sveltePreprocess from 'svelte-preprocess';
+import { sveltePreprocess } from 'svelte-preprocess';
 import { optimizeImports as optimizeCarbonImports } from "carbon-preprocess-svelte";
 
 
