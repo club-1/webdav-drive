@@ -116,6 +116,11 @@ span.file-icon {
 	overflow: hidden;
 }
 
+/* Remove buggy rectangle on the top of the overflow menu */
+.file-table .bx--overflow-menu-options::after {
+  display: none;
+}
+
 
 /* Hide some rows on small screens */
 @media(max-width: 610px) {
