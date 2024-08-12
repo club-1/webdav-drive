@@ -16,7 +16,6 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "carbon-components-svelte/css/all.css";
 import type { Config } from "./main/Config";
 import { Core, type Module } from "./main/Core";
 

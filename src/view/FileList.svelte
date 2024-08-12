@@ -46,14 +46,14 @@
 	} from "carbon-components-svelte";
 	import { Add, TrashCan, Copy, Cut, Paste } from "carbon-icons-svelte";
 
-	type Size = "short" | "medium";
+	type Size = "sm" | "md";
 
 	export let fs: FileSystem;
 	export let onFileClick: (f: Inode) => unknown;
 	export let path = "/";
 
 	const isTactile = window.matchMedia("(pointer: coarse)").matches;
-	const size: Size = isTactile ? "medium" : "short";
+	const size: Size = isTactile ? "md" : "sm";
 	let files: Inode[] = [];
 	let error: Error | null = null;
 	let checked: Inode[] = [];
@@ -207,7 +207,7 @@
 				<Button
 					on:click={() => (deleteSelectedModal = true)}
 					icon={TrashCan}
-					kind="danger-ghost"
+					kind="danger--ghost"
 				>
 					{$_("Delete")}
 				</Button>

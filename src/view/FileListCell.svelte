@@ -37,6 +37,7 @@
 
 {#if cell.key === "menu"}
 	<OverflowMenu
+		size="sm"
 		flipped
 		iconDescription={$_("Menu")}
 		on:click={onClickMenu}

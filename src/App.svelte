@@ -16,6 +16,7 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 -->
 <script lang="ts">
+	import "carbon-components-svelte/css/all.css";
 	import { getLocaleFromNavigator, locale, locales, _ } from "svelte-i18n";
 	import { labels } from "./locales";
 	import type { FileSystem, Quota } from "./model/FileSystem";
@@ -65,7 +66,7 @@
 	let quota: Quota | null;
 
 	$: dark = isDark(theme);
-	$: document.documentElement.setAttribute("theme", dark ? "g100" : "g10");
+	$: document.documentElement.setAttribute("data-carbon-theme", dark ? "g100" : "g10");
 	$: document.title = path;
 	$: window.location.href = `#${encodeURI(path)}`;
 	$: isSmallScreen.set(width <= 610);

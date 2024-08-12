@@ -32,6 +32,7 @@ type Header<T> = {
 type EmptyHeader = {
 	key: string,
 	empty: boolean,
+	columnMenu: boolean,
 }
 
 type Row = {
@@ -77,6 +78,7 @@ export function files2table(files: Inode[]): FileTable {
 			{
 				key: "menu",
 				empty: true,
+				columnMenu: true,
 			},
 		],
 		rows: files

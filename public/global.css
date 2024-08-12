@@ -87,7 +87,7 @@ div.file-table-cell {
 	white-space: nowrap;
 }
 
-div.file-table-cell *:not(span) {
+div.file-table-cell * {
 	text-overflow: ellipsis;
 	overflow: clip;
 }
