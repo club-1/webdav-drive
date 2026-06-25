@@ -161,9 +161,10 @@
 			icon={theme == Theme.Auto ? Contrast
 				: theme == Theme.Dark ? Moon : Sun
 			}
-			title={$_(theme == Theme.Auto ? "Automatic theme"
+			iconDescription={$_(theme == Theme.Auto ? "Automatic theme"
 				: theme == Theme.Dark ? "Dark theme" : "Light theme"
 			)}
+			tooltipAlignment="end"
 			on:click={switchTheme}
 		/>
 	</HeaderUtilities>
