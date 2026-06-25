@@ -47,7 +47,7 @@
 		SideNavLink,
 		Tile,
 	} from "carbon-components-svelte";
-	import { Moon, Version, Sun, LogoGithub, User, Contrast } from "carbon-icons-svelte";
+	import { Moon, Version, Sun, LogoGithub, User, Contrast, Language } from "carbon-icons-svelte";
 	import { fileListUpdateIncr, isSmallScreen, loading } from "./stores";
 
 	export let provider: FileSystemProvider;
@@ -172,7 +172,9 @@
 
 <SideNav bind:isOpen={isSideNavOpen}>
 	<Tile light>
-		<Select labelText={$_("Language")} bind:selected={lang}>
+		<Language/>
+		<span class="bx--label">{$_("Language")}</span>
+		<Select hideLabel bind:selected={lang}>
 			{#each $locales as locale}
 				<SelectItem value={locale} text={labels[locale]} />
 			{/each}
