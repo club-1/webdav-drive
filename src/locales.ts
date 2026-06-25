@@ -23,6 +23,7 @@ import en from "../locales/translation-en.json";
 addMessages("en", en);
 register("fr", () => import("../locales/translation-fr.json"));
 register("nb", () => import("../locales/translation-nb_NO.json"));
+register("ta", () => import("../locales/translation-ta.json"));
 register("zh-CN", () => import("../locales/translation-zh_CN.json"));
 init({
 	fallbackLocale: "en",
@@ -32,5 +33,6 @@ export const labels: Record<string, string> = {
 	"en": "English",
 	"fr": "Français",
 	"nb": "Norsk Bokmål",
+	"ta": "தமிழ்",
 	"zh-CN": "中文（简体）",
 };
