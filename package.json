@@ -42,8 +42,8 @@
     "drive",
     "cloud"
   ],
-  "author": "n-peugnet <n.peugnet@free.fr>",
-  "license": "AGPL-3.0-or-later",
+  "author": "n-peugnet <nicolas@club1.fr>",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/club-1/webdav-drive/issues"
   },
