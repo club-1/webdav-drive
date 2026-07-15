@@ -39,7 +39,7 @@ The `public` directory now contains the fully built production app.
 ### ...for development
 
 Start the dev server using the following comand, then navigate to
-[localhost:8080](http://localhost:8080):
+[localhost:8000](http://localhost:8000):
 
 ```bash
 make dev
