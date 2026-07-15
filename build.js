@@ -20,6 +20,9 @@ await esbuild.build({
   minify: true,
   splitting: true,
   logLevel: "info",
+  define: {
+    "VERSION": "'" + process.env.VERSION + "'",
+  },
   plugins: [
     esbuildSvelte({
       preprocess: [

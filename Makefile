@@ -18,6 +18,8 @@ INPUTS := src/main.ts $(wildcard src/module/*Module.ts)
 OUTPUTS := $(patsubst src/%.ts,public/app/%.js,$(INPUTS))
 SCFLAGS := --fail-on-warnings
 
+export VERSION := $(shell git describe --tags --always)
+
 define sortjson
 # sorting $1
 @tmp=$(dir $1).$(notdir $1); \
