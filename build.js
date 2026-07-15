@@ -8,7 +8,10 @@ import { join } from "path";
 import { readFile, writeFile } from "fs/promises";
 import { existsSync, mkdirSync } from "fs";
 
-await esbuild.build({
+let production = process.env.BUILD == "production";
+
+/** @type { esbuild.BuildOptions } */
+let options = {
   entryPoints: [
     "src/main.ts",
     "src/module/BaseModule.ts",
@@ -17,7 +20,7 @@ await esbuild.build({
   outdir: "./public/app",
   format: "esm",
   bundle: true,
-  minify: true,
+  minify: production,
   splitting: true,
   logLevel: "info",
   define: {
@@ -59,4 +62,20 @@ await esbuild.build({
       },
     },
   ],
-})
+}
+
+if (!process.env.MODE) {
+  await esbuild.build(options)
+  process.exit()
+}
+
+let ctx = await esbuild.context(options)
+if (process.env.MODE == "watch" || process.env.MODE == "dev") {
+  await ctx.watch()
+  console.log('watching...')
+}
+if (process.env.MODE == "serve" || process.env.MODE == "dev") {
+  await ctx.serve({
+    servedir: 'public',
+  })
+}

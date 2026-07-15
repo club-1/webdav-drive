@@ -39,19 +39,13 @@ endif
 all: export BUILD ?= production
 all: public/app/config.json node_modules $(OUTPUTS);
 
-.PHONY: watch
-watch: BUILD ?= development
-watch: public/app/config.json node_modules
-	$(BIN)/rollup --config --watch
-
-.PHONY: start
-start: node_modules
-	$(BIN)/sirv public --no-clear --dev
-
-.PHONY: dev
-dev: MAKEFLAGS += --no-print-directory
-dev: node_modules
-	$(MAKE) watch & $(MAKE) start
+.PHONY: watch serve dev
+watch serve dev: export BUILD ?= development
+watch:     export MODE  := watch
+serve:     export MODE  := serve
+dev:       export MODE  := dev
+watch serve dev: public/app/config.json node_modules
+	./build.js
 
 .PHONY: test
 test:
@@ -122,11 +116,11 @@ $(DIRS):
 	mkdir -p $@
 
 ifdef GROUPED_TARGET
-$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) rollup.config.mjs node_modules | public/app
+$(OUTPUTS) &: public/app/%.js: src/%.ts $(SRCS) build.js node_modules | public/app
 else
-$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) rollup.config.mjs node_modules | public/app
+$(OUTPUTS): public/app/%.js: src/%.ts $(SRCS) build.js node_modules | public/app
 endif
-	$(BIN)/rollup --config
+	./build.js
 
 node_modules: package-lock.json package.json
 	npm install --include=dev
