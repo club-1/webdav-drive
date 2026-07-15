@@ -21,6 +21,7 @@ let options = {
   format: "esm",
   bundle: true,
   minify: production,
+  sourcemap: production ? "linked" : "inline",
   splitting: true,
   logLevel: "info",
   define: {
