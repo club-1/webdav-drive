@@ -103,7 +103,7 @@
 					{(u.progress.loaded / u.progress.total) * 100}%
 				</progress>
 			{:else}
-				<progress />
+				<progress></progress>
 			{/if}
 		</div>
 	{/each}

@@ -22,12 +22,14 @@
 </script>
 
 <table>
+	<tbody>
 	{#each [...object.list()] as [key, value]}
 		<tr>
 			<td class="key"><code>{key}</code></td>
 			<td class="value"><code>{value}</code></td>
 		</tr>
 	{/each}
+	</tbody>
 </table>
 
 <style>

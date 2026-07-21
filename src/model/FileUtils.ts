@@ -19,29 +19,13 @@
 import { getDateFormatter } from "svelte-i18n";
 import { compareStrings, hrsize } from "../utils";
 import { File, Inode } from "./Files";
+import type { DataTableHeader, DataTableRow } from "carbon-components-svelte/src/DataTable/DataTable.svelte";
 
 type Diff = 0 | 1 | -1;
 
-type Header<T> = {
-	key: string,
-	value: string,
-	display?: (v: T) => string,
-	sort?: (a: T, b: T) => Diff,
-}
-
-type EmptyHeader = {
-	key: string,
-	empty: boolean,
-}
-
-type Row = {
-	id: string,
-	inode: Inode,
-}
-
 export type FileTable = {
-	headers: [Header<Inode>, Header<Date>, Header<number|string>, EmptyHeader],
-	rows: Row[],
+	headers: DataTableHeader[],
+	rows: DataTableRow[],
 }
 
 /**

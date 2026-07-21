@@ -17,6 +17,7 @@
 */
 
 import "carbon-components-svelte/css/all.css";
+import { mount } from "svelte";
 import type { Config } from "./main/Config";
 import { Core, type Module } from "./main/Core";
 
@@ -59,7 +60,7 @@ async function main(): Promise<unknown> {
 
 	// Init app
 	const webdav = await webdavMod;
-	return new (await appMod).default({
+	return mount((await appMod).default, {
 		target: document.body,
 		props: {
 			provider: new webdav.WebdavFileSystemProvider(config.server_url, webdav.AuthType.Password),

@@ -32,14 +32,6 @@ h1, h2, h3, h4, h5, label.bx--btn {
 	white-space: nowrap;
 }
 
-.bx--header .bx--inline-loading__text {
-	color: #c6c6c6;
-}
-
-.bx--header .bx--loading__background {
-	stroke: #393939;
-}
-
 /* SideNav customizations */
 
 .bx--header__menu-trigger {

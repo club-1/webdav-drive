@@ -236,7 +236,7 @@
 				</Button>
 			</ToolbarContent>
 		</Toolbar>
-		<svelte:fragment slot="cell-header" let:header>
+		<svelte:fragment slot="cellHeader" let:header>
 			{$_(header.value)}
 		</svelte:fragment>
 		<svelte:fragment slot="cell" let:cell let:row>
