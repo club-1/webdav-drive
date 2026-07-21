@@ -26,6 +26,7 @@
 	import { files2table } from "../model/FileUtils";
 	import { parent, pass } from "../utils";
 	import FileListCell from "./FileListCell.svelte";
+	import Properties from "./Properties.svelte";
 	import {
 		DataTable,
 		Toolbar,
@@ -49,12 +50,12 @@
 	type Size = "short" | "medium";
 
 	export let fs: FileSystem;
-	export let onFileClick: (f: Inode) => unknown;
 	export let path = "/";
 
 	const isTactile = window.matchMedia("(pointer: coarse)").matches;
 	const size: Size = isTactile ? "medium" : "short";
 	let files: Inode[] = [];
+	let file: Inode | null = null;
 	let error: Error | null = null;
 	let checked: Inode[] = [];
 	let task: Task | null = null;
@@ -63,6 +64,7 @@
 	let newFolder = "";
 	let deleteSelectedModal = false;
 	let deleteModal = false;
+	let detailsModal = false;
 	let renameModal = false;
 	let renameValue = "";
 	let menuInode: Inode;
@@ -142,6 +144,11 @@
 		selectedRowIds = [];
 		deleted.forEach((a) => a.catch(pass));
 		Promise.allSettled(deleted).then(fileListUpdateIncr);
+	}
+
+	function onFileClick(f: Inode) {
+		file = f;
+		detailsModal = true;
 	}
 
 	function onRowClick(e: TableEvent) {
@@ -354,3 +361,13 @@
 		}}
 	/>
 </ComposedModal>
+
+{#if file}
+<Modal
+	bind:open={detailsModal}
+	passiveModal
+	modalHeading={file.basename}
+>
+	<Properties object={file} />
+</Modal>
+{/if}

@@ -21,12 +21,10 @@
 	import type { FileSystem, Quota } from "./model/FileSystem";
 	import FileList from "./view/FileList.svelte";
 	import Login from "./view/Login.svelte";
-	import Details from "./view/Details.svelte";
 	import Breadcrumbs from "./view/Breadcrumbs.svelte";
 	import Upload from "./view/Upload.svelte";
 	import type { FileSystemProvider } from "./model/FileSystemProvider";
 	import type { Config } from "./main/Config";
-	import type { Inode } from "./model/Files";
 	import { currentTheme, error2kind, hrsize, isDark, Theme, THEME_COUNT, THEME_KEY, url2path } from "./utils";
 	import {
 		Column,
@@ -59,7 +57,6 @@
 	let isSideNavOpen = false;
 	let theme: Theme = currentTheme();
 	let fs: FileSystem | null = null;
-	let file: Inode;
 	let path: string = url2path(document.location.href) || "/";
 	let lang = localStorage.getItem("lang") || getLocaleFromNavigator() || "en";
 	let quota: Quota | null;
@@ -118,10 +115,6 @@
 
 	function onLoginSuccess(res: FileSystem) {
 		fs = res;
-	}
-
-	function onFileClick(f: Inode) {
-		file = f;
 	}
 
 	function logout(): void {
@@ -248,7 +241,7 @@
 			</Row>
 			<Row>
 				<Column lg={11} padding>
-					<FileList {fs} {onFileClick} bind:path />
+					<FileList {fs} bind:path />
 				</Column>
 				<Column lg={5}>
 					<Tile>
@@ -261,7 +254,6 @@
 					</Tile>
 				</Column>
 			</Row>
-			<Details {file} />
 		{/if}
 	</Grid>
 </Content>
