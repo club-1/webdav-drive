@@ -10,7 +10,7 @@
     "@types/node": "^18.19.42",
     "@types/utf8": "^3.0.1",
     "carbon-icons-svelte": "^12.4.0",
-    "carbon-preprocess-svelte": "^0.11.0",
+    "carbon-preprocess-svelte": "^0.11.49",
     "esbuild": "^0.28.1",
     "esbuild-svelte": "^0.9.5",
     "eslint": "^8.57.0",
