@@ -20,7 +20,6 @@
 	import {
 		Button,
 		ComboButton,
-		FileUploaderItem,
 		Form,
 		FormGroup,
 		InlineNotification,
@@ -29,7 +28,7 @@
 
 	import type { FileSystem } from "../model/FileSystem";
 	import { FileUpload, uploadFiles } from "../model/Upload";
-	import { Upload } from "carbon-icons-svelte";
+	import { Upload, Close } from "carbon-icons-svelte";
 	import { hrsize } from "../utils";
 
 	export let fs: FileSystem;
@@ -85,33 +84,49 @@
 		/>
 	{/each}
 	<FormGroup legendText={$_("Upload files")}>
-		<ComboButton labelText={$_("Select files")} on:click={() => fileUploader.click()}>
+		<ComboButton
+			size="sm"
+			labelText={$_("Select files")}
+			on:click={() => fileUploader.click()}
+		>
 			<MenuItem on:click={() => dirUploader.click()}>
 				{$_("Select a folder")}
 			</MenuItem>
 		</ComboButton>
+		<Button
+			kind="secondary"
+			type="submit"
+			size="small"
+			disabled={empty}
+			on:click={submitHandler}
+			icon={Upload}
+		>
+			{$_("Upload")}
+		</Button>
 		<input bind:files bind:this={fileUploader} type="file" multiple />
 		<input bind:files bind:this={dirUploader} type="file" webkitdirectory />
-
-		{#each toUpload as file}
-			<FileUploaderItem
-				size="small"
-				name={file.webkitRelativePath || file.name}
-				status="edit"
-				on:delete={() => removeFile(file)}
-			/>
-		{/each}
 
 		<div class="bx--form__helper-text">
 			{$_("Max file size:")}
 			{hrsize(maxFileSize)}
 		</div>
 	</FormGroup>
-	<Button type="submit" disabled={empty} on:click={submitHandler} icon={Upload}>
-		{$_("Upload")}
-	</Button>
 </Form>
+
 <div class="uploads">
+	{#each toUpload as file}
+		<div class="flex">
+			<p class="name">{file.webkitRelativePath || file.name}</p>
+			<Button
+				size="small"
+				kind="ghost"
+				iconDescription={$_("Remove")}
+				icon={Close}
+				on:click={() => removeFile(file)}
+			/>
+		</div>
+	{/each}
+
 	{#each uploads as u}
 		<div class="flex">
 			<p class="name">{u.file.webkitRelativePath || u.file.name}</p>
