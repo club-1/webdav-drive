@@ -19,50 +19,69 @@
 	import { _ } from "svelte-i18n";
 	import {
 		Button,
-		FileUploaderButton,
+		ComboButton,
+		FileUploaderItem,
 		Form,
 		FormGroup,
 		InlineNotification,
+		MenuItem,
 	} from "carbon-components-svelte";
 
 	import type { FileSystem } from "../model/FileSystem";
 	import type { Progress } from "../model/Upload";
 	import { FileUpload } from "../model/Upload";
 	import { Upload } from "carbon-icons-svelte";
-	import { hrsize } from "../utils";
+	import { hrsize, parent } from "../utils";
 
 	export let fs: FileSystem;
 	export let path: string;
 	export let onUploadSuccess: () => void;
 	export let maxFileSize = 0x100000;
 
-	const labelEmpty = "Select files";
+	let fileUploader: HTMLInputElement;
+	let dirUploader: HTMLInputElement;
+	let files: FileList | undefined;
+	let toUpload: File[] = [];
 	let uploads: FileUpload[] = [];
-	let files: File[] = [];
 
-	$: empty = !files || files.length == 0;
-	$: label = empty ? labelEmpty : "{count} files selected";
-	$: tooLargeFiles = files
-		? Array.from(files).filter((f: File) => f.size > maxFileSize)
-		: [];
+	$: if (files) {
+		toUpload = toUpload.concat(...files);
+		files = undefined;
+	}
+	$: empty = toUpload.length == 0;
+	$: tooLargeFiles = toUpload.filter((f: File) => f.size > maxFileSize);
 
 	async function submitHandler(e: Event) {
 		e.preventDefault();
-		if (!files) {
-			return;
-		}
-		for (const file of files) {
-			let upload = new FileUpload(file);
+		for (const file of toUpload) {
+			const upload = new FileUpload(file);
 			uploads = [...uploads, upload];
-			let content = await file.arrayBuffer();
-			fs.putFileContent(path + file.name, content, (p: Progress) => {
+			// TODO; maybe export parts of this function in a upload(File[]) function.
+			const content = await file.arrayBuffer();
+			if (file.webkitRelativePath) {
+				const dirPath = path + parent(file.webkitRelativePath);
+				// TODO: build a list of directories to create beforehand.
+				if (!(await fs.exists(dirPath))) {
+					await fs.createDirectory(dirPath, true);
+				}
+			}
+			const filePath = path + (file.webkitRelativePath || file.name);
+			fs.putFileContent(filePath, content, (p: Progress) => {
 				upload.progress = p;
 				uploads = uploads;
 			})
 				.then(onUploadSuccess)
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}
-		files = [];
+		toUpload = [];
+	}
+
+	function removeFile(file: File) {
+		toUpload = toUpload.filter(
+			(curr) =>
+				curr.webkitRelativePath != file.webkitRelativePath &&
+				curr.name != file.name,
+		);
 	}
 </script>
 
@@ -76,28 +95,36 @@
 		/>
 	{/each}
 	<FormGroup legendText={$_("Upload files")}>
-		<FileUploaderButton
-			bind:files
-			multiple
-			labelText={$_(label, { values: { count: files?.length } })}
-		/>
+		<ComboButton labelText={$_("Select files")} on:click={() => fileUploader.click()}>
+			<MenuItem on:click={() => dirUploader.click()}>
+				{$_("Select a folder")}
+			</MenuItem>
+		</ComboButton>
+		<input bind:files bind:this={fileUploader} type="file" multiple />
+		<input bind:files bind:this={dirUploader} type="file" webkitdirectory />
+
+		{#each toUpload as file}
+			<FileUploaderItem
+				size="small"
+				name={file.webkitRelativePath || file.name}
+				status="edit"
+				on:delete={() => removeFile(file)}
+			/>
+		{/each}
+
 		<div class="bx--form__helper-text">
-			{$_("Max file size:")} {hrsize(maxFileSize)}
+			{$_("Max file size:")}
+			{hrsize(maxFileSize)}
 		</div>
 	</FormGroup>
-	<Button
-		type="submit"
-		disabled={empty}
-		on:click={submitHandler}
-		icon={Upload}
-	>
+	<Button type="submit" disabled={empty} on:click={submitHandler} icon={Upload}>
 		{$_("Upload")}
 	</Button>
 </Form>
 <div class="uploads">
 	{#each uploads as u}
 		<div class="flex">
-			<p class="name">{u.file.name}</p>
+			<p class="name">{u.file.webkitRelativePath || u.file.name}</p>
 			{#if u.progress}
 				<progress max={u.progress.total} value={u.progress.loaded}>
 					{(u.progress.loaded / u.progress.total) * 100}%
@@ -110,6 +137,9 @@
 </div>
 
 <style>
+	input[type="file"] {
+		display: none;
+	}
 	.uploads {
 		max-width: 100%;
 		width: 500px;

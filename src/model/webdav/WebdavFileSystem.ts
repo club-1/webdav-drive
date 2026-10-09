@@ -35,6 +35,10 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		return extractData(quota);
 	}
 
+	exists(path: string): Promise<boolean> {
+		return this.client.exists(path);
+	}
+
 	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Inode[]> {
 		if (path.charAt(path.length - 1) != "/") {
 			throw new Error("Not a directory.");
@@ -70,11 +74,11 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		});
 	}
 
-	createDirectory(path: string): Promise<void> {
-		return this.client.createDirectory(path);
+	createDirectory(path: string, recursive?: boolean): Promise<void> {
+		return this.client.createDirectory(path, {recursive});
 	}
 
-	async createFile(path: string): Promise<boolean> {
+	createFile(path: string): Promise<boolean> {
 		return this.putFileContent(path, "");
 	}
 

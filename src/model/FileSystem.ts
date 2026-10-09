@@ -34,6 +34,12 @@ export interface FileSystem {
 	getQuota(): Promise<Quota>;
 
 	/**
+	 * Check if a file exists at the given path.
+	 * @param path the path to check.
+	 */
+	exists(path: string): Promise<boolean>;
+
+	/**
 	 * List entries of a directory.
 	 * @param path the path of the directory.
 	 * @returns a list of entries.
@@ -66,8 +72,9 @@ export interface FileSystem {
 	/**
 	 * Create a new directory.
 	 * @param path the path of the new directory.
+	 * @param recursive recusrively create parents if true.
 	 */
-	createDirectory(path: string): Promise<void>;
+	createDirectory(path: string, recursive?: boolean): Promise<void>;
 
 	/**
 	 * Create a new file.
