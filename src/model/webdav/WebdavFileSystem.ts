@@ -64,6 +64,9 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		return this.client.putFileContents(path, data, {
 			onUploadProgress: progressHandler,
 			contentLength: false,
+		}).catch((err) => {
+			console.log(err);
+			throw new Error(`Uploading file "${path}": ${err}`);
 		});
 	}
 

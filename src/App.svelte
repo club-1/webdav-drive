@@ -215,7 +215,7 @@
 				{#each errors as e}
 					<InlineNotification
 						kind={error2kind(e)}
-						title="Uncaught {e.name}: "
+						title="{e.name}: "
 						subtitle={e.message}
 						timeout={15000}
 						lowContrast
