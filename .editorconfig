@@ -1,0 +1,7 @@
+[*]
+insert_final_newline = true
+
+[*.{svelte,ts}]
+indent_style = tab
+indent_size = 8
+max_line_length = 100
