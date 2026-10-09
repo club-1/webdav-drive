@@ -18,7 +18,7 @@
 
 import { compareStrings } from "../utils";
 import type { Inode } from "./Files";
-import type { Progress } from "./Upload";
+import type { ProgressHandler } from "./Upload";
 
 export type Column = "basename" | "lastmod";
 export type Direction = "ASC" | "DESC";
@@ -67,12 +67,12 @@ export interface FileSystem {
 	 * @param progressHandler callback for progress updates.
 	 * @returns success.
 	 */
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => unknown): Promise<boolean>;
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: ProgressHandler): Promise<boolean>;
 
 	/**
 	 * Create a new directory.
 	 * @param path the path of the new directory.
-	 * @param recursive recusrively create parents if true.
+	 * @param recursive recursively create parents if true.
 	 */
 	createDirectory(path: string, recursive?: boolean): Promise<void>;
 
