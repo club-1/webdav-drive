@@ -28,10 +28,9 @@
 	} from "carbon-components-svelte";
 
 	import type { FileSystem } from "../model/FileSystem";
-	import type { Progress } from "../model/Upload";
-	import { FileUpload } from "../model/Upload";
+	import { FileUpload, uploadFiles } from "../model/Upload";
 	import { Upload } from "carbon-icons-svelte";
-	import { hrsize, parent } from "../utils";
+	import { hrsize } from "../utils";
 
 	export let fs: FileSystem;
 	export let path: string;
@@ -53,23 +52,14 @@
 
 	async function submitHandler(e: Event) {
 		e.preventDefault();
-		for (const file of toUpload) {
-			const upload = new FileUpload(file);
-			uploads = [...uploads, upload];
-			// TODO; maybe export parts of this function in a upload(File[]) function.
-			const content = await file.arrayBuffer();
-			if (file.webkitRelativePath) {
-				const dirPath = path + parent(file.webkitRelativePath);
-				// TODO: build a list of directories to create beforehand.
-				if (!(await fs.exists(dirPath))) {
-					await fs.createDirectory(dirPath, true);
-				}
-			}
-			const filePath = path + (file.webkitRelativePath || file.name);
-			fs.putFileContent(filePath, content, (p: Progress) => {
-				upload.progress = p;
+		uploads = uploads.concat(
+			await uploadFiles(fs, path, toUpload, () => {
+				// Trigger a svelte render
 				uploads = uploads;
-			})
+			}),
+		);
+		for (const upload of uploads) {
+			upload.success
 				.then(onUploadSuccess)
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}

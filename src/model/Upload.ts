@@ -16,14 +16,55 @@
 	WebDAV-Drive. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { parent } from "../utils";
+import type { FileSystem } from "./FileSystem";
+
 export type Progress = {
 	loaded: number,
 	total: number,
 }
 
+export type ProgressHandler = (p: Progress) => unknown
+
 export class FileUpload {
 	constructor(
 		public file: File,
+		public success: Promise<boolean>,
 		public progress?: Progress,
 	) { }
+}
+
+export async function uploadFiles(fs: FileSystem, path: string, files: File[], progressHandler?: ProgressHandler): Promise<FileUpload[]> {
+	const directories = new Set<string>();
+	for (const file of files) {
+		if (!file.webkitRelativePath) {
+			continue;
+		}
+		const directory = path + parent(file.webkitRelativePath);
+		directories.add(directory);
+	}
+
+	for (const directory of directories) {
+		if (!(await fs.exists(directory))) {
+			await fs.createDirectory(directory, true);
+		}
+	}
+
+	const uploads: FileUpload[] = [];
+	for (const file of files) {
+		const filePath = path + (file.webkitRelativePath || file.name);
+		const content = await file.arrayBuffer();
+		const upload = new FileUpload(
+			file,
+			fs.putFileContent(filePath, content, (p: Progress) => {
+				upload.progress = p;
+				if (progressHandler) {
+					progressHandler(p);
+				}
+			})
+		);
+		uploads.push(upload);
+	}
+
+	return uploads;
 }
