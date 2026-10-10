@@ -89,6 +89,7 @@
 		<ComboButton
 			size="sm"
 			labelText={$_("Select files")}
+			iconDescription={$_("More selection options")}
 			on:click={() => fileUploader.click()}
 		>
 			<MenuItem on:click={() => dirUploader.click()}>
