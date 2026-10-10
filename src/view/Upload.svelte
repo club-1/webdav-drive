@@ -52,7 +52,7 @@
 	async function submitHandler(e: Event) {
 		e.preventDefault();
 		uploads = uploads.concat(
-			await uploadFiles(fs, path, toUpload, () => {
+			uploadFiles(fs, path, toUpload, () => {
 				// Trigger a svelte render
 				uploads = uploads;
 			}),

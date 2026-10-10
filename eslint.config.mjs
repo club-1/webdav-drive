@@ -25,6 +25,7 @@ export default [
 			}],
 			"indent": ["error", "tab"],
 			"quotes": ["warn", "double"],
+			"no-constant-condition": "off",
 			"@typescript-eslint/no-non-null-assertion": "off",
 			"@typescript-eslint/ban-ts-comment": "off",
 		},

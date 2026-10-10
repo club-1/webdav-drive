@@ -72,9 +72,8 @@ export interface FileSystem {
 	/**
 	 * Create a new directory.
 	 * @param path the path of the new directory.
-	 * @param recursive recursively create parents if true.
 	 */
-	createDirectory(path: string, recursive?: boolean): Promise<void>;
+	createDirectory(path: string): Promise<void>;
 
 	/**
 	 * Create a new file.

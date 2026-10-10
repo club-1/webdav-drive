@@ -74,8 +74,8 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		});
 	}
 
-	createDirectory(path: string, recursive?: boolean): Promise<void> {
-		return this.client.createDirectory(path, { recursive });
+	createDirectory(path: string): Promise<void> {
+		return this.client.createDirectory(path);
 	}
 
 	createFile(path: string): Promise<boolean> {
