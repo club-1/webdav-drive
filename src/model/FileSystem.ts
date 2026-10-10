@@ -67,7 +67,7 @@ export interface FileSystem {
 	 * @param progressHandler callback for progress updates.
 	 * @returns success.
 	 */
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: ProgressHandler): Promise<boolean>;
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: ProgressHandler, signal?: AbortSignal): Promise<boolean>;
 
 	/**
 	 * Create a new directory.

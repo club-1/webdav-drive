@@ -30,6 +30,7 @@ export class FileUpload {
 	constructor(
 		public file: File,
 		public success: Promise<boolean>,
+		public controller: AbortController,
 		public progress?: Progress,
 	) { }
 }
@@ -88,6 +89,7 @@ export function uploadFiles(fs: FileSystem, path: string, files: File[], progres
 
 		const filePath = path + (file.webkitRelativePath || file.name);
 		const getContent = createDir.then(() => file.arrayBuffer());
+		const controller = new AbortController();
 		const upload = new FileUpload(
 			file,
 			getContent.then((content) => {
@@ -96,8 +98,9 @@ export function uploadFiles(fs: FileSystem, path: string, files: File[], progres
 					if (progressHandler) {
 						progressHandler(p);
 					}
-				});
+				}, controller.signal);
 			}),
+			controller,
 		);
 		uploads.push(upload);
 	}

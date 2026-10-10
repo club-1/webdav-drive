@@ -74,6 +74,15 @@
 				curr.name != file.name,
 		);
 	}
+
+	function cancelUpload(u: FileUpload) {
+		u.controller.abort();
+		uploads = uploads.filter(
+			(curr) =>
+				curr.file.webkitRelativePath != u.file.webkitRelativePath &&
+				curr.file.name != u.file.name,
+		);
+	}
 </script>
 
 <Form style="margin-bottom: 1rem;">
@@ -122,7 +131,7 @@
 	{/each}
 
 	{#each uploads as u}
-		<UploadItem file={u.file} progress={u.progress} status="uploading" />
+		<UploadItem file={u.file} progress={u.progress} status="uploading" on:delete={() => cancelUpload(u)} />
 	{/each}
 </Stack>
 

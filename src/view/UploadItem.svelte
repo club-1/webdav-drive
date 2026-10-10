@@ -24,12 +24,15 @@
 		ProgressBar,
 		Text,
 	} from "carbon-components-svelte";
-	import { Close } from "carbon-icons-svelte";
+	import { Close, ErrorOutline } from "carbon-icons-svelte";
 	import type { Progress } from "../model/Upload";
 
 	export let file: File;
 	export let status: "edit" | "uploading" = "edit";
 	export let progress: Progress | null = null;
+
+	$: icon = status == "edit" ? Close : ErrorOutline
+	$: iconDescription = status == "edit" ? $_("Remove file") : $_("Cancel upload")
 
 	const dispatch = createEventDispatcher();
 
@@ -48,22 +51,19 @@
 	{...$$restProps}
 >
 	<Text lines={1}>{file.webkitRelativePath || file.name}</Text>
-	{#if status == "edit"}
-		<Button
-			size="small"
-			kind="ghost"
-			iconDescription={$_("Remove")}
-			icon={Close}
-			on:click={dispatchDelete}
-		/>
-	{:else if progress}
+	{#if status == "uploading"}
 		<ProgressBar
 			kind="inline"
 			size="sm"
-			value={progress.loaded}
-			max={progress.total}
+			value={progress?.loaded}
+			max={progress?.total}
 		/>
-	{:else}
-		<ProgressBar kind="inline" size="sm" />
 	{/if}
+	<Button
+		size="small"
+		kind="ghost"
+		{icon}
+		{iconDescription}
+		on:click={dispatchDelete}
+	/>
 </Box>
