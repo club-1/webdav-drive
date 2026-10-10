@@ -18,7 +18,7 @@
 
 import { compareStrings } from "../utils";
 import type { Inode } from "./Files";
-import type { Progress } from "./Upload";
+import type { ProgressHandler } from "./Upload";
 
 export type Column = "basename" | "lastmod";
 export type Direction = "ASC" | "DESC";
@@ -32,6 +32,12 @@ export interface FileSystem {
 	 * Get quota usage in bytes.
 	 */
 	getQuota(): Promise<Quota>;
+
+	/**
+	 * Check if a file exists at the given path.
+	 * @param path the path to check.
+	 */
+	exists(path: string): Promise<boolean>;
 
 	/**
 	 * List entries of a directory.
@@ -61,7 +67,7 @@ export interface FileSystem {
 	 * @param progressHandler callback for progress updates.
 	 * @returns success.
 	 */
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => unknown): Promise<boolean>;
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: ProgressHandler): Promise<boolean>;
 
 	/**
 	 * Create a new directory.

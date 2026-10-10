@@ -19,15 +19,17 @@
 	import { _ } from "svelte-i18n";
 	import {
 		Button,
-		FileUploaderButton,
+		ComboButton,
 		Form,
 		FormGroup,
 		InlineNotification,
+		MenuItem,
+		Stack,
 	} from "carbon-components-svelte";
 
+	import UploadItem from "./UploadItem.svelte";
 	import type { FileSystem } from "../model/FileSystem";
-	import type { Progress } from "../model/Upload";
-	import { FileUpload } from "../model/Upload";
+	import { FileUpload, uploadFiles } from "../model/Upload";
 	import { Upload } from "carbon-icons-svelte";
 	import { hrsize } from "../utils";
 
@@ -36,33 +38,41 @@
 	export let onUploadSuccess: () => void;
 	export let maxFileSize = 0x100000;
 
-	const labelEmpty = "Select files";
+	let fileUploader: HTMLInputElement;
+	let dirUploader: HTMLInputElement;
+	let files: FileList | undefined;
+	let toUpload: File[] = [];
 	let uploads: FileUpload[] = [];
-	let files: File[] = [];
 
-	$: empty = !files || files.length == 0;
-	$: label = empty ? labelEmpty : "{count} files selected";
-	$: tooLargeFiles = files
-		? Array.from(files).filter((f: File) => f.size > maxFileSize)
-		: [];
+	$: if (files) {
+		toUpload = toUpload.concat(...files);
+		files = undefined;
+	}
+	$: empty = toUpload.length == 0;
+	$: tooLargeFiles = toUpload.filter((f: File) => f.size > maxFileSize);
 
 	async function submitHandler(e: Event) {
 		e.preventDefault();
-		if (!files) {
-			return;
-		}
-		for (const file of files) {
-			let upload = new FileUpload(file);
-			uploads = [...uploads, upload];
-			let content = await file.arrayBuffer();
-			fs.putFileContent(path + file.name, content, (p: Progress) => {
-				upload.progress = p;
+		uploads = uploads.concat(
+			uploadFiles(fs, path, toUpload, () => {
+				// Trigger a svelte render
 				uploads = uploads;
-			})
+			}),
+		);
+		for (const upload of uploads) {
+			upload.success
 				.then(onUploadSuccess)
 				.finally(() => (uploads = uploads.filter((u) => u != upload)));
 		}
-		files = [];
+		toUpload = [];
+	}
+
+	function removeFile(file: File) {
+		toUpload = toUpload.filter(
+			(curr) =>
+				curr.webkitRelativePath != file.webkitRelativePath &&
+				curr.name != file.name,
+		);
 	}
 </script>
 
@@ -76,56 +86,48 @@
 		/>
 	{/each}
 	<FormGroup legendText={$_("Upload files")}>
-		<FileUploaderButton
-			bind:files
-			multiple
-			labelText={$_(label, { values: { count: files?.length } })}
-		/>
+		<ComboButton
+			size="sm"
+			labelText={$_("Select files")}
+			iconDescription={$_("More selection options")}
+			on:click={() => fileUploader.click()}
+		>
+			<MenuItem on:click={() => dirUploader.click()}>
+				{$_("Select a folder")}
+			</MenuItem>
+		</ComboButton>
+		<Button
+			kind="secondary"
+			type="submit"
+			size="small"
+			disabled={empty}
+			on:click={submitHandler}
+			icon={Upload}
+		>
+			{$_("Upload")}
+		</Button>
+		<input bind:files bind:this={fileUploader} type="file" multiple />
+		<input bind:files bind:this={dirUploader} type="file" webkitdirectory />
+
 		<div class="bx--form__helper-text">
-			{$_("Max file size:")} {hrsize(maxFileSize)}
+			{$_("Max file size:")}
+			{hrsize(maxFileSize)}
 		</div>
 	</FormGroup>
-	<Button
-		type="submit"
-		disabled={empty}
-		on:click={submitHandler}
-		icon={Upload}
-	>
-		{$_("Upload")}
-	</Button>
 </Form>
-<div class="uploads">
-	{#each uploads as u}
-		<div class="flex">
-			<p class="name">{u.file.name}</p>
-			{#if u.progress}
-				<progress max={u.progress.total} value={u.progress.loaded}>
-					{(u.progress.loaded / u.progress.total) * 100}%
-				</progress>
-			{:else}
-				<progress></progress>
-			{/if}
-		</div>
+
+<Stack gap={3}>
+	{#each toUpload as file}
+		<UploadItem {file} on:delete={() => removeFile(file)} />
 	{/each}
-</div>
+
+	{#each uploads as u}
+		<UploadItem file={u.file} progress={u.progress} status="uploading" />
+	{/each}
+</Stack>
 
 <style>
-	.uploads {
-		max-width: 100%;
-		width: 500px;
-	}
-	.flex {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: nowrap;
-		padding: 0.5rem 0;
-		border-top: solid 1px var(--cds-ui-03, #e0e0e0);
-	}
-
-	.name {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+	input[type="file"] {
+		display: none;
 	}
 </style>
