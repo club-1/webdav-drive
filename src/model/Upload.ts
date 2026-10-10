@@ -34,34 +34,70 @@ export class FileUpload {
 	) { }
 }
 
-export async function uploadFiles(fs: FileSystem, path: string, files: File[], progressHandler?: ProgressHandler): Promise<FileUpload[]> {
-	const directories = new Set<string>();
+export function uploadFiles(fs: FileSystem, path: string, files: File[], progressHandler?: ProgressHandler): FileUpload[] {
+	// Collect unique directories.
+	const dirs = new Set<string>();
 	for (const file of files) {
-		if (!file.webkitRelativePath) {
-			continue;
+		if (file.webkitRelativePath) {
+			const dir = path + parent(file.webkitRelativePath);
+			dirs.add(dir);
 		}
-		const directory = path + parent(file.webkitRelativePath);
-		directories.add(directory);
 	}
 
-	for (const directory of directories) {
-		if (!(await fs.exists(directory))) {
-			await fs.createDirectory(directory, true);
+	// Make sure there are no gaps in parents.
+	for (let dir of dirs) {
+		while (true) {
+			dir = parent(dir);
+			if (dir == path || dirs.has(dir)) {
+				break;
+			}
+			dirs.add(dir);
 		}
+	}
+
+
+	// Create directories asynchronously and keep promises.
+	const dirPromises = new Map<string, Promise<void>>();
+	for (const dir of Array.from(dirs).sort()) {
+		// Make sure the parent is created beforehand.
+		let createParent = dirPromises.get(parent(dir));
+		if (!createParent) {
+			createParent = Promise.resolve();
+		}
+
+		const promise = createParent
+			.then(() => fs.exists(dir))
+			.then((exists: boolean) => {
+				if (!exists) {
+					return fs.createDirectory(dir);
+				}
+			});
+		dirPromises.set(dir, promise);
 	}
 
 	const uploads: FileUpload[] = [];
+
 	for (const file of files) {
+		let createDir: Promise<void> = Promise.resolve();
+
+		// Check if we need to create a directory.
+		if (file.webkitRelativePath) {
+			const dir = path + parent(file.webkitRelativePath);
+			createDir = dirPromises.get(dir)!;
+		}
+
 		const filePath = path + (file.webkitRelativePath || file.name);
-		const content = await file.arrayBuffer();
+		const getContent = createDir.then(() => file.arrayBuffer());
 		const upload = new FileUpload(
 			file,
-			fs.putFileContent(filePath, content, (p: Progress) => {
-				upload.progress = p;
-				if (progressHandler) {
-					progressHandler(p);
-				}
-			})
+			getContent.then((content) => {
+				return fs.putFileContent(filePath, content, (p: Progress) => {
+					upload.progress = p;
+					if (progressHandler) {
+						progressHandler(p);
+					}
+				});
+			}),
 		);
 		uploads.push(upload);
 	}
