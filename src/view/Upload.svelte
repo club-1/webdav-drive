@@ -24,11 +24,13 @@
 		FormGroup,
 		InlineNotification,
 		MenuItem,
+		Stack,
 	} from "carbon-components-svelte";
 
+	import UploadItem from "./UploadItem.svelte";
 	import type { FileSystem } from "../model/FileSystem";
 	import { FileUpload, uploadFiles } from "../model/Upload";
-	import { Upload, Close } from "carbon-icons-svelte";
+	import { Upload } from "carbon-icons-svelte";
 	import { hrsize } from "../utils";
 
 	export let fs: FileSystem;
@@ -113,54 +115,18 @@
 	</FormGroup>
 </Form>
 
-<div class="uploads">
+<Stack gap={3}>
 	{#each toUpload as file}
-		<div class="flex">
-			<p class="name">{file.webkitRelativePath || file.name}</p>
-			<Button
-				size="small"
-				kind="ghost"
-				iconDescription={$_("Remove")}
-				icon={Close}
-				on:click={() => removeFile(file)}
-			/>
-		</div>
+		<UploadItem {file} on:delete={() => removeFile(file)} />
 	{/each}
 
 	{#each uploads as u}
-		<div class="flex">
-			<p class="name">{u.file.webkitRelativePath || u.file.name}</p>
-			{#if u.progress}
-				<progress max={u.progress.total} value={u.progress.loaded}>
-					{(u.progress.loaded / u.progress.total) * 100}%
-				</progress>
-			{:else}
-				<progress></progress>
-			{/if}
-		</div>
+		<UploadItem file={u.file} progress={u.progress} status="uploading" />
 	{/each}
-</div>
+</Stack>
 
 <style>
 	input[type="file"] {
 		display: none;
-	}
-	.uploads {
-		max-width: 100%;
-		width: 500px;
-	}
-	.flex {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: nowrap;
-		padding: 0.5rem 0;
-		border-top: solid 1px var(--cds-ui-03, #e0e0e0);
-	}
-
-	.name {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
 	}
 </style>
