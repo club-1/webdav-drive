@@ -97,7 +97,7 @@ fix-eslint: node_modules
 translations-extract: translation-$(LOCALE)-extract;
 
 .PHONY: translations-%-extract
-translation-%-extract:
+translation-%-extract: node_modules
 	node_modules/.bin/svelte-i18n extract --shallow '$(VIEWSGLOB)' locales/translation-$*.json
 	$(call sortjson,locales/translation-$*.json)
 
