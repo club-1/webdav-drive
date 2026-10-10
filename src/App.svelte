@@ -141,6 +141,7 @@
 <Header
 	platformName={config.branding.site_name}
 	persistentHamburgerMenu
+	ariaLabelMenu={isSideNavOpen ? $_("Close menu") : $_("Open menu")}
 	bind:isSideNavOpen
 >
 	{#if $loading != ""}
