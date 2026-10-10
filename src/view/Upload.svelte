@@ -70,7 +70,7 @@
 	function removeFile(file: File) {
 		toUpload = toUpload.filter(
 			(curr) =>
-				curr.webkitRelativePath != file.webkitRelativePath &&
+				curr.webkitRelativePath != file.webkitRelativePath ||
 				curr.name != file.name,
 		);
 	}
@@ -79,7 +79,7 @@
 		u.controller.abort();
 		uploads = uploads.filter(
 			(curr) =>
-				curr.file.webkitRelativePath != u.file.webkitRelativePath &&
+				curr.file.webkitRelativePath != u.file.webkitRelativePath ||
 				curr.file.name != u.file.name,
 		);
 	}
