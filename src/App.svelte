@@ -17,7 +17,7 @@
 -->
 <script lang="ts">
 	import { getLocaleFromNavigator, locale, locales, _ } from "svelte-i18n";
-	import { labels } from "./locales";
+	import { labels, closestLocale } from "./locales";
 	import type { FileSystem, Quota } from "./model/FileSystem";
 	import FileList from "./view/FileList.svelte";
 	import Login from "./view/Login.svelte";
@@ -58,7 +58,10 @@
 	let theme: Theme = currentTheme();
 	let fs: FileSystem | null = null;
 	let path: string = url2path(document.location.href) || "/";
-	let lang = localStorage.getItem("lang") || getLocaleFromNavigator() || "en";
+	let lang =
+		closestLocale(localStorage.getItem("lang")) ||
+		closestLocale(getLocaleFromNavigator()) ||
+		"en";
 	let quota: Quota | null;
 
 	$: dark = isDark(theme);

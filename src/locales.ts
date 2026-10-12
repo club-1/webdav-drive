@@ -36,3 +36,18 @@ export const labels: Record<string, string> = {
 	"ta": "தமிழ்",
 	"zh-CN": "中文（简体）",
 };
+
+export function closestLocale(locale: string | null): string | null {
+	if (!locale) {
+		return locale;
+	}
+	if (labels[locale]) {
+		return locale;
+	}
+	const sep = locale.indexOf("-");
+	locale = locale.slice(0, sep);
+	if (labels[locale]) {
+		return locale;
+	}
+	return null;
+}
