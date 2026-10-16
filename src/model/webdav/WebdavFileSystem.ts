@@ -21,7 +21,7 @@ import { ab2str } from "../../utils";
 import type { Column, Direction, FileSystem, Quota } from "../FileSystem";
 import { FileSystemBase } from "../FileSystem";
 import { Inode, File, Directory } from "../Files";
-import type { Progress } from "../Upload";
+import type { ProgressHandler } from "../Upload";
 
 export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	constructor(
@@ -33,6 +33,10 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 	async getQuota(): Promise<Quota> {
 		const quota = await this.client.getQuota();
 		return extractData(quota);
+	}
+
+	exists(path: string): Promise<boolean> {
+		return this.client.exists(path);
 	}
 
 	async listFiles(path: string, orderBy: Column = "basename", direction: Direction = "ASC"): Promise<Inode[]> {
@@ -60,8 +64,9 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		}
 	}
 
-	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: (p: Progress) => unknown): Promise<boolean> {
+	putFileContent(path: string, data: string | Buffer | ArrayBuffer, progressHandler?: ProgressHandler, signal?: AbortSignal): Promise<boolean> {
 		return this.client.putFileContents(path, data, {
+			signal: signal,
 			onUploadProgress: progressHandler,
 			contentLength: false,
 		}).catch((err) => {
@@ -74,7 +79,7 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		return this.client.createDirectory(path);
 	}
 
-	async createFile(path: string): Promise<boolean> {
+	createFile(path: string): Promise<boolean> {
 		return this.putFileContent(path, "");
 	}
 
