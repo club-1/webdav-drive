@@ -2,6 +2,7 @@
 	"server_url": "https://webdav.example.fr/files/{username}",
 	"max_body_size": 1048576,
 	"branding": {
+		"favicon": "favicon.png",
 		"site_name": "WebDAV Drive"
 	},
 	"modules": [

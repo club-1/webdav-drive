@@ -44,6 +44,11 @@ async function main(): Promise<unknown> {
 		);
 	}
 
+	// Set favicon
+	if (config.branding?.favicon) {
+		document.getElementById("favicon")!.setAttribute("href", config.branding.favicon);
+	}
+
 	// Init modules
 	for (const response of await Promise.allSettled(modules)) {
 		if (response.status != "fulfilled") {

@@ -22,9 +22,11 @@ export type Config = {
 	/** Request's max body size accepted by the server. */
 	max_body_size: number;
 	/** Branding configuration. */
-	branding: {
+	branding?: {
 		/** Name of this instance of webdav-cloud. */
-		site_name: string;
+		site_name?: string;
+		/** location of the favicon. */
+		favicon?: string;
 	};
 	/** List of modules to load. */
 	modules: string[];

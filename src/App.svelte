@@ -138,11 +138,11 @@
 <svelte:window bind:innerWidth={width} />
 
 <svelte:head>
-	<title>{config.branding.site_name}</title>
+	<title>{config.branding?.site_name}</title>
 </svelte:head>
 
 <Header
-	platformName={config.branding.site_name}
+	platformName={config.branding?.site_name}
 	persistentHamburgerMenu
 	ariaLabelMenu={isSideNavOpen ? $_("Close menu") : $_("Open menu")}
 	bind:isSideNavOpen
