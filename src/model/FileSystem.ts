@@ -52,7 +52,7 @@ export interface FileSystem {
 	 * @param path the path of the file.
 	 * @returns the content of the file.
 	 */
-	getFileContent(path: string): Promise<string>;
+	getFileContent(path: string): Promise<string | ArrayBuffer>;
 
 	/**
 	 * Write data to a file.

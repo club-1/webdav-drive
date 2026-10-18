@@ -17,7 +17,6 @@
 */
 
 import type { FileStat, ResponseDataDetailed, WebDAVClient } from "webdav/web";
-import { ab2str } from "../../utils";
 import type { Column, Direction, FileSystem, Quota } from "../FileSystem";
 import { FileSystemBase } from "../FileSystem";
 import { Inode, File, Directory } from "../Files";
@@ -48,15 +47,16 @@ export class WebdavFileSystem extends FileSystemBase implements FileSystem {
 		return this.client.getFileDownloadLink(path);
 	}
 
-	async getFileContent(path: string): Promise<string> {
+	async getFileContent(path: string): Promise<string | ArrayBuffer> {
 		const res = await this.client.getFileContents(path);
 		const buf = extractData(res);
 		if (typeof buf == "string") {
 			return buf;
 		} else if (buf instanceof ArrayBuffer) {
-			return ab2str(buf);
+			return buf;
 		} else {
-			return buf.toString();
+			// Impossible in a Browser.
+			throw new Error("response is a NodeJS Buffer");
 		}
 	}
 

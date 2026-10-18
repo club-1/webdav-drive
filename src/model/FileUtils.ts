@@ -19,6 +19,7 @@
 import { getDateFormatter } from "svelte-i18n";
 import { compareStrings, hrsize } from "../utils";
 import { File, Inode } from "./Files";
+import type { FileSystem } from "./FileSystem";
 import type { DataTableHeader, DataTableRow } from "carbon-components-svelte/src/DataTable/DataTable.svelte";
 
 type Diff = 0 | 1 | -1;
@@ -72,7 +73,26 @@ export function files2table(files: Inode[]): FileTable {
 					lastmod: f.lastmod,
 					size: (f instanceof File) ? f.size : "-",
 					inode: f,
+					menu: f,
 				};
 			}),
 	};
+}
+
+export async function download(fs: FileSystem, file: File): Promise<void> {
+	const content = await fs.getFileContent(file.path);
+
+	// Create a Blob object with the file content
+	const blob = new Blob([content]);
+
+	// Create a temporary link element
+	const link = document.createElement("a");
+	link.href = URL.createObjectURL(blob);
+	link.download = file.basename;
+
+	// Programmatically click the link to trigger the download
+	link.click();
+
+	// Clean up the URL object
+	URL.revokeObjectURL(link.href);
 }

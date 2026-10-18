@@ -18,12 +18,13 @@
 <script lang="ts">
 	import { locale, _ } from "svelte-i18n";
 	import { File } from "../model/Files";
+	import { download } from "../model/FileUtils";
 	import {
 		Link,
 		OverflowMenu,
 		OverflowMenuItem,
 	} from "carbon-components-svelte";
-	import { Edit, Information, TrashCan } from "carbon-icons-svelte";
+	import { Download, Edit, Information, TrashCan } from "carbon-icons-svelte";
 	import type { DataTableCell, DataTableRow } from "carbon-components-svelte/src/DataTable/DataTable.svelte";
 	import type { FileSystem } from "../model/FileSystem";
 	import { IsTactile } from "../stores";
@@ -56,6 +57,13 @@
 			icon={Information}
 			on:click={onClickDetails}
 		/>
+		{#if cell.value instanceof File}
+			<OverflowMenuItem
+				text={$_("Download")}
+				icon={Download}
+				on:click={() => download(fs, cell.value)}
+			/>
+		{/if}
 		<OverflowMenuItem
 			text={$_("Delete")}
 			icon={TrashCan}
