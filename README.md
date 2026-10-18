@@ -9,8 +9,7 @@ share, written in [TypeScript][typescript] with [Svelte][svelte],
 
 ![screenshot](./docs/screenshot.png)
 
-It can be configured at runtime, not [suckless][suckless] style, with a
-`config.json` file in `public/app`.
+It can be configured at runtime, with a `config.json` file in `public/app`.
 
 ## Build...
 
@@ -20,7 +19,7 @@ It can be configured at runtime, not [suckless][suckless] style, with a
     make node_modules
     ```
 
-2. Copy the sample config file into `config.ts` then edit it:
+2. Copy the sample config file into `config.json` then edit it:
 
     ```bash
     make config.json
@@ -63,4 +62,3 @@ Always run `make translations-sort` after manually editing the translation files
 [svelte]: https://svelte.dev
 [carbon]: https://github.com/carbon-design-system/carbon-components-svelte
 [webdav]: https://github.com/perry-mitchell/webdav-client
-[suckless]: https://suckless.org/
