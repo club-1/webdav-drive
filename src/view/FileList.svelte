@@ -22,7 +22,7 @@
 	import type { FileSystem } from "../model/FileSystem";
 	import { Directory, Inode, File } from "../model/Files";
 	import { CopyTask, MoveTask, Task } from "../model/Tasks";
-	import { fileListUpdate, fileListUpdateIncr, loading } from "../stores";
+	import { fileListUpdate, fileListUpdateIncr, IsTactile, loading } from "../stores";
 	import { files2table } from "../model/FileUtils";
 	import { parent, pass } from "../utils";
 	import FileListCell from "./FileListCell.svelte";
@@ -52,8 +52,7 @@
 	export let fs: FileSystem;
 	export let path = "/";
 
-	const isTactile = window.matchMedia("(pointer: coarse)").matches;
-	const size: Size = isTactile ? "medium" : "short";
+	const size: Size = IsTactile ? "medium" : "short";
 	let files: Inode[] = [];
 	let file: Inode | null = null;
 	let error: Error | null = null;

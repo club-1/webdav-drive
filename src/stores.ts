@@ -27,6 +27,9 @@ export const fileListUpdate = writable(0);
 /** If width <= 610 */
 export const isSmallScreen = writable(false);
 
+/** If the device has bad precision pointer **/
+export const IsTactile = window.matchMedia("(pointer: coarse)").matches;
+
 export function fileListUpdateIncr(): void {
 	fileListUpdate.update((value) => value + 1);
 }

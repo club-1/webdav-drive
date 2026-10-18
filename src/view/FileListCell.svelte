@@ -23,8 +23,10 @@
 		OverflowMenu,
 		OverflowMenuItem,
 	} from "carbon-components-svelte";
+	import { Edit, Information, TrashCan } from "carbon-icons-svelte";
 	import type { DataTableCell, DataTableRow } from "carbon-components-svelte/src/DataTable/DataTable.svelte";
 	import type { FileSystem } from "../model/FileSystem";
+	import { IsTactile } from "../stores";
 
 	export let fs: FileSystem;
 	export let cell: DataTableCell;
@@ -33,24 +35,31 @@
 	export let onClickRename: (e?: Event) => void;
 	export let onClickDetails: (e?: Event) => void;
 	export let onClickDelete: (e?: Event) => void;
+
+	const size = IsTactile ? undefined : "sm";
 </script>
 
 {#if cell.key === "menu"}
 	<OverflowMenu
+		{size}
 		flipped
 		iconDescription={$_("Menu")}
 		on:click={onClickMenu}
 	>
 		<OverflowMenuItem
 			text={$_("Rename")}
+			icon={Edit}
 			on:click={onClickRename}
 		/>
 		<OverflowMenuItem
 			text={$_("Details")}
+			icon={Information}
 			on:click={onClickDetails}
 		/>
 		<OverflowMenuItem
 			text={$_("Delete")}
+			icon={TrashCan}
+			hasDivider
 			danger
 			on:click={onClickDelete}
 		/>
