@@ -29,7 +29,7 @@
 
 	import UploadItem from "./UploadItem.svelte";
 	import type { FileSystem } from "../model/FileSystem";
-	import { FileUpload, uploadFiles } from "../model/Upload";
+	import { FileUpload, uploadFiles, type FileToUpload } from "../model/Upload";
 	import { Upload } from "carbon-icons-svelte";
 	import { hrsize } from "../utils";
 
@@ -41,11 +41,14 @@
 	let fileUploader: HTMLInputElement;
 	let dirUploader: HTMLInputElement;
 	let files: FileList | undefined;
-	let toUpload: File[] = [];
+	let toUpload: FileToUpload[] = [];
 	let uploads: FileUpload[] = [];
 
 	$: if (files) {
-		toUpload = toUpload.concat(...files);
+		const filesToUpload = Array.from(files).map((f) =>
+			Object.assign(f, { path: f.webkitRelativePath || f.name }),
+		);
+		toUpload = toUpload.concat(filesToUpload);
 		files = undefined;
 	}
 	$: empty = toUpload.length == 0;
@@ -67,20 +70,16 @@
 		toUpload = [];
 	}
 
-	function removeFile(file: File) {
+	function removeFile(file: FileToUpload) {
 		toUpload = toUpload.filter(
-			(curr) =>
-				curr.webkitRelativePath != file.webkitRelativePath ||
-				curr.name != file.name,
+			(curr) => curr.path != file.path
 		);
 	}
 
 	function cancelUpload(u: FileUpload) {
 		u.controller.abort();
 		uploads = uploads.filter(
-			(curr) =>
-				curr.file.webkitRelativePath != u.file.webkitRelativePath ||
-				curr.file.name != u.file.name,
+			(curr) => curr.file.path != u.file.path
 		);
 	}
 </script>
@@ -126,11 +125,11 @@
 </Form>
 
 <Stack gap={3}>
-	{#each toUpload as file}
+	{#each toUpload as file (file.path)}
 		<UploadItem {file} on:delete={() => removeFile(file)} />
 	{/each}
 
-	{#each uploads as u}
+	{#each uploads as u (u.file.path)}
 		<UploadItem file={u.file} progress={u.progress} status="uploading" on:delete={() => cancelUpload(u)} />
 	{/each}
 </Stack>

@@ -25,9 +25,9 @@
 		Text,
 	} from "carbon-components-svelte";
 	import { Close, ErrorOutline } from "carbon-icons-svelte";
-	import type { Progress } from "../model/Upload";
+	import type { FileToUpload, Progress } from "../model/Upload";
 
-	export let file: File;
+	export let file: FileToUpload;
 	export let status: "edit" | "uploading" = "edit";
 	export let progress: Progress | null = null;
 
@@ -50,7 +50,7 @@
 	fill="layer-02"
 	{...$$restProps}
 >
-	<Text lines={1}>{file.webkitRelativePath || file.name}</Text>
+	<Text lines={1}>{file.path}</Text>
 	{#if status == "uploading"}
 		<ProgressBar
 			kind="inline"

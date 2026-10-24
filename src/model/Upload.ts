@@ -19,23 +19,27 @@
 import { parent } from "../utils";
 import type { FileSystem } from "./FileSystem";
 
+export type FileToUpload = File & {
+	path: string
+}
+
 export type Progress = {
-	loaded: number,
-	total: number,
+	loaded: number
+	total: number
 }
 
 export type ProgressHandler = (p: Progress) => unknown
 
 export class FileUpload {
 	constructor(
-		public file: File,
+		public file: FileToUpload,
 		public success: Promise<boolean>,
 		public controller: AbortController,
 		public progress?: Progress,
 	) { }
 }
 
-export function uploadFiles(fs: FileSystem, path: string, files: File[], progressHandler?: ProgressHandler): FileUpload[] {
+export function uploadFiles(fs: FileSystem, path: string, files: FileToUpload[], progressHandler?: ProgressHandler): FileUpload[] {
 	// Collect unique directories.
 	const dirs = new Set<string>();
 	for (const file of files) {
