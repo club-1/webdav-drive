@@ -58,11 +58,11 @@ analyse: src/main.svg
 .PHONY: mostlyclean
 mostlyclean:
 	rm -f src/main.svg src/main.dot
-	rm -rf public/app .cache
+	rm -rf public/app
 
 .PHONY: clean
 clean: mostlyclean
-	rm -rf node_modules
+	rm -rf node_modules .cache
 
 .PHONY: check
 check: check-svelte check-eslint check-translations;
