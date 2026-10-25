@@ -85,7 +85,7 @@
 </script>
 
 <Form style="margin-bottom: 1rem;">
-	{#each tooLargeFiles as f}
+	{#each tooLargeFiles as f (f.path)}
 		<InlineNotification
 			kind="warning-alt"
 			title="Warning: "

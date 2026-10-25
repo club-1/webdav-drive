@@ -32,7 +32,7 @@
 </script>
 
 <Breadcrumb>
-	{#each elements as element, idx}
+	{#each elements as element, idx (idx)}
 		<BreadcrumbItem
 			href={href(idx)}
 			class="clickable bordered crumb"

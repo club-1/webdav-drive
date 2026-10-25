@@ -56,7 +56,7 @@
 	let width = window.innerWidth;
 	let isSideNavOpen = false;
 	let theme: Theme = currentTheme();
-	let fs: FileSystem | null = null;
+	let fs: FileSystem | undefined;
 	let path: string = url2path(document.location.href) || "/";
 	let lang =
 		closestLocale(localStorage.getItem("lang")) ||
@@ -71,12 +71,7 @@
 	$: isSmallScreen.set(width <= 610);
 	$: locale.set(lang);
 	$: localStorage.setItem("lang", lang);
-	$: fs?.getQuota()
-		.then((a) => (quota = a))
-		.catch((e) => {
-			quota = null;
-			console.log("Could not get quota: " + e.message);
-		}) ?? (quota = null);
+	$: getQuota(fs);
 
 	let username = localStorage.getItem("username");
 	let password = localStorage.getItem("password");
@@ -113,15 +108,24 @@
 
 	window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
 		"change",
+		// eslint-disable-next-line svelte/no-reactive-reassign
 		(e) => { if (theme == Theme.Auto) dark = e.matches; }
 	);
+
+	function getQuota(fs?: FileSystem): void {
+		fs?.getQuota()
+			.then((a) => (quota = a))
+			.catch((e) => {
+				console.log("Could not get quota: " + e.message);
+			}) ?? (quota = null);
+	}
 
 	function onLoginSuccess(res: FileSystem) {
 		fs = res;
 	}
 
 	function logout(): void {
-		fs = null;
+		fs = undefined;
 		path = "/";
 		hasSession = false;
 		localStorage.removeItem("username");
@@ -172,7 +176,7 @@
 		<Language/>
 		<span class="bx--label">{$_("Language")}</span>
 		<Select hideLabel bind:selected={lang}>
-			{#each $locales as locale}
+			{#each $locales as locale (locale)}
 				<SelectItem value={locale} text={labels[locale]} />
 			{/each}
 		</Select>
@@ -216,7 +220,7 @@
 	<Grid>
 		<Row>
 			<Column>
-				{#each errors as e}
+				{#each errors as e (e)}
 					<InlineNotification
 						kind={error2kind(e)}
 						title="{e.name}: "

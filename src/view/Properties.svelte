@@ -23,7 +23,7 @@
 
 <table>
 	<tbody>
-	{#each [...object.list()] as [key, value]}
+	{#each [...object.list()] as [key, value] (key)}
 		<tr>
 			<td class="key"><code>{key}</code></td>
 			<td class="value"><code>{value}</code></td>
